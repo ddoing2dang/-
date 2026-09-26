@@ -13,3 +13,7 @@
 **서명 및 업데이트:** 이 첫 빌드는 GitHub의 임시 디버그 서명으로 만들어집니다. 빌드마다 서명키가 바뀔 수 있어 새 APK를 기존 앱 위에 업데이트하지 못할 수 있습니다. 기존 앱에서 작업 파일을 저장한 뒤 앱을 삭제하고 새 APK를 설치해야 합니다. 장기적으로 덮어쓰기 업데이트가 필요하면 개인 서명키를 안전하게 GitHub Secrets에 저장하고 Release 빌드로 전환해야 합니다.
 
 개발자 참고: Android Gradle Plugin 8.7.3, Gradle 8.10.2, JDK 17, Android SDK 35를 사용합니다. 앱의 공개 URL은 `app/build.gradle`의 각 flavor에 있습니다.
+
+## 추천 덱 자동 갱신
+
+앱은 공개 `data/latest.json`을 실행할 때 확인합니다. `.github/workflows/refresh.yml`은 한국 시간 매주 목요일 오전 6시에 출처를 확인하고, 검증된 부분만 갱신합니다. GitHub Actions가 지연될 수 있으며 수집이 차단된 사이트는 이전 확인값을 유지합니다. `Actions → Refresh TFT deck data`에서 실행 결과와 출처별 상태를 확인할 수 있습니다. 이 작업은 ChatGPT 대화 예약과 별개입니다.
