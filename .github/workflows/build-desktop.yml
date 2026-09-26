@@ -19,12 +19,12 @@ jobs:
       - name: Build original
         working-directory: desktop/original
         run: |
-          npm ci
+          npm install --no-audit --no-fund
           npm run dist:win-installer
       - name: Build Matto
         working-directory: desktop/matto
         run: |
-          npm ci
+          npm install --no-audit --no-fund
           npm run dist:win-installer
       - name: Upload workflow artifacts
         uses: actions/upload-artifact@v4
