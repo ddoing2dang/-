@@ -1,0 +1,29 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'kr.personal.tftguide'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'kr.personal.tftguide'
+        minSdk 29
+        targetSdk 35
+        versionCode 1
+        versionName '1.0.0'
+    }
+    flavorDimensions 'theme'
+    productFlavors {
+        original {
+            dimension 'theme'
+            applicationIdSuffix '.original'
+            resValue 'string', 'app_name', 'TFT 배치툴'
+            buildConfigField 'String', 'APP_URL', '"https://tft-board-mobile.dm26754899.chatgpt.site/"'
+        }
+        matto {
+            dimension 'theme'
+            applicationIdSuffix '.matto'
+            resValue 'string', 'app_name', '마또 배치툴'
+            buildConfigField 'String', 'APP_URL', '"https://tft-matto-mobile.dm26754899.chatgpt.site/"'
+        }
+    }
+    buildFeatures { buildConfig true }
+}
