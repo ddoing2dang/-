@@ -4,7 +4,6 @@ import { chromium } from 'playwright';
 const root = new URL('../', import.meta.url);
 const file = new URL('data/latest.json', root);
 const snapshot = JSON.parse(await readFile(file, 'utf8'));
-const knownUnits = new Set(JSON.parse(await readFile(new URL('data/catalog.json', root), 'utf8')));
 const championIds = JSON.parse(await readFile(new URL('data/champion_ids.json', root), 'utf8'));
 const sources = [
   ['lolchess', 'https://lolchess.gg/meta', 'lolchess.gg'],
@@ -49,11 +48,10 @@ async function updateMetaTft() {
       const overlap = d.units.filter(name => roster.includes(name)).length;
       return { d, score: overlap / Math.max(d.units.length, roster.length) };
     }).sort((a, b) => b.score - a.score)[0];
-    if (!match || match.score < .55 || match.d._matched) continue;
+    if (!match || match.score < .65 || !roster.includes(match.d.carries?.[0]?.[0]) || match.d._matched) continue;
     match.d._matched = true;
     match.d.rank = rank + 1;
     match.d.tier = c.overall.avg <= 4.2 ? 'S' : 'A';
-    match.d.units = roster;
     match.d.style = `MetaTFT · 평균 순위 ${c.overall.avg.toFixed(2)} · ${c.overall.count.toLocaleString()}판`;
     matched++;
   }
@@ -78,8 +76,7 @@ try {
       const candidates = await page.evaluate(() => [...document.querySelectorAll('a[href]')].map(a => {
         const card = a.closest('article, li, [class*="comp"], [class*="card"], [class*="lineup"]') || a.parentElement;
         const text = (card?.innerText || '').slice(0, 1200);
-        const images = [...(card?.querySelectorAll('img[alt], img[title]') || [])].map(img => img.alt || img.title);
-        return { href: a.href, label: a.innerText.trim().slice(0, 180), text, images };
+        return { href: a.href, label: a.innerText.trim().slice(0, 180), text };
       }));
       const previous = snapshot.decks.filter(d => d.source === id);
       const confirmed = [];
@@ -97,18 +94,16 @@ try {
         const tier = exactTier(match.text);
         // Sites with no tier are ordered recommendation lists; keep their original display convention.
         if (!tier && !['lolchess', 'tactics'].includes(id)) continue;
-        const roster = unique(match.images.filter(name => knownUnits.has(name)));
-        confirmed.push({ old, tier: tier || '상위', roster, position });
+        confirmed.push({ old, tier: tier || '상위', position });
       }
       if (!confirmed.length) throw new Error('확인 가능한 덱 링크와 등급이 없습니다');
       confirmed.sort((a, b) => a.position - b.position);
       for (let index = 0; index < confirmed.length; index++) {
-        const { old, tier, roster } = confirmed[index];
+        const { old, tier } = confirmed[index];
         old.tier = tier;
         old.rank = index + 1;
-        // Only replace a roster if at least five actual champion image labels were read
-        // from that same source card. Item and augment labels require separate verification.
-        if (roster.length >= 5) old.units = roster.slice(0, 10);
+        // Rank and tier are verified from the listing. Keep board coordinates,
+        // units, items and augments together until the full guide is verified.
       }
       snapshot.sources[id] = { status: confirmed.length === previous.length ? 'verified' : 'partial', lastVerifiedAt: now, matched: confirmed.length, total: previous.length, url };
       console.log(id + ': ' + confirmed.length + '/' + previous.length + ' ranked decks verified');
