@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "publishedAt": "2026-09-26T19:12:24.574Z",
-  "checkedAt": "2026-09-26T19:12:24.574Z",
+  "publishedAt": "2026-09-26T19:19:32.775Z",
+  "checkedAt": "2026-09-26T19:19:32.775Z",
   "decks": [
     {
       "source": "lolchess",
@@ -306,20 +306,20 @@
     },
     {
       "source": "metatft",
-      "tier": "S",
+      "tier": "A",
       "title": "달빛 아펠리오스 니달리",
       "sourceTitle": "Lunar Aphelios Nidalee",
       "url": "https://www.metatft.com/comps",
-      "style": "18.3b · 평균 순위 4.14",
-      "rank": 1,
+      "style": "MetaTFT · 평균 순위 4.32 · 108,251판",
+      "rank": 3,
       "units": [
-        "아무무",
+        "아펠리오스",
         "다이애나",
-        "코그모",
-        "바이",
         "바루스",
+        "아무무",
+        "코그모",
         "니달리",
-        "아펠리오스"
+        "바이"
       ],
       "carries": [
         [
@@ -370,17 +370,18 @@
       "title": "전쟁기계 자이라 시비르",
       "sourceTitle": "Juggernaut Zyra Sivir",
       "url": "https://www.metatft.com/comps",
-      "style": "18.3b · 평균 순위 4.26",
-      "rank": 3,
+      "style": "MetaTFT · 평균 순위 4.36 · 57,529판",
+      "rank": 4,
       "units": [
+        "애쉬",
+        "아이번",
+        "케넨",
         "마오카이",
-        "아무무",
-        "바이",
-        "세주아니",
-        "요릭",
+        "라칸",
         "시비르",
-        "자이라",
-        "애쉬"
+        "아무무",
+        "타릭",
+        "바이"
       ],
       "carries": [
         [
@@ -397,20 +398,20 @@
     },
     {
       "source": "metatft",
-      "tier": "A",
+      "tier": "S",
       "title": "주문술사 베이가",
       "sourceTitle": "Spellweaver Veigar",
       "url": "https://www.metatft.com/comps",
-      "style": "18.3b · 평균 순위 4.27",
-      "rank": 4,
+      "style": "MetaTFT · 평균 순위 4.15 · 73,785판",
+      "rank": 1,
       "units": [
-        "오른",
         "알리스타",
-        "렉사이",
         "카시오페아",
-        "피들스틱",
         "르블랑",
-        "베이가"
+        "오른",
+        "렉사이",
+        "베이가",
+        "피들스틱"
       ],
       "carries": [
         [
@@ -884,7 +885,7 @@
   "sources": {
     "lolchess": {
       "status": "verified",
-      "lastVerifiedAt": "2026-09-26T19:12:24.574Z",
+      "lastVerifiedAt": "2026-09-26T19:19:32.775Z",
       "matched": 5,
       "total": 5,
       "url": "https://lolchess.gg/meta"
@@ -892,20 +893,21 @@
     "opgg": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-26T19:12:24.574Z",
-      "error": "HTTP 403",
+      "checkedAt": "2026-09-26T19:19:32.775Z",
+      "error": "확인 가능한 덱 링크와 등급이 없습니다",
       "url": "https://op.gg/tft/tier-list"
     },
     "metatft": {
-      "lastVerifiedAt": "2026-09-26",
-      "status": "stale",
-      "checkedAt": "2026-09-26T19:12:24.574Z",
-      "error": "확인 가능한 덱 링크와 등급이 없습니다",
-      "url": "https://www.metatft.com/comps"
+      "status": "partial",
+      "lastVerifiedAt": "2026-09-26T19:19:32.775Z",
+      "matched": 3,
+      "total": 5,
+      "url": "https://www.metatft.com/comps",
+      "patchSet": "TFTSet18"
     },
     "tactics": {
       "status": "verified",
-      "lastVerifiedAt": "2026-09-26T19:12:24.574Z",
+      "lastVerifiedAt": "2026-09-26T19:19:32.775Z",
       "matched": 4,
       "total": 4,
       "url": "https://tactics.tools/ko/team-compositions"
@@ -913,14 +915,14 @@
     "qq": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-26T19:12:24.574Z",
+      "checkedAt": "2026-09-26T19:19:32.775Z",
       "error": "확인 가능한 덱 링크와 등급이 없습니다",
       "url": "https://lol.qq.com/tft/#/index"
     },
     "mobalytics": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-26T19:12:24.574Z",
+      "checkedAt": "2026-09-26T19:19:32.775Z",
       "error": "HTTP 403",
       "url": "https://mobalytics.gg/tft/team-comps"
     }
