@@ -1,5 +1,8 @@
 name: Refresh TFT deck data
 on:
+  push:
+    paths:
+      - '.github/workflows/refresh.yml'
   schedule:
     - cron: '0 21 * * 3'
   workflow_dispatch:
