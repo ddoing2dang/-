@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/refresh.yml'
+      - 'scripts/refresh.mjs'
+      - 'data/champion_ids.json'
   schedule:
     - cron: '0 21 * * 3'
   workflow_dispatch:
