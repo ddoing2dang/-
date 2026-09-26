@@ -1,0 +1,910 @@
+{
+  "schema": 1,
+  "publishedAt": "2026-09-26T00:00:00+09:00",
+  "checkedAt": null,
+  "decks": [
+    {
+      "source": "lolchess",
+      "tier": "상위",
+      "title": "나무정령 베이가",
+      "sourceTitle": "나무정령 베이가",
+      "url": "https://lolchess.gg/builder/guide/cff64403e21c354a5f9aae7523c46984382ac03f?type=guide",
+      "style": "추천 메타 상단 HOT",
+      "rank": 1,
+      "units": [
+        "오른",
+        "르블랑",
+        "베이가",
+        "카시오페아",
+        "피들스틱",
+        "알리스타",
+        "렉사이"
+      ],
+      "carries": [
+        [
+          "베이가"
+        ],
+        [
+          "오른"
+        ],
+        [
+          "르블랑"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "lolchess",
+      "tier": "상위",
+      "title": "달빛 다이애나 카직스",
+      "sourceTitle": "달빛 다이애나 카직스",
+      "url": "https://lolchess.gg/builder/guide/8b4f9fd58bfa13f554e6182f4ab8e63e8a037322?type=guide",
+      "style": "추천 메타 상단 HOT",
+      "rank": 2,
+      "units": [
+        "헤카림",
+        "다이애나",
+        "카직스",
+        "피들스틱",
+        "이즈리얼",
+        "알룬",
+        "소라카",
+        "오른"
+      ],
+      "carries": [
+        [
+          "카직스"
+        ],
+        [
+          "다이애나"
+        ],
+        [
+          "오른"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "lolchess",
+      "tier": "상위",
+      "title": "니달리 아펠리오스",
+      "sourceTitle": "니달리 아펠리오스",
+      "url": "https://lolchess.gg/builder/guide/3b63612ec74f55a077d47635f1e5a0d0b23149f5?type=guide",
+      "style": "추천 메타 상단 HOT",
+      "rank": 3,
+      "units": [
+        "바이",
+        "다이애나",
+        "아무무",
+        "니달리",
+        "아펠리오스",
+        "코그모",
+        "바루스"
+      ],
+      "carries": [
+        [
+          "아펠리오스"
+        ],
+        [
+          "니달리"
+        ],
+        [
+          "아무무"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "lolchess",
+      "tier": "상위",
+      "title": "장로 드래곤 드레이븐",
+      "sourceTitle": "장로 드래곤 드레이븐",
+      "url": "https://lolchess.gg/builder/guide/301fa9a3daba63f50ac57f4904930721109a3526?type=guide",
+      "style": "추천 메타 상단 HOT",
+      "rank": 4,
+      "units": [
+        "타릭",
+        "아무무",
+        "마오카이",
+        "케넨",
+        "장로 드래곤",
+        "아이번",
+        "드레이븐"
+      ],
+      "carries": [
+        [
+          "장로 드래곤"
+        ],
+        [
+          "드레이븐"
+        ],
+        [
+          "타릭"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "lolchess",
+      "tier": "상위",
+      "title": "전쟁기계 자이라",
+      "sourceTitle": "전쟁기계 자이라",
+      "url": "https://lolchess.gg/builder/guide/392566b48acdec58e57ad44d2d02fba04632c621?type=guide",
+      "style": "추천 메타 상위",
+      "rank": 5,
+      "units": [
+        "요릭",
+        "세주아니",
+        "바이",
+        "마오카이",
+        "아무무",
+        "케넨",
+        "자이라",
+        "아지르"
+      ],
+      "carries": [
+        [
+          "자이라"
+        ],
+        [
+          "아무무"
+        ],
+        [
+          "아지르"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "opgg",
+      "tier": "S",
+      "title": "고밸류 드레이븐",
+      "sourceTitle": "Draven High-Cost",
+      "url": "https://op.gg/tft/tier-list",
+      "style": "18.2 · TFT Labs",
+      "rank": 1,
+      "units": [
+        "타릭",
+        "아무무",
+        "마오카이",
+        "케넨",
+        "장로 드래곤",
+        "아이번",
+        "드레이븐"
+      ],
+      "carries": [
+        [
+          "드레이븐"
+        ],
+        [
+          "장로 드래곤"
+        ],
+        [
+          "타릭"
+        ]
+      ],
+      "note": "등급은 OP.GG, 시작 유닛 구성은 롤체지지 동일 덱 참조"
+    },
+    {
+      "source": "opgg",
+      "tier": "S",
+      "title": "장로 드래곤 고밸류",
+      "sourceTitle": "Elder Dragon High-Cost",
+      "url": "https://op.gg/tft/tier-list",
+      "style": "18.2 · TFT Labs",
+      "rank": 2,
+      "units": [
+        "타릭",
+        "아무무",
+        "마오카이",
+        "케넨",
+        "장로 드래곤",
+        "아이번",
+        "드레이븐"
+      ],
+      "carries": [
+        [
+          "장로 드래곤"
+        ],
+        [
+          "드레이븐"
+        ],
+        [
+          "타릭"
+        ]
+      ],
+      "note": "등급은 OP.GG, 시작 유닛 구성은 롤체지지 동일 덱 참조"
+    },
+    {
+      "source": "opgg",
+      "tier": "A",
+      "title": "베이가 리롤",
+      "sourceTitle": "Veigar Reroll",
+      "url": "https://op.gg/tft/tier-list",
+      "style": "18.2 · TFT Labs",
+      "rank": 3,
+      "units": [
+        "오른",
+        "렉사이",
+        "알리스타",
+        "피들스틱",
+        "카시오페아",
+        "르블랑",
+        "베이가"
+      ],
+      "carries": [
+        [
+          "베이가"
+        ],
+        [
+          "오른"
+        ],
+        [
+          "르블랑"
+        ]
+      ],
+      "note": "등급은 OP.GG, 시작 유닛 구성은 롤체지지 동일 덱 참조"
+    },
+    {
+      "source": "opgg",
+      "tier": "A",
+      "title": "니달리 아펠리오스",
+      "sourceTitle": "Nidalee Aphelios",
+      "url": "https://op.gg/tft/tier-list",
+      "style": "18.2 · TFT Labs",
+      "rank": 4,
+      "units": [
+        "바이",
+        "다이애나",
+        "아무무",
+        "니달리",
+        "아펠리오스",
+        "코그모",
+        "바루스"
+      ],
+      "carries": [
+        [
+          "아펠리오스"
+        ],
+        [
+          "니달리"
+        ],
+        [
+          "아무무"
+        ]
+      ],
+      "note": "등급은 OP.GG, 시작 유닛 구성은 롤체지지 동일 덱 참조"
+    },
+    {
+      "source": "opgg",
+      "tier": "A",
+      "title": "아리 모르가나",
+      "sourceTitle": "Ahri Morgana",
+      "url": "https://op.gg/tft/tier-list",
+      "style": "18.2 · TFT Labs",
+      "rank": 5,
+      "units": [
+        "세트",
+        "타릭",
+        "코그모",
+        "카르마",
+        "모르가나",
+        "아리"
+      ],
+      "carries": [
+        [
+          "아리"
+        ],
+        [
+          "모르가나"
+        ],
+        [
+          "세트"
+        ]
+      ],
+      "note": "등급은 OP.GG, 시작 유닛 구성은 MetaTFT 동일 덱 참조"
+    },
+    {
+      "source": "metatft",
+      "tier": "S",
+      "title": "달빛 아펠리오스 니달리",
+      "sourceTitle": "Lunar Aphelios Nidalee",
+      "url": "https://www.metatft.com/comps",
+      "style": "18.3b · 평균 순위 4.14",
+      "rank": 1,
+      "units": [
+        "아무무",
+        "다이애나",
+        "코그모",
+        "바이",
+        "바루스",
+        "니달리",
+        "아펠리오스"
+      ],
+      "carries": [
+        [
+          "아펠리오스"
+        ],
+        [
+          "니달리"
+        ],
+        [
+          "아무무"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "치명적인 꽃 아지르",
+      "sourceTitle": "Flora Fatalis Azir",
+      "url": "https://www.metatft.com/comps",
+      "style": "18.3b · 평균 순위 4.25",
+      "rank": 2,
+      "units": [
+        "람머스",
+        "피들스틱",
+        "소라카",
+        "티모",
+        "베이가",
+        "자이라",
+        "아지르"
+      ],
+      "carries": [
+        [
+          "아지르"
+        ],
+        [
+          "람머스"
+        ],
+        [
+          "자이라"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "전쟁기계 자이라 시비르",
+      "sourceTitle": "Juggernaut Zyra Sivir",
+      "url": "https://www.metatft.com/comps",
+      "style": "18.3b · 평균 순위 4.26",
+      "rank": 3,
+      "units": [
+        "마오카이",
+        "아무무",
+        "바이",
+        "세주아니",
+        "요릭",
+        "시비르",
+        "자이라",
+        "애쉬"
+      ],
+      "carries": [
+        [
+          "자이라"
+        ],
+        [
+          "아무무"
+        ],
+        [
+          "시비르"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "주문술사 베이가",
+      "sourceTitle": "Spellweaver Veigar",
+      "url": "https://www.metatft.com/comps",
+      "style": "18.3b · 평균 순위 4.27",
+      "rank": 4,
+      "units": [
+        "오른",
+        "알리스타",
+        "렉사이",
+        "카시오페아",
+        "피들스틱",
+        "르블랑",
+        "베이가"
+      ],
+      "carries": [
+        [
+          "베이가"
+        ],
+        [
+          "오른"
+        ],
+        [
+          "알리스타"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "기원자 아리",
+      "sourceTitle": "Invoker Ahri",
+      "url": "https://www.metatft.com/comps",
+      "style": "18.3b · 평균 순위 4.28",
+      "rank": 5,
+      "units": [
+        "세트",
+        "타릭",
+        "카르마",
+        "모르가나",
+        "아리"
+      ],
+      "carries": [
+        [
+          "아리"
+        ],
+        [
+          "모르가나"
+        ],
+        [
+          "세트"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "tactics",
+      "tier": "상위",
+      "title": "주문술사 베이가 & 오른",
+      "sourceTitle": "주문술사 베이가 & 오른",
+      "url": "https://tactics.tools/ko/team-compositions",
+      "style": "18.3b · 평균 순위 4.31",
+      "rank": 1,
+      "units": [
+        "오른",
+        "렉사이",
+        "알리스타",
+        "피들스틱",
+        "카시오페아",
+        "아이번",
+        "르블랑",
+        "베이가"
+      ],
+      "carries": [
+        [
+          "베이가"
+        ],
+        [
+          "오른"
+        ],
+        [
+          "렉사이"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "tactics",
+      "tier": "상위",
+      "title": "개화 마스터 이 & 렝가",
+      "sourceTitle": "개화 마스터 이 & 렝가",
+      "url": "https://tactics.tools/ko/team-compositions",
+      "style": "18.3b · 평균 순위 4.31",
+      "rank": 2,
+      "units": [
+        "요릭",
+        "바이",
+        "세트",
+        "니달리",
+        "코그모",
+        "렝가",
+        "마스터 이"
+      ],
+      "carries": [
+        [
+          "마스터 이"
+        ],
+        [
+          "렝가"
+        ],
+        [
+          "바이"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "tactics",
+      "tier": "상위",
+      "title": "엄호대 카시오페아 & 람머스",
+      "sourceTitle": "엄호대 카시오페아 & 람머스",
+      "url": "https://tactics.tools/ko/team-compositions",
+      "style": "18.3b · 평균 순위 4.32",
+      "rank": 3,
+      "units": [
+        "레오나",
+        "오른",
+        "쉔",
+        "카시오페아",
+        "람머스",
+        "피들스틱",
+        "말파이트",
+        "아이번"
+      ],
+      "carries": [
+        [
+          "카시오페아"
+        ],
+        [
+          "람머스"
+        ],
+        [
+          "피들스틱"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "tactics",
+      "tier": "상위",
+      "title": "전쟁기계 자이라 & 아무무",
+      "sourceTitle": "전쟁기계 자이라 & 아무무",
+      "url": "https://tactics.tools/ko/team-compositions",
+      "style": "18.3b · 평균 순위 4.35",
+      "rank": 4,
+      "units": [
+        "요릭",
+        "바위 게",
+        "바이",
+        "자이라",
+        "아무무",
+        "라칸",
+        "세주아니",
+        "시비르"
+      ],
+      "carries": [
+        [
+          "자이라"
+        ],
+        [
+          "아무무"
+        ],
+        [
+          "바이"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "qq",
+      "tier": "SS",
+      "title": "장로 드래곤 95",
+      "sourceTitle": "巨龙95",
+      "url": "https://lol.qq.com/tft/#/lineupDetail/s18/14266/detail",
+      "style": "중국 서버 · 16.19",
+      "rank": 1,
+      "units": [
+        "장로 드래곤",
+        "드레이븐",
+        "타릭",
+        "케넨",
+        "마오카이",
+        "아이번",
+        "아무무"
+      ],
+      "carries": [
+        [
+          "장로 드래곤"
+        ],
+        [
+          "드레이븐"
+        ],
+        [
+          "타릭"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "qq",
+      "tier": "S",
+      "title": "중장갑 아펠리오스",
+      "sourceTitle": "重装月男",
+      "url": "https://lol.qq.com/tft/#/lineupDetail/s18/14279/detail",
+      "style": "중국 서버 · 16.19",
+      "rank": 2,
+      "units": [
+        "아펠리오스",
+        "자이라",
+        "다이애나",
+        "타릭",
+        "알룬",
+        "헤카림"
+      ],
+      "carries": [
+        [
+          "아펠리오스"
+        ],
+        [
+          "자이라"
+        ],
+        [
+          "타릭"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "qq",
+      "tier": "S",
+      "title": "니달리 리롤",
+      "sourceTitle": "闭环豹女",
+      "url": "https://lol.qq.com/tft/#/lineupDetail/s18/14344/detail",
+      "style": "중국 서버 · 16.19",
+      "rank": 3,
+      "units": [
+        "니달리",
+        "말파이트",
+        "시비르",
+        "타릭",
+        "코그모",
+        "렉사이"
+      ],
+      "carries": [
+        [
+          "니달리"
+        ],
+        [
+          "시비르"
+        ],
+        [
+          "말파이트"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "qq",
+      "tier": "S",
+      "title": "아칼리 카밀 리롤",
+      "sourceTitle": "宝宝学院阿卡丽",
+      "url": "https://lol.qq.com/tft/#/lineupDetail/s18/14346/detail",
+      "style": "중국 서버 · 16.19",
+      "rank": 4,
+      "units": [
+        "아칼리",
+        "오른",
+        "카밀",
+        "세주아니",
+        "케일",
+        "레오나",
+        "바루스"
+      ],
+      "carries": [
+        [
+          "아칼리"
+        ],
+        [
+          "카밀"
+        ],
+        [
+          "오른"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "qq",
+      "tier": "S",
+      "title": "처형자 95",
+      "sourceTitle": "裁决95",
+      "url": "https://lol.qq.com/tft/#/lineupDetail/s18/14316/detail",
+      "style": "중국 서버 · 16.19",
+      "rank": 5,
+      "units": [
+        "말파이트",
+        "소라카",
+        "자이라",
+        "케넨",
+        "아무무",
+        "알룬",
+        "피들스틱",
+        "아지르",
+        "요릭"
+      ],
+      "carries": [
+        [
+          "소라카"
+        ],
+        [
+          "자이라"
+        ],
+        [
+          "아지르"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "mobalytics",
+      "tier": "S",
+      "title": "주문술사 베이가 · 오른",
+      "sourceTitle": "Kill, Stack, Repeat",
+      "url": "https://mobalytics.gg/tft/comps-guide/veigar-reroll-3GRav9EJC9f18s1Fsh4A1709SmK",
+      "style": "18.3 · 5레벨 슬로우롤",
+      "rank": 1,
+      "units": [
+        "오른",
+        "렉사이",
+        "알리스타",
+        "피들스틱",
+        "카시오페아",
+        "르블랑",
+        "베이가"
+      ],
+      "carries": [
+        [
+          "베이가"
+        ],
+        [
+          "오른"
+        ],
+        [
+          "르블랑"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "mobalytics",
+      "tier": "S",
+      "title": "달빛 니달리 · 아펠리오스",
+      "sourceTitle": "Moonlit Hunt",
+      "url": "https://mobalytics.gg/tft/comps-guide/moonlit-hunt-3JBJHbLQQVkdfm6vFl6EPiJcEKw",
+      "style": "18.3 · 8레벨 빠른 성장",
+      "rank": 2,
+      "units": [
+        "아무무",
+        "바이",
+        "다이애나",
+        "코그모",
+        "니달리",
+        "알룬",
+        "아펠리오스",
+        "바루스"
+      ],
+      "carries": [
+        [
+          "아펠리오스"
+        ],
+        [
+          "니달리"
+        ],
+        [
+          "다이애나"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "mobalytics",
+      "tier": "S",
+      "title": "개화 애쉬 · 시비르",
+      "sourceTitle": "Ashe to Ashes",
+      "url": "https://mobalytics.gg/tft/comps-guide/ashe-to-ashes-3J9V7i6GFrOujQPGxcWbr4cqwKC",
+      "style": "18.3 · 9레벨 빠른 성장",
+      "rank": 3,
+      "units": [
+        "마오카이",
+        "아무무",
+        "바이",
+        "타릭",
+        "라칸",
+        "케넨",
+        "아이번",
+        "시비르",
+        "애쉬"
+      ],
+      "carries": [
+        [
+          "애쉬"
+        ],
+        [
+          "시비르"
+        ],
+        [
+          "마오카이"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "mobalytics",
+      "tier": "S",
+      "title": "기원자 아리 · 모르가나",
+      "sourceTitle": "Bloom and Doom",
+      "url": "https://mobalytics.gg/tft/comps-guide/bloom-and-doom-3IYZrgrxpycIWCeI7z4uJ44MTMA",
+      "style": "18.3 · 8레벨 빠른 성장",
+      "rank": 4,
+      "units": [
+        "세트",
+        "타릭",
+        "코그모",
+        "카르마",
+        "모르가나",
+        "아리"
+      ],
+      "carries": [
+        [
+          "아리"
+        ],
+        [
+          "모르가나"
+        ],
+        [
+          "세트"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "mobalytics",
+      "tier": "S",
+      "title": "전쟁기계 자이라",
+      "sourceTitle": "Juggernaut Flex",
+      "url": "https://mobalytics.gg/tft/team-comps",
+      "style": "18.3 · 8레벨 빠른 성장",
+      "rank": 5,
+      "units": [
+        "마오카이",
+        "아무무",
+        "바이",
+        "세주아니",
+        "요릭",
+        "바위 게",
+        "시비르",
+        "자이라",
+        "애쉬"
+      ],
+      "carries": [
+        [
+          "자이라"
+        ],
+        [
+          "애쉬"
+        ],
+        [
+          "아무무"
+        ]
+      ],
+      "note": ""
+    }
+  ],
+  "sources": {
+    "lolchess": {
+      "lastVerifiedAt": "2026-09-26",
+      "status": "snapshot"
+    },
+    "opgg": {
+      "lastVerifiedAt": "2026-09-26",
+      "status": "snapshot"
+    },
+    "metatft": {
+      "lastVerifiedAt": "2026-09-26",
+      "status": "snapshot"
+    },
+    "tactics": {
+      "lastVerifiedAt": "2026-09-26",
+      "status": "snapshot"
+    },
+    "qq": {
+      "lastVerifiedAt": "2026-09-26",
+      "status": "snapshot"
+    },
+    "mobalytics": {
+      "lastVerifiedAt": "2026-09-26",
+      "status": "snapshot"
+    }
+  }
+}
