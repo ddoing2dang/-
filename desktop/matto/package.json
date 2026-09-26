@@ -1,0 +1,6 @@
+{
+  "name":"tft-matto-desktop","version":"1.1.0","private":true,"description":"TFT 마또 PC 앱","main":"main.js",
+  "scripts":{"dist":"electron-builder --win portable --x64 --publish never"},
+  "devDependencies":{"electron":"44.4.5","electron-builder":"26.0.12"},
+  "build":{"appId":"gg.tft.muse.studio","productName":"TFT-Matto","asar":true,"files":["main.js","package.json"],"directories":{"output":"release"},"win":{"target":[{"target":"portable","arch":["x64"]}],"signAndEditExecutable":false},"artifactName":"TFT-Matto-${version}-win-x64.${ext}"}
+}
