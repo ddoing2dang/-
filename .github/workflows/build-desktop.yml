@@ -1,0 +1,46 @@
+name: Build Windows desktop apps
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'desktop/**'
+      - '.github/workflows/build-desktop.yml'
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            desktop/original/package-lock.json
+            desktop/matto/package-lock.json
+      - name: Build original
+        working-directory: desktop/original
+        run: |
+          npm ci
+          npm run dist:win-installer
+      - name: Build Matto
+        working-directory: desktop/matto
+        run: |
+          npm ci
+          npm run dist:win-installer
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tft-desktop-installers
+          path: |
+            desktop/original/release/*.exe
+            desktop/matto/release/*.exe
+      - name: Publish public downloads
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view desktop-v1 >/dev/null 2>&1 || gh release create desktop-v1 --title "TFT PC 앱" --notes "원본과 마또 Windows 설치 파일. 새 아이콘: 전략가의 왕관 / 친칠라."
+          gh release upload desktop-v1 desktop/original/release/*.exe desktop/matto/release/*.exe --clobber

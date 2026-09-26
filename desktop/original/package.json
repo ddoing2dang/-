@@ -1,6 +1,46 @@
 {
-  "name":"tft-board-desktop","version":"1.1.0","private":true,"description":"TFT 배치툴 PC 앱","main":"main.js",
-  "scripts":{"dist":"electron-builder --win portable --x64 --publish never"},
-  "devDependencies":{"electron":"44.4.5","electron-builder":"26.0.12"},
-  "build":{"appId":"gg.tft.deckguide.desktop","productName":"TFT-Board","asar":true,"files":["main.js","package.json"],"directories":{"output":"release"},"win":{"target":[{"target":"portable","arch":["x64"]}],"signAndEditExecutable":false},"artifactName":"TFT-Board-${version}-win-x64.${ext}"}
+  "name": "tft-guide-desktop",
+  "version": "1.2.0",
+  "private": true,
+  "description": "TFT 덱 가이드 배치툴 Windows 앱",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win portable --x64 --config.win.signAndEditExecutable=false",
+    "dist:win-installer": "electron-builder --win nsis --x64"
+  },
+  "devDependencies": {
+    "electron": "44.4.5",
+    "electron-builder": "26.0.12"
+  },
+  "build": {
+    "appId": "gg.tft.deckguide.desktop",
+    "productName": "TFT 덱 가이드 배치툴",
+    "asar": true,
+    "files": [
+      "main.js",
+      "package.json",
+      "icon.ico"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
 }
