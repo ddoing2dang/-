@@ -7,6 +7,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.webkit.JavascriptInterface;
@@ -22,14 +30,66 @@ import java.net.URI;
 
 public class MainActivity extends Activity {
     private WebView web;
+    private View splash;
+    private TextView splashSubtitle;
+    private ProgressBar splashProgress;
+    private boolean loadFailed;
     private ValueCallback<Uri[]> pendingFiles;
     private static final int FILE_PICKER = 1001;
     private final String host = URI.create(BuildConfig.APP_URL).getHost();
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        boolean matto = "matto".equals(BuildConfig.FLAVOR);
+        int background = Color.parseColor(matto ? "#F7F4F1" : "#090D18");
+        int foreground = Color.parseColor(matto ? "#2B2029" : "#F6F8FF");
+        int accent = Color.parseColor(matto ? "#A24C70" : "#89A9FF");
+        getWindow().setStatusBarColor(background);
+        getWindow().setNavigationBarColor(background);
+        getWindow().getDecorView().setSystemUiVisibility(matto ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR : 0);
+        FrameLayout frame = new FrameLayout(this);
+        frame.setBackgroundColor(background);
         web = new WebView(this);
-        setContentView(web);
+        web.setBackgroundColor(background);
+        web.setVisibility(View.INVISIBLE);
+        frame.addView(web, new FrameLayout.LayoutParams(-1, -1));
+        LinearLayout content = new LinearLayout(this);
+        content.setGravity(Gravity.CENTER);
+        content.setOrientation(LinearLayout.VERTICAL);
+        content.setPadding(dp(24), dp(32), dp(24), dp(32));
+        content.setBackgroundColor(background);
+        TextView mark = new TextView(this);
+        mark.setText(matto ? "✦  MATTO" : "◆  TFT");
+        mark.setTextColor(accent);
+        mark.setTextSize(18);
+        mark.setLetterSpacing(.12f);
+        mark.setGravity(Gravity.CENTER);
+        content.addView(mark);
+        TextView title = new TextView(this);
+        title.setText(matto ? "마또 배치툴" : "TFT 도우미");
+        title.setTextColor(foreground);
+        title.setTextSize(30);
+        title.setTypeface(null, 1);
+        title.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(-1, -2);
+        titleParams.topMargin = dp(20);
+        content.addView(title, titleParams);
+        splashSubtitle = new TextView(this);
+        splashSubtitle.setText(matto ? "오늘의 덱을 차분히 준비하는 중" : "나만의 배치를 준비하는 중");
+        splashSubtitle.setTextColor(matto ? Color.parseColor("#70616B") : Color.parseColor("#ACBAD8"));
+        splashSubtitle.setTextSize(15);
+        splashSubtitle.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams subtitleParams = new LinearLayout.LayoutParams(-1, -2);
+        subtitleParams.topMargin = dp(10);
+        content.addView(splashSubtitle, subtitleParams);
+        splashProgress = new ProgressBar(this);
+        splashProgress.setIndeterminateTintList(ColorStateList.valueOf(accent));
+        LinearLayout.LayoutParams progressParams = new LinearLayout.LayoutParams(dp(32), dp(32));
+        progressParams.topMargin = dp(28);
+        content.addView(splashProgress, progressParams);
+        splash = content;
+        frame.addView(splash, new FrameLayout.LayoutParams(-1, -1));
+        setContentView(frame);
         WebSettings settings = web.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -46,8 +106,21 @@ public class MainActivity extends Activity {
                 }
                 return true;
             }
+            @Override public void onPageCommitVisible(WebView view, String url) {
+                if (!loadFailed && host.equalsIgnoreCase(Uri.parse(url).getHost())) showPage();
+            }
             @Override public void onPageFinished(WebView view, String url) {
-                if (url.startsWith(BuildConfig.APP_URL)) view.evaluateJavascript(DOWNLOAD_BRIDGE, null);
+                if (url.startsWith(BuildConfig.APP_URL)) {
+                    view.evaluateJavascript(DOWNLOAD_BRIDGE, null);
+                    if (!loadFailed) showPage();
+                }
+            }
+            @Override public void onReceivedError(WebView view, WebResourceRequest request, android.webkit.WebResourceError error) {
+                if (request.isForMainFrame()) {
+                    loadFailed = true;
+                    splashSubtitle.setText("연결을 확인한 뒤 앱을 다시 열어 주세요");
+                    splashProgress.setVisibility(View.GONE);
+                }
             }
         });
         web.setWebChromeClient(new WebChromeClient() {
@@ -61,6 +134,12 @@ public class MainActivity extends Activity {
         });
         web.addJavascriptInterface(new Downloads(), "NativeDownloads");
         web.loadUrl(BuildConfig.APP_URL);
+    }
+
+    private int dp(int value) { return Math.round(value * getResources().getDisplayMetrics().density); }
+    private void showPage() {
+        web.setVisibility(View.VISIBLE);
+        splash.setVisibility(View.GONE);
     }
 
     // The site creates PNG and JSON downloads from data/blob URLs. Save them in Downloads on Android.
