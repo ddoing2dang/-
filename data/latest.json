@@ -1,7 +1,46 @@
 {
-  "schema": 1,
+  "schema": 2,
   "publishedAt": "2026-09-27T10:02:55.223Z",
-  "checkedAt": "2026-09-27T10:02:55.223Z",
+  "sources": {
+    "lolchess": {
+      "status": "partial",
+      "lastVerifiedAt": "2026-09-27T10:02:55.223Z",
+      "matched": 5,
+      "total": 10,
+      "url": "https://lolchess.gg/meta"
+    },
+    "opgg": {
+      "lastVerifiedAt": "2026-09-26",
+      "status": "stale",
+      "checkedAt": "2026-09-27T10:02:55.223Z",
+      "error": "HTTP 403",
+      "url": "https://op.gg/tft/tier-list"
+    },
+    "metatft": {
+      "status": "verified",
+      "lastVerifiedAt": "2026-09-27T10:02:55.223Z",
+      "matched": 10,
+      "total": 10,
+      "url": "https://www.metatft.com/comps",
+      "patchSet": "TFTSet18"
+    },
+    "tactics": {
+      "status": "stale",
+      "lastVerifiedAt": "2026-09-26T19:22:27.812Z",
+      "matched": 4,
+      "total": 4,
+      "url": "https://tactics.tools/ko/team-compositions",
+      "checkedAt": "2026-09-27T10:02:55.223Z",
+      "error": "검증된 덱 수가 이전보다 적어 보관본 유지"
+    },
+    "qq": {
+      "lastVerifiedAt": "2026-09-26",
+      "status": "stale",
+      "checkedAt": "2026-09-27T10:02:55.223Z",
+      "error": "page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://lol.qq.com/tft/#/index\nCall log:\n  - navigating to \"https://lol.qq.com/tft/#/index\", waiting until \"domcontentloaded\"\n",
+      "url": "https://lol.qq.com/tft/#/index"
+    }
+  },
   "decks": [
     {
       "source": "opgg",
@@ -421,160 +460,6 @@
         ],
         [
           "아지르"
-        ]
-      ],
-      "note": ""
-    },
-    {
-      "source": "mobalytics",
-      "tier": "S",
-      "title": "주문술사 베이가 · 오른",
-      "sourceTitle": "Kill, Stack, Repeat",
-      "url": "https://mobalytics.gg/tft/comps-guide/veigar-reroll-3GRav9EJC9f18s1Fsh4A1709SmK",
-      "style": "18.3 · 5레벨 슬로우롤",
-      "rank": 1,
-      "units": [
-        "오른",
-        "렉사이",
-        "알리스타",
-        "피들스틱",
-        "카시오페아",
-        "르블랑",
-        "베이가"
-      ],
-      "carries": [
-        [
-          "베이가"
-        ],
-        [
-          "오른"
-        ],
-        [
-          "르블랑"
-        ]
-      ],
-      "note": ""
-    },
-    {
-      "source": "mobalytics",
-      "tier": "S",
-      "title": "달빛 니달리 · 아펠리오스",
-      "sourceTitle": "Moonlit Hunt",
-      "url": "https://mobalytics.gg/tft/comps-guide/moonlit-hunt-3JBJHbLQQVkdfm6vFl6EPiJcEKw",
-      "style": "18.3 · 8레벨 빠른 성장",
-      "rank": 2,
-      "units": [
-        "아무무",
-        "바이",
-        "다이애나",
-        "코그모",
-        "니달리",
-        "알룬",
-        "아펠리오스",
-        "바루스"
-      ],
-      "carries": [
-        [
-          "아펠리오스"
-        ],
-        [
-          "니달리"
-        ],
-        [
-          "다이애나"
-        ]
-      ],
-      "note": ""
-    },
-    {
-      "source": "mobalytics",
-      "tier": "S",
-      "title": "개화 애쉬 · 시비르",
-      "sourceTitle": "Ashe to Ashes",
-      "url": "https://mobalytics.gg/tft/comps-guide/ashe-to-ashes-3J9V7i6GFrOujQPGxcWbr4cqwKC",
-      "style": "18.3 · 9레벨 빠른 성장",
-      "rank": 3,
-      "units": [
-        "마오카이",
-        "아무무",
-        "바이",
-        "타릭",
-        "라칸",
-        "케넨",
-        "아이번",
-        "시비르",
-        "애쉬"
-      ],
-      "carries": [
-        [
-          "애쉬"
-        ],
-        [
-          "시비르"
-        ],
-        [
-          "마오카이"
-        ]
-      ],
-      "note": ""
-    },
-    {
-      "source": "mobalytics",
-      "tier": "S",
-      "title": "기원자 아리 · 모르가나",
-      "sourceTitle": "Bloom and Doom",
-      "url": "https://mobalytics.gg/tft/comps-guide/bloom-and-doom-3IYZrgrxpycIWCeI7z4uJ44MTMA",
-      "style": "18.3 · 8레벨 빠른 성장",
-      "rank": 4,
-      "units": [
-        "세트",
-        "타릭",
-        "코그모",
-        "카르마",
-        "모르가나",
-        "아리"
-      ],
-      "carries": [
-        [
-          "아리"
-        ],
-        [
-          "모르가나"
-        ],
-        [
-          "세트"
-        ]
-      ],
-      "note": ""
-    },
-    {
-      "source": "mobalytics",
-      "tier": "S",
-      "title": "전쟁기계 자이라",
-      "sourceTitle": "Juggernaut Flex",
-      "url": "https://mobalytics.gg/tft/team-comps",
-      "style": "18.3 · 8레벨 빠른 성장",
-      "rank": 5,
-      "units": [
-        "마오카이",
-        "아무무",
-        "바이",
-        "세주아니",
-        "요릭",
-        "바위 게",
-        "시비르",
-        "자이라",
-        "애쉬"
-      ],
-      "carries": [
-        [
-          "자이라"
-        ],
-        [
-          "애쉬"
-        ],
-        [
-          "아무무"
         ]
       ],
       "note": ""
@@ -1035,53 +920,91 @@
         ]
       ],
       "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
+    },
+    {
+      "source": "academy",
+      "tier": "A",
+      "title": "애쉬 전쟁기계",
+      "sourceTitle": "애쉬 전쟁기계",
+      "url": "https://tftacademy.com/tierlist/comps/set-18-ashe-juggernauts",
+      "style": "18.3b · TFT Academy",
+      "rank": 1,
+      "units": [
+        "라칸",
+        "바이",
+        "아무무",
+        "시비르",
+        "아이번",
+        "마오카이",
+        "타릭",
+        "애쉬"
+      ],
+      "carries": [
+        [
+          "애쉬"
+        ],
+        [
+          "마오카이"
+        ]
+      ],
+      "note": "Academy 원문 유닛 확인"
     }
   ],
-  "sources": {
-    "lolchess": {
-      "status": "partial",
-      "lastVerifiedAt": "2026-09-27T10:02:55.223Z",
-      "matched": 5,
-      "total": 10,
-      "url": "https://lolchess.gg/meta"
+  "academyEvidence": [
+    {
+      "title": "애쉬 전쟁기계",
+      "slug": "set-18-ashe-juggernauts",
+      "tier": "A"
     },
-    "opgg": {
-      "lastVerifiedAt": "2026-09-26",
-      "status": "stale",
-      "checkedAt": "2026-09-27T10:02:55.223Z",
-      "error": "HTTP 403",
-      "url": "https://op.gg/tft/tier-list"
+    {
+      "title": "니달리 아펠리오스",
+      "slug": "set-18-aphelios-nidalee",
+      "tier": "A"
     },
-    "metatft": {
-      "status": "verified",
-      "lastVerifiedAt": "2026-09-27T10:02:55.223Z",
-      "matched": 10,
-      "total": 10,
-      "url": "https://www.metatft.com/comps",
-      "patchSet": "TFTSet18"
+    {
+      "title": "아리 모르가나",
+      "slug": "set-18-ahri-morgana",
+      "tier": "A"
     },
-    "tactics": {
-      "status": "stale",
-      "lastVerifiedAt": "2026-09-26T19:22:27.812Z",
-      "matched": 4,
-      "total": 4,
-      "url": "https://tactics.tools/ko/team-compositions",
-      "checkedAt": "2026-09-27T10:02:55.223Z",
-      "error": "검증된 덱 수가 이전보다 적어 보관본 유지"
+    {
+      "title": "달빛 카직스",
+      "slug": "set-18-lunarwood-khazix",
+      "tier": "A"
     },
-    "qq": {
-      "lastVerifiedAt": "2026-09-26",
-      "status": "stale",
-      "checkedAt": "2026-09-27T10:02:55.223Z",
-      "error": "page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://lol.qq.com/tft/#/index\nCall log:\n  - navigating to \"https://lol.qq.com/tft/#/index\", waiting until \"domcontentloaded\"\n",
-      "url": "https://lol.qq.com/tft/#/index"
+    {
+      "title": "소라카 유동",
+      "slug": "set-18-soraka-flex",
+      "tier": "A"
     },
-    "mobalytics": {
-      "lastVerifiedAt": "2026-09-26",
-      "status": "stale",
-      "checkedAt": "2026-09-27T10:02:55.223Z",
-      "error": "HTTP 403",
-      "url": "https://mobalytics.gg/tft/tier-list/team-comps"
+    {
+      "title": "아지르 람머스",
+      "slug": "set-18-azir-rammus",
+      "tier": "A"
+    },
+    {
+      "title": "전쟁기계 AP",
+      "slug": "set-18-6-juggernaut-ap",
+      "tier": "A"
+    },
+    {
+      "title": "장로 드래곤",
+      "slug": "set-18-dragon-princess",
+      "tier": "B"
+    },
+    {
+      "title": "베이가 리롤",
+      "slug": "set-18-veigar-consuming-flora-copy",
+      "tier": "B"
+    },
+    {
+      "title": "개화",
+      "slug": "set-18-woodblossom",
+      "tier": "B"
+    },
+    {
+      "title": "카시오페아 엄호대",
+      "slug": "set-18-defender-cassio",
+      "tier": "B"
     }
-  }
+  ]
 }
