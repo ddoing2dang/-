@@ -39,6 +39,13 @@
       "checkedAt": "2026-09-27T10:02:55.223Z",
       "error": "page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://lol.qq.com/tft/#/index\nCall log:\n  - navigating to \"https://lol.qq.com/tft/#/index\", waiting until \"domcontentloaded\"\n",
       "url": "https://lol.qq.com/tft/#/index"
+    },
+    "academy": {
+      "status": "partial",
+      "matched": 10,
+      "total": 20,
+      "url": "https://tftacademy.com/tierlist/comps",
+      "patch": "18.3b"
     }
   },
   "decks": [
@@ -927,27 +934,444 @@
       "title": "애쉬 전쟁기계",
       "sourceTitle": "애쉬 전쟁기계",
       "url": "https://tftacademy.com/tierlist/comps/set-18-ashe-juggernauts",
-      "style": "18.3b · TFT Academy",
+      "style": "18.3b · Academy",
       "rank": 1,
       "units": [
+        "타릭",
         "라칸",
         "바이",
-        "아무무",
-        "시비르",
-        "아이번",
         "마오카이",
-        "타릭",
+        "아무무",
+        "아이번",
+        "시비르",
         "애쉬"
       ],
       "carries": [
         [
-          "애쉬"
+          "애쉬",
+          "쇼진의 창",
+          "최후의 속삭임",
+          "붉은 덩굴정령"
         ],
         [
-          "마오카이"
+          "시비르",
+          "무한의 대검",
+          "쇼진의 창"
+        ],
+        [
+          "아무무",
+          "워모그의 갑옷",
+          "덤불 조끼",
+          "용의 발톱"
         ]
       ],
-      "note": "Academy 원문 유닛 확인"
+      "layout": {
+        "0": "타릭",
+        "1": "라칸",
+        "2": "바이",
+        "3": "마오카이",
+        "4": "아무무",
+        "21": "아이번",
+        "25": "시비르",
+        "27": "애쉬"
+      },
+      "note": "TFT Academy 공개 배치 칸과 아이템 확인"
+    },
+    {
+      "source": "academy",
+      "tier": "A",
+      "title": "니달리 아펠리오스",
+      "sourceTitle": "니달리 아펠리오스",
+      "url": "https://tftacademy.com/tierlist/comps/set-18-aphelios-nidalee",
+      "style": "18.3b · Academy",
+      "rank": 2,
+      "units": [
+        "아무무",
+        "다이애나",
+        "바이",
+        "니달리",
+        "아펠리오스",
+        "코그모",
+        "바루스"
+      ],
+      "carries": [
+        [
+          "아펠리오스",
+          "붉은 덩굴정령",
+          "죽음의 검",
+          "거인 학살자"
+        ],
+        [
+          "니달리",
+          "무한의 대검",
+          "쇼진의 창",
+          "스테락의 도전"
+        ]
+      ],
+      "layout": {
+        "2": "아무무",
+        "9": "다이애나",
+        "10": "바이",
+        "13": "니달리",
+        "21": "아펠리오스",
+        "22": "코그모",
+        "27": "바루스"
+      },
+      "note": "TFT Academy 공개 배치 칸과 아이템 확인"
+    },
+    {
+      "source": "academy",
+      "tier": "A",
+      "title": "전쟁기계 자이라",
+      "sourceTitle": "전쟁기계 자이라",
+      "url": "https://tftacademy.com/tierlist/comps/set-18-6-juggernaut-ap",
+      "style": "18.3b · Academy",
+      "rank": 3,
+      "units": [
+        "바위 게",
+        "바이",
+        "마오카이",
+        "아무무",
+        "케넨",
+        "애쉬",
+        "시비르",
+        "자이라"
+      ],
+      "carries": [
+        [
+          "자이라",
+          "쇼진의 창",
+          "대천사의 지팡이",
+          "마법공학 총검"
+        ],
+        [
+          "시비르",
+          "붉은 덩굴정령",
+          "거인 학살자",
+          "무한의 대검"
+        ],
+        [
+          "아무무",
+          "워모그의 갑옷",
+          "덤불 조끼",
+          "용의 발톱"
+        ]
+      ],
+      "layout": {
+        "1": "바위 게",
+        "2": "바이",
+        "3": "마오카이",
+        "4": "아무무",
+        "10": "케넨",
+        "21": "애쉬",
+        "26": "시비르",
+        "27": "자이라"
+      },
+      "note": "TFT Academy 공개 배치 칸과 아이템 확인"
+    },
+    {
+      "source": "academy",
+      "tier": "A",
+      "title": "소라카 자이라",
+      "sourceTitle": "소라카 자이라",
+      "url": "https://tftacademy.com/tierlist/comps/set-18-soraka-flex",
+      "style": "18.3b · Academy",
+      "rank": 4,
+      "units": [
+        "말파이트",
+        "아무무",
+        "피들스틱",
+        "요릭",
+        "자이라",
+        "소라카",
+        "케넨",
+        "아지르"
+      ],
+      "carries": [
+        [
+          "소라카",
+          "라바돈의 죽음모자",
+          "적응형 투구",
+          "보석 건틀릿"
+        ],
+        [
+          "자이라",
+          "쇼진의 창",
+          "공허의 지팡이",
+          "대천사의 지팡이"
+        ],
+        [
+          "말파이트",
+          "가고일 돌갑옷",
+          "워모그의 갑옷"
+        ]
+      ],
+      "layout": {
+        "2": "말파이트",
+        "15": "아무무",
+        "16": "피들스틱",
+        "19": "요릭",
+        "21": "자이라",
+        "22": "소라카",
+        "23": "케넨",
+        "27": "아지르"
+      },
+      "note": "TFT Academy 공개 배치 칸과 아이템 확인"
+    },
+    {
+      "source": "academy",
+      "tier": "A",
+      "title": "아리 모르가나",
+      "sourceTitle": "아리 모르가나",
+      "url": "https://tftacademy.com/tierlist/comps/set-18-ahri-morgana",
+      "style": "18.3b · Academy",
+      "rank": 5,
+      "units": [
+        "감시자",
+        "세트",
+        "타릭",
+        "돌거북",
+        "모르가나",
+        "카르마",
+        "아리"
+      ],
+      "carries": [
+        [
+          "아리",
+          "보석 건틀릿",
+          "쇼진의 창"
+        ],
+        [
+          "모르가나",
+          "공허의 지팡이",
+          "모렐로노미콘"
+        ]
+      ],
+      "layout": {
+        "2": "감시자",
+        "9": "세트",
+        "10": "타릭",
+        "15": "돌거북",
+        "16": "모르가나",
+        "21": "카르마",
+        "23": "아리"
+      },
+      "note": "TFT Academy 공개 배치 칸과 아이템 확인"
+    },
+    {
+      "source": "academy",
+      "tier": "A",
+      "title": "달빛 카직스",
+      "sourceTitle": "달빛 카직스",
+      "url": "https://tftacademy.com/tierlist/comps/set-18-lunarwood-khazix",
+      "style": "18.3b · Academy",
+      "rank": 6,
+      "units": [
+        "카직스",
+        "헤카림",
+        "다이애나",
+        "오른",
+        "피들스틱",
+        "이즈리얼",
+        "알룬",
+        "소라카"
+      ],
+      "carries": [
+        [
+          "카직스",
+          "정의의 손길",
+          "정의의 손길",
+          "라바돈의 죽음모자"
+        ],
+        [
+          "다이애나",
+          "보석 건틀릿",
+          "정의의 손길",
+          "이온 충격기"
+        ],
+        [
+          "헤카림",
+          "워모그의 갑옷",
+          "가고일 돌갑옷",
+          "정령의 형상"
+        ]
+      ],
+      "layout": {
+        "0": "카직스",
+        "1": "헤카림",
+        "8": "다이애나",
+        "15": "오른",
+        "16": "피들스틱",
+        "21": "이즈리얼",
+        "22": "알룬",
+        "23": "소라카"
+      },
+      "note": "TFT Academy 공개 배치 칸과 아이템 확인"
+    },
+    {
+      "source": "academy",
+      "tier": "A",
+      "title": "아지르 람머스",
+      "sourceTitle": "아지르 람머스",
+      "url": "https://tftacademy.com/tierlist/comps/set-18-azir-rammus",
+      "style": "18.3b · Academy",
+      "rank": 7,
+      "units": [
+        "람머스",
+        "티모",
+        "피들스틱",
+        "아지르",
+        "자이라",
+        "소라카",
+        "베이가"
+      ],
+      "carries": [
+        [
+          "아지르",
+          "마법공학 총검",
+          "라바돈의 죽음모자"
+        ],
+        [
+          "람머스",
+          "수호자의 맹세",
+          "가고일 돌갑옷"
+        ]
+      ],
+      "layout": {
+        "2": "람머스",
+        "16": "티모",
+        "17": "피들스틱",
+        "21": "아지르",
+        "23": "자이라",
+        "25": "소라카",
+        "27": "베이가"
+      },
+      "note": "TFT Academy 공개 배치 칸과 아이템 확인"
+    },
+    {
+      "source": "academy",
+      "tier": "B",
+      "title": "장로 드래곤 고밸류",
+      "sourceTitle": "장로 드래곤 고밸류",
+      "url": "https://tftacademy.com/tierlist/comps/set-18-dragon-princess",
+      "style": "18.3b · Academy",
+      "rank": 8,
+      "units": [
+        "타릭",
+        "케넨",
+        "감시자",
+        "아무무",
+        "마오카이",
+        "모르가나",
+        "장로 드래곤",
+        "아이번"
+      ],
+      "carries": [
+        [
+          "장로 드래곤",
+          "무한의 대검",
+          "죽음의 검"
+        ],
+        [
+          "모르가나",
+          "공허의 지팡이",
+          "라바돈의 죽음모자",
+          "보석 건틀릿"
+        ]
+      ],
+      "layout": {
+        "0": "타릭",
+        "1": "케넨",
+        "2": "감시자",
+        "3": "아무무",
+        "4": "마오카이",
+        "11": "모르가나",
+        "19": "장로 드래곤",
+        "21": "아이번"
+      },
+      "note": "TFT Academy 공개 배치 칸과 아이템 확인"
+    },
+    {
+      "source": "academy",
+      "tier": "B",
+      "title": "베이가 나무정령",
+      "sourceTitle": "베이가 나무정령",
+      "url": "https://tftacademy.com/tierlist/comps/set-18-veigar-consuming-flora-copy",
+      "style": "18.3b · Academy",
+      "rank": 9,
+      "units": [
+        "오른",
+        "렉사이",
+        "피들스틱",
+        "알리스타",
+        "베이가",
+        "르블랑",
+        "카시오페아"
+      ],
+      "carries": [
+        [
+          "베이가",
+          "보석 건틀릿",
+          "푸른 파수꾼",
+          "마법공학 총검"
+        ],
+        [
+          "오른",
+          "워모그의 갑옷",
+          "가고일 돌갑옷"
+        ]
+      ],
+      "layout": {
+        "2": "오른",
+        "15": "렉사이",
+        "17": "피들스틱",
+        "18": "알리스타",
+        "21": "베이가",
+        "23": "르블랑",
+        "25": "카시오페아"
+      },
+      "note": "TFT Academy 공개 배치 칸과 아이템 확인"
+    },
+    {
+      "source": "academy",
+      "tier": "B",
+      "title": "케이틀린 사냥꾼",
+      "sourceTitle": "케이틀린 사냥꾼",
+      "url": "https://tftacademy.com/tierlist/comps/set-18-caitlyn-hunters",
+      "style": "18.3b · Academy",
+      "rank": 10,
+      "units": [
+        "바위 게",
+        "세주아니",
+        "라칸",
+        "바이",
+        "트리스타나",
+        "시비르",
+        "케이틀린"
+      ],
+      "carries": [
+        [
+          "케이틀린",
+          "구인수의 격노검",
+          "마법공학 총검"
+        ],
+        [
+          "시비르",
+          "무한의 대검",
+          "최후의 속삭임",
+          "붉은 덩굴정령"
+        ]
+      ],
+      "layout": {
+        "3": "바위 게",
+        "14": "세주아니",
+        "15": "라칸",
+        "16": "바이",
+        "25": "트리스타나",
+        "26": "시비르",
+        "27": "케이틀린"
+      },
+      "note": "TFT Academy 공개 배치 칸과 아이템 확인"
     }
   ],
   "academyEvidence": [
