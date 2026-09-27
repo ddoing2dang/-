@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "publishedAt": "2026-09-27T09:55:11.593Z",
-  "checkedAt": "2026-09-27T09:55:11.593Z",
+  "publishedAt": "2026-09-27T10:02:55.223Z",
+  "checkedAt": "2026-09-27T10:02:55.223Z",
   "decks": [
     {
       "source": "opgg",
@@ -759,7 +759,8 @@
           "피들스틱"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
     },
     {
       "source": "metatft",
@@ -789,7 +790,8 @@
           "바이"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
     },
     {
       "source": "metatft",
@@ -819,8 +821,7 @@
           "피들스틱"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
     },
     {
       "source": "metatft",
@@ -849,7 +850,8 @@
           "타릭"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
     },
     {
       "source": "metatft",
@@ -881,7 +883,8 @@
           "바이"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
     },
     {
       "source": "metatft",
@@ -913,8 +916,7 @@
           "바이"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
     },
     {
       "source": "metatft",
@@ -945,8 +947,7 @@
           "타릭"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
     },
     {
       "source": "metatft",
@@ -975,8 +976,7 @@
           "덩굴정령"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
     },
     {
       "source": "metatft",
@@ -1005,8 +1005,7 @@
           "바이"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
     },
     {
       "source": "metatft",
@@ -1035,14 +1034,13 @@
           "타릭"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
     }
   ],
   "sources": {
     "lolchess": {
       "status": "partial",
-      "lastVerifiedAt": "2026-09-27T09:55:11.593Z",
+      "lastVerifiedAt": "2026-09-27T10:02:55.223Z",
       "matched": 5,
       "total": 10,
       "url": "https://lolchess.gg/meta"
@@ -1050,13 +1048,13 @@
     "opgg": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-27T09:55:11.593Z",
+      "checkedAt": "2026-09-27T10:02:55.223Z",
       "error": "HTTP 403",
       "url": "https://op.gg/tft/tier-list"
     },
     "metatft": {
       "status": "verified",
-      "lastVerifiedAt": "2026-09-27T09:55:11.593Z",
+      "lastVerifiedAt": "2026-09-27T10:02:55.223Z",
       "matched": 10,
       "total": 10,
       "url": "https://www.metatft.com/comps",
@@ -1068,22 +1066,22 @@
       "matched": 4,
       "total": 4,
       "url": "https://tactics.tools/ko/team-compositions",
-      "checkedAt": "2026-09-27T09:55:11.593Z",
+      "checkedAt": "2026-09-27T10:02:55.223Z",
       "error": "검증된 덱 수가 이전보다 적어 보관본 유지"
     },
     "qq": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-27T09:55:11.593Z",
-      "error": "검증된 덱 수가 이전보다 적어 보관본 유지",
+      "checkedAt": "2026-09-27T10:02:55.223Z",
+      "error": "page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://lol.qq.com/tft/#/index\nCall log:\n  - navigating to \"https://lol.qq.com/tft/#/index\", waiting until \"domcontentloaded\"\n",
       "url": "https://lol.qq.com/tft/#/index"
     },
     "mobalytics": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-27T09:55:11.593Z",
+      "checkedAt": "2026-09-27T10:02:55.223Z",
       "error": "HTTP 403",
-      "url": "https://mobalytics.gg/tft/team-comps"
+      "url": "https://mobalytics.gg/tft/tier-list/team-comps"
     }
   }
 }
