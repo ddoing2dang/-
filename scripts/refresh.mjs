@@ -88,6 +88,29 @@ try {
       catch (error) { snapshot.sources[id] = { ...snapshot.sources[id], status: 'stale', checkedAt: now, error: String(error.message).slice(0, 180), url }; console.warn(id + ': retained prior data: ' + error.message); }
       continue;
     }
+    if (id === 'lolchess') {
+      const page=await browser.newPage({locale:'ko-KR'});
+      try{
+        const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});if(!response?.ok())throw Error('HTTP '+response?.status());
+        const payload=await page.evaluate(()=>JSON.parse(document.querySelector('#__NEXT_DATA__')?.textContent||'null'));
+        const queries=payload?.props?.pageProps?.dehydratedState?.queries||[];
+        const read=key=>queries.find(q=>q.queryKey?.[0]===key)?.state?.data;
+        const champions=new Map((read('championRefs')?.champions||[]).map(c=>[c.key,c.name]));
+        const items=new Map((read('itemRefs')?.items||[]).map(c=>[c.key,c.name]));
+        const guides=(read('getGuideDecks')?.guideDecks||[]).filter(d=>d.season==='set18'&&!/요약/.test(d.name)).slice(0,20);
+        const decks=guides.map((guide,rank)=>{
+          const layout={},units=[],carries=[];
+          for(const slot of guide.data?.slots||[]){const name=champions.get(slot.champion),idx=Number(slot.index);if(!name||!Number.isInteger(idx)||idx<0||idx>=28||units.includes(name))continue;layout[idx]=name;units.push(name);const equipped=(slot.items||[]).map(item=>items.get(item)).filter(Boolean).slice(0,3);if(equipped.length)carries.push([name,...equipped]);}
+          return {source:id,tier:'상위',title:guide.name,sourceTitle:guide.name,url:'https://lolchess.gg/builder/guide/'+guide.teamBuilderKey+'?type=guide',style:'LoLCHESS 공략',rank:rank+1,units,carries:carries.sort((a,b)=>b.length-a.length).slice(0,3),layout,note:'원문 공략의 배치와 해당 유닛 아이템'};
+        }).filter(d=>d.units.length>=5);
+        if(decks.length<5)throw Error('공략 배치 확인 수 부족');
+        snapshot.decks=snapshot.decks.filter(d=>d.source!==id).concat(decks);
+        snapshot.sources[id]={status:decks.length===20?'verified':'partial',lastVerifiedAt:now,matched:decks.length,total:20,url};
+        console.log('lolchess: '+decks.length+'/20');
+      }catch(error){snapshot.sources[id]={...snapshot.sources[id],status:'stale',checkedAt:now,error:String(error.message).slice(0,180),url};console.warn('lolchess: retained prior data: '+error.message)}
+      finally{await page.close()}
+      continue;
+    }
     if (id === 'academy') {
       const page = await browser.newPage({ locale: 'ko-KR', viewport: { width: 1440, height: 1100 } });
       try {
