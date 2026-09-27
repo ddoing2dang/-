@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "publishedAt": "2026-09-27T09:52:39.350Z",
-  "checkedAt": "2026-09-27T09:52:39.350Z",
+  "publishedAt": "2026-09-27T09:55:11.593Z",
+  "checkedAt": "2026-09-27T09:55:11.593Z",
   "decks": [
     {
       "source": "opgg",
@@ -734,8 +734,8 @@
     {
       "source": "metatft",
       "tier": "S",
-      "title": "주문술사 베이가",
-      "sourceTitle": "Spellweaver Veigar",
+      "title": "베이가 · 피들스틱 조합",
+      "sourceTitle": "베이가 · 피들스틱 조합",
       "url": "https://www.metatft.com/comps",
       "style": "MetaTFT · 평균 순위 4.18 · 77,930판",
       "rank": 1,
@@ -750,23 +750,22 @@
       ],
       "carries": [
         [
+          "렉사이"
+        ],
+        [
           "베이가"
         ],
         [
-          "오른"
-        ],
-        [
-          "알리스타"
+          "피들스틱"
         ]
       ],
-      "note": "",
-      "_matched": true
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
     },
     {
       "source": "metatft",
       "tier": "A",
-      "title": "달빛 아펠리오스 니달리",
-      "sourceTitle": "Lunar Aphelios Nidalee",
+      "title": "니달리 · 바이 조합",
+      "sourceTitle": "니달리 · 바이 조합",
       "url": "https://www.metatft.com/comps",
       "style": "MetaTFT · 평균 순위 4.30 · 115,977판",
       "rank": 2,
@@ -781,17 +780,16 @@
       ],
       "carries": [
         [
-          "아펠리오스"
+          "코그모"
         ],
         [
           "니달리"
         ],
         [
-          "아무무"
+          "바이"
         ]
       ],
-      "note": "",
-      "_matched": true
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
     },
     {
       "source": "metatft",
@@ -821,13 +819,14 @@
           "피들스틱"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
     },
     {
       "source": "metatft",
       "tier": "A",
-      "title": "기원자 아리",
-      "sourceTitle": "Invoker Ahri",
+      "title": "돌거북 · 타릭 조합",
+      "sourceTitle": "돌거북 · 타릭 조합",
       "url": "https://www.metatft.com/comps",
       "style": "MetaTFT · 평균 순위 4.36 · 97,338판",
       "rank": 4,
@@ -841,23 +840,22 @@
       ],
       "carries": [
         [
-          "아리"
+          "카르마"
         ],
         [
-          "모르가나"
+          "돌거북"
         ],
         [
-          "세트"
+          "타릭"
         ]
       ],
-      "note": "",
-      "_matched": true
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
     },
     {
       "source": "metatft",
       "tier": "A",
-      "title": "전쟁기계 자이라 시비르",
-      "sourceTitle": "Juggernaut Zyra Sivir",
+      "title": "바위 게 · 바이 조합",
+      "sourceTitle": "바위 게 · 바이 조합",
       "url": "https://www.metatft.com/comps",
       "style": "MetaTFT · 평균 순위 4.37 · 44,944판",
       "rank": 5,
@@ -874,17 +872,16 @@
       ],
       "carries": [
         [
-          "자이라"
-        ],
-        [
           "아무무"
         ],
         [
-          "시비르"
+          "바위 게"
+        ],
+        [
+          "바이"
         ]
       ],
-      "note": "",
-      "_matched": true
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
     },
     {
       "source": "metatft",
@@ -916,7 +913,8 @@
           "바이"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
     },
     {
       "source": "metatft",
@@ -947,7 +945,8 @@
           "타릭"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
     },
     {
       "source": "metatft",
@@ -976,7 +975,8 @@
           "덩굴정령"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
     },
     {
       "source": "metatft",
@@ -1005,7 +1005,8 @@
           "바이"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
     },
     {
       "source": "metatft",
@@ -1034,13 +1035,14 @@
           "타릭"
         ]
       ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
     }
   ],
   "sources": {
     "lolchess": {
       "status": "partial",
-      "lastVerifiedAt": "2026-09-27T09:52:39.350Z",
+      "lastVerifiedAt": "2026-09-27T09:55:11.593Z",
       "matched": 5,
       "total": 10,
       "url": "https://lolchess.gg/meta"
@@ -1048,13 +1050,13 @@
     "opgg": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-27T09:52:39.350Z",
+      "checkedAt": "2026-09-27T09:55:11.593Z",
       "error": "HTTP 403",
       "url": "https://op.gg/tft/tier-list"
     },
     "metatft": {
       "status": "verified",
-      "lastVerifiedAt": "2026-09-27T09:52:39.350Z",
+      "lastVerifiedAt": "2026-09-27T09:55:11.593Z",
       "matched": 10,
       "total": 10,
       "url": "https://www.metatft.com/comps",
@@ -1066,20 +1068,20 @@
       "matched": 4,
       "total": 4,
       "url": "https://tactics.tools/ko/team-compositions",
-      "checkedAt": "2026-09-27T09:52:39.350Z",
+      "checkedAt": "2026-09-27T09:55:11.593Z",
       "error": "검증된 덱 수가 이전보다 적어 보관본 유지"
     },
     "qq": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-27T09:52:39.350Z",
+      "checkedAt": "2026-09-27T09:55:11.593Z",
       "error": "검증된 덱 수가 이전보다 적어 보관본 유지",
       "url": "https://lol.qq.com/tft/#/index"
     },
     "mobalytics": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-27T09:52:39.350Z",
+      "checkedAt": "2026-09-27T09:55:11.593Z",
       "error": "HTTP 403",
       "url": "https://mobalytics.gg/tft/team-comps"
     }
