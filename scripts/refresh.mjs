@@ -28,7 +28,7 @@ function exactTier(text) {
 function unique(values) { return [...new Set(values.filter(Boolean))]; }
 function championName(id) {
   const key = id.replace(/^DA_(?:18_)?/i, '').replace(/18(?:_[A-Z]+)?$/i, '').replace(/[^A-Za-z]/g, '').toLowerCase();
-  return championIds[key] || null;
+  return championIds[key] || {sentry:'감시자',sentinel:'감시자',masteryiad:'마스터 이',gnarsmall:'나르',crimsonraptor:'어미 부리',elderdragon:'장로 드래곤'}[key] || null;
 }
 const championValues = unique(Object.values(championIds));
 function rosterFromCandidate(candidate) {
@@ -86,6 +86,35 @@ try {
     if (id === 'metatft') {
       try { await updateMetaTft(); }
       catch (error) { snapshot.sources[id] = { ...snapshot.sources[id], status: 'stale', checkedAt: now, error: String(error.message).slice(0, 180), url }; console.warn(id + ': retained prior data: ' + error.message); }
+      continue;
+    }
+    if (id === 'opgg') {
+      const page=await browser.newPage({locale:'ko-KR'});
+      try{
+        const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});if(!response?.ok())throw Error('HTTP '+response?.status());
+        const cards=await page.evaluate(()=>{
+          const chunks=[...document.querySelectorAll('script')].map(x=>x.textContent||'').filter(x=>x.startsWith('self.__next_f.push(')).map(x=>{try{return JSON.parse(x.slice('self.__next_f.push('.length,-1))}catch{return null}}).filter(x=>x?.[0]===1).map(x=>x[1]).join('');
+          const line=chunks.split('\n').find(x=>x.startsWith('5:')&&x.includes('"decks"'));
+          if(!line)return [];
+          const root=JSON.parse(line.slice(2)),found=[];
+          const walk=x=>{if(!x||typeof x!=='object')return;if(Array.isArray(x.decks))found.push(x.decks);for(const v of Object.values(x))walk(v)};walk(root);return found[0]?.slice(0,20)||[];
+        });
+        if(cards.length<5)throw Error('OP.GG 공개 조합 수 부족');
+        const names={"Archangel's Staff":"대천사의 지팡이","Bloodthirster":"피바라기","Blue Buff":"푸른 파수꾼","Crownguard":"크라운가드","Dawncore":"새벽심장","Deathblade":"죽음의 검","Edge of Night":"밤의 끝자락","Evenshroud":"저녁갑주","Gargoyle Stoneplate":"가고일 돌갑옷","Giant Slayer":"거인 학살자","Guinsoo's Rageblade":"구인수의 격노검","Hand Of Justice":"정의의 손길","Hextech Gunblade":"마법공학 총검","Infinity Edge":"무한의 대검","Ionic Spark":"이온 충격기","Jeweled Gauntlet":"보석 건틀릿","Kraken's Fury":"크라켄의 분노","Last Whisper":"최후의 속삭임","Morellonomicon":"모렐로노미콘","Nashor's Tooth":"내셔의 이빨","Protector's Vow":"수호자의 맹세","Quicksilver":"수은","Rabadon's Deathcap":"라바돈의 죽음모자","Red Buff":"붉은 덩굴정령","Spear of Shojin":"쇼진의 창","Spirit Visage":"정령의 형상","Steadfast Heart":"굳건한 심장","Sterak's Gage":"스테락의 도전","Striker's Flail":"타격대의 철퇴","Sunfire Cape":"태양불꽃 망토","Titan's Resolve":"거인의 결의","Void Staff":"공허의 지팡이","Warmogs Armor":"워모그의 갑옷"};
+        const next=cards.map((d,idx)=>{
+          const units=[],layout={},carries=[];
+          for(const u of d.units||[]){const name=championName(u.key);if(!name)continue;if(!units.includes(name))units.push(name);const {x,y}=u.cell||{};if(Number.isInteger(x)&&Number.isInteger(y)&&x>=1&&x<=7&&y>=1&&y<=4)layout[(4-y)*7+x-1]=name;
+            const items=(u.itemMetas||[]).map(v=>names[v.name]).filter(Boolean).slice(0,3);if(u.isCore&&items.length)carries.push([name,...items]);
+          }
+          const title=d.name?.ko_KR||d.name?.en_US||'OP.GG 조합';
+          return {source:id,tier:d.stat?.opTier||'A',title,sourceTitle:title,url,style:'OP.GG · 평균 순위 '+Number(d.stat?.deck?.avgPlacement||0).toFixed(2),rank:idx+1,units,carries:carries.slice(0,3),...(Object.keys(layout).length>=5?{layout}:{}),note:'원문 챔피언과 아이템 연결; 좌표 미제공 조합은 시작 배치'};
+        }).filter(d=>d.units.length>=5);
+        if(next.length<5)throw Error('OP.GG 조합 유닛 확인 실패');
+        snapshot.decks=snapshot.decks.filter(d=>d.source!==id).concat(next);
+        snapshot.sources[id]={status:next.length===20?'verified':'partial',lastVerifiedAt:now,matched:next.length,total:20,url};
+        console.log('opgg: '+next.length+'/20');
+      }catch(error){snapshot.sources[id]={...snapshot.sources[id],status:'stale',checkedAt:now,error:String(error.message).slice(0,180),url};console.warn('opgg: retained prior data: '+error.message)}
+      finally{await page.close()}
       continue;
     }
     if (id === 'lolchess') {
