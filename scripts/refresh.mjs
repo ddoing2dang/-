@@ -11,7 +11,7 @@ const sources = [
   ['metatft', 'https://www.metatft.com/comps', 'metatft.com'],
   ['tactics', 'https://tactics.tools/ko/team-compositions', 'tactics.tools'],
   ['qq', 'https://lol.qq.com/tft/#/index', 'lol.qq.com'],
-  ['mobalytics', 'https://mobalytics.gg/tft/team-comps', 'mobalytics.gg'],
+  ['mobalytics', 'https://mobalytics.gg/tft/tier-list/team-comps', 'mobalytics.gg'],
 ];
 const now = new Date().toISOString();
 const browser = await chromium.launch({ headless: true });
@@ -21,8 +21,8 @@ function validLink(url, host) {
   catch { return false; }
 }
 function exactTier(text) {
-  const match = text.match(/(?:^|\s|[·|])(?:SS|S|A)(?:\s*(?:티어|Tier|级))?(?=$|\s|[·|])/im);
-  return match?.[0].trim().match(/SS|S|A/)?.[0] || null;
+  const match = text.match(/(?:^|\s|[·|])(?:SS|S|A|B)(?:\s*(?:티어|Tier|级))?(?=$|\s|[·|])/im);
+  return match?.[0].trim().match(/SS|S|A|B/)?.[0] || null;
 }
 function unique(values) { return [...new Set(values.filter(Boolean))]; }
 function championName(id) {
@@ -61,7 +61,7 @@ async function updateMetaTft() {
       const overlap = d.units.filter(name => roster.includes(name)).length;
       return { d, score: overlap / Math.max(d.units.length, roster.length) };
     }).sort((a, b) => b.score - a.score)[0];
-    const tier = c.overall.avg <= 4.2 ? 'S' : 'A';
+    const tier = c.overall.avg <= 4.2 ? 'S' : c.overall.avg <= 4.6 ? 'A' : 'B';
     const style = `MetaTFT · 평균 순위 ${c.overall.avg.toFixed(2)} · ${c.overall.count.toLocaleString()}판`;
     if (match && match.score >= .65 && roster.includes(match.d.carries?.[0]?.[0]) && !match.d._matched) {
       match.d._matched = true;
