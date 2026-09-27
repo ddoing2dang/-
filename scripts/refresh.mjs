@@ -194,6 +194,27 @@ try {
   }
 } finally { await browser.close(); }
 
+async function refreshRankEvidence(){
+ const base='https://tft.dakgg.io/api/v1';
+ const get=async u=>{const r=await fetch(u,{signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error('HTTP '+r.status);return r.json()};
+ const season=(await get(base+'/seasons')).kr?.[0];
+ if(season!=='set18')throw Error('현재 랭킹 시즌이 18이 아님');
+ const board=await get(base+'/leaderboards/summoners/kr?hl=ko&season='+season+'&tier=CHALLENGER&queueId=1100&page=0');
+ const players=(board.summonerRankings||[]).filter(p=>p.tier==='CHALLENGER'&&p.gameName&&p.tagLine).slice(0,10);
+ if(players.length!==10)throw Error('랭킹 TOP10 확인 실패');
+ const records=await Promise.allSettled(players.map(async p=>({p,matches:(await get(base+'/summoners/kr/'+encodeURIComponent(p.gameName+'-'+p.tagLine)+'/matches?season='+season+'&page=1&size=20')).matches||[]})));
+ let loaded=0,tops=0,unmatched=0;const seen=new Set(),counts={};
+ for(const record of records){if(record.status!=='fulfilled')continue;loaded++;const {p,matches}=record.value;for(const m of matches){const part=(m.participants||[]).find(x=>x.puuid===p.puuid),key=m.matchId+'_'+p.puuid;if(!part||seen.has(key)||Number(part.placement)<1||Number(part.placement)>4)continue;seen.add(key);tops++;
+  const names=new Set((part.units||[]).map(u=>championName(String(u.character_id||u.characterId||u.name||''))).filter(Boolean));
+  const candidates=snapshot.decks.map(d=>({d,overlap:d.units.filter(n=>names.has(n)).length})).filter(x=>x.overlap>=5&&x.overlap/x.d.units.length>=.65).sort((a,b)=>b.overlap/b.d.units.length-a.overlap/a.d.units.length||b.overlap-a.overlap);
+  if(!candidates.length){unmatched++;continue}const signature=unique(candidates[0].d.units).sort().join('|');counts[signature]=(counts[signature]||0)+1;
+ }}
+ if(loaded<5||tops<5)throw Error('랭킹 전적 표본 부족');
+ snapshot.rankEvidence={asOf:now,season,playerCount:loaded,top4:tops,unmatched,counts};
+ console.log('ranking TOP10:',loaded,'players',tops,'TOP4 boards');
+}
+try{await refreshRankEvidence()}catch(error){console.warn('ranking: retained prior evidence:',error.message)}
+
 snapshot.checkedAt = now;
 if (Object.values(snapshot.sources).some(s => ['verified', 'partial'].includes(s.status))) snapshot.publishedAt = now;
 await writeFile(file, JSON.stringify(snapshot, null, 2) + '\n');
