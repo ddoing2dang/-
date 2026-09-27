@@ -42,6 +42,7 @@ function newDeck({ source, tier, rank, url, title, units, style }) {
   return { source, tier, title: name, sourceTitle: name, url, style,
     rank, units, carries: [], note: '목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다.' };
 }
+const ACADEMY_ITEMS={"WarmogsArmor": "워모그의 갑옷", "BrambleVest": "덤불 조끼", "DragonsClaw": "용의 발톱", "InfinityEdge": "무한의 대검", "StrikersFlail": "타격대의 철퇴", "SpearOfShojin": "쇼진의 창", "LastWhisper": "최후의 속삭임", "RedBuff": "붉은 덩굴정령", "Deathblade": "죽음의 검", "GiantSlayer": "거인 학살자", "SteraksGage": "스테락의 도전", "ProtectorsVow": "수호자의 맹세", "ArchangelsStaff": "대천사의 지팡이", "HextechGunblade": "마법공학 총검", "GargoyleStoneplate": "가고일 돌갑옷", "Crownguard": "크라운가드", "VoidStaff": "공허의 지팡이", "RabadonsDeathcap": "라바돈의 죽음모자", "AdaptiveHelm": "적응형 투구", "JeweledGauntlet": "보석 건틀릿", "HandOfJustice": "정의의 손길", "IonicSpark": "이온 충격기", "SpiritVisage": "정령의 형상", "GuinsoosRageblade": "구인수의 격노검", "KrakensFury": "크라켄의 분노", "ThiefsGloves": "도적의 장갑", "Morellonomicon": "모렐로노미콘", "BlueBuff": "푸른 파수꾼", "Evenshroud": "저녁갑주"};
 async function updateMetaTft() {
   const response = await fetch('https://api-hc.metatft.com/tft-comps-api/comps_data', { signal: AbortSignal.timeout(20000) });
   if (!response.ok) throw new Error('MetaTFT HTTP ' + response.status);
@@ -118,13 +119,13 @@ try {
             });
             if(!detail?.slots?.length)continue;
             const layout={},units=[],carries=[];
-            for(const entry of detail.slots){const name=championName(entry.id);if(!name||units.includes(name))continue;layout[entry.slot]=name;units.push(name);if(entry.items.length)carries.push([name]);}
+            for(const entry of detail.slots){const name=championName(entry.id);if(!name||units.includes(name))continue;layout[entry.slot]=name;units.push(name);if(entry.items.length)carries.push([name,...entry.items.map(id=>ACADEMY_ITEMS[id.replace(/^DA_/, '')]).filter(Boolean).slice(0,3)]);}
             if(units.length<5)continue;
             const reference=old.map(d=>({d,overlap:d.units.filter(n=>units.includes(n)).length})).sort((a,b)=>b.overlap-a.overlap)[0];
             const verified=reference?.overlap>=Math.ceil(Math.min(units.length,reference.d.units.length)*.7)?reference.d:null;
             // Carry item labels are reused only when this is the same champion and original detail URL.
-            const precise=carries.map(c=>{const prior=verified?.url===link.url&&verified?.carries?.find(v=>v[0]===c[0]);return prior||c});
-            next.push({source:id,tier:link.tier,title:verified?.title||detail.title||units.slice(-2).join(' · '),sourceTitle:detail.title||'',url:link.url,style:'TFT Academy 상세 배치',rank:next.length+1,units,carries:precise,layout,note:'원문 배치 좌표 확인; 아이템은 같은 원문에서 이름이 확인된 경우에만 표시'});
+            const precise=carries;
+            next.push({source:id,tier:link.tier,title:verified?.title||detail.title||units.slice(-2).join(' · '),sourceTitle:detail.title||'',url:link.url,style:'TFT Academy 상세 배치',rank:next.length+1,units,carries:precise,layout,note:'원문 배치 좌표 확인; 아이템은 새 원문 칸에서 유닛별로 확인된 경우에만 표시'});
           }catch(error){console.warn('academy detail:',String(error.message).slice(0,100));}
         }
         if(next.length<5)throw new Error('Academy 상세 덱을 5개 이상 확인하지 못함');
