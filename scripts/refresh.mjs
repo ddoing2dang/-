@@ -111,6 +111,32 @@ try {
       finally{await page.close()}
       continue;
     }
+    if (id === 'tactics') {
+      const page=await browser.newPage({locale:'ko-KR'});
+      try{
+        const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});if(!response?.ok())throw Error('HTTP '+response?.status());
+        const payload=await page.evaluate(()=>JSON.parse(document.querySelector('#__NEXT_DATA__')?.textContent||'null'));
+        const groups=payload?.props?.pageProps?.initialData?.groups||[];
+        const next=[];
+        for(const group of groups){
+          for(const comp of (group.full?.comps||[]).filter(c=>c.count>=30).slice(0,4)){
+            const units=unique(comp.units.map(championName));if(units.length<5)continue;
+            const carried=(group.full?.carryUnits||[]).map(x=>championName(x[0])).filter(name=>units.includes(name)).slice(0,3);
+            const carries=carried.map(name=>{const source=(group.full?.unitItems||[]).filter(x=>championName(x.unitId)===name).sort((a,b)=>b.count-a.count).slice(0,3);return [name,...source.map(x=>ACADEMY_ITEMS[String(x.itemId).replace(/^DA_/,'')]).filter(Boolean)]});
+            const title=carried.slice(0,2).join(' · ')+' 조합';
+            next.push({source:id,tier:'상위',title,sourceTitle:title,url,style:'GM 통계 · 평균 순위 '+comp.place.toFixed(2)+' · '+comp.count+'판',rank:next.length+1,units,carries,note:'GM 공개 통계의 변형 조합. 배치 좌표는 다른 동일 계열 공략을 참고'});
+            if(next.length>=20)break;
+          }
+          if(next.length>=20)break;
+        }
+        if(next.length<5)throw Error('GM 표본 부족');
+        snapshot.decks=snapshot.decks.filter(d=>d.source!==id).concat(next);
+        snapshot.sources[id]={status:next.length===20?'verified':'partial',lastVerifiedAt:now,matched:next.length,total:20,url};
+        console.log('tactics: '+next.length+'/20 variants');
+      }catch(error){snapshot.sources[id]={...snapshot.sources[id],status:'stale',checkedAt:now,error:String(error.message).slice(0,180),url};console.warn('tactics: retained prior data: '+error.message)}
+      finally{await page.close()}
+      continue;
+    }
     if (id === 'academy') {
       const page = await browser.newPage({ locale: 'ko-KR', viewport: { width: 1440, height: 1100 } });
       try {
