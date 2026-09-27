@@ -7,12 +7,13 @@ const snapshot = JSON.parse(await readFile(file, 'utf8'));
 const championIds = JSON.parse(await readFile(new URL('data/champion_ids.json', root), 'utf8'));
 const sources = [
   ['lolchess', 'https://lolchess.gg/meta', 'lolchess.gg'],
-  ['opgg', 'https://op.gg/tft/tier-list', 'op.gg'],
+  ['opgg', 'https://op.gg/tft/meta-trends/comps', 'op.gg'],
   ['metatft', 'https://www.metatft.com/comps', 'metatft.com'],
-  ['tactics', 'https://tactics.tools/ko/team-compositions', 'tactics.tools'],
-  ['qq', 'https://lol.qq.com/tft/#/index', 'lol.qq.com'],
-  ['mobalytics', 'https://mobalytics.gg/tft/tier-list/team-comps', 'mobalytics.gg'],
+  ['tactics', 'https://tactics.tools/team-compositions/gm', 'tactics.tools'],
+  ['qq', 'https://lol.qq.com/tft/#/wrlineup', 'lol.qq.com'],
+  ['academy', 'https://tftacademy.com/tierlist/comps', 'tftacademy.com'],
 ];
+delete snapshot.sources.mobalytics; snapshot.decks=snapshot.decks.filter(d=>d.source!=='mobalytics');snapshot.schema=2;
 const now = new Date().toISOString();
 const browser = await chromium.launch({ headless: true });
 
@@ -39,7 +40,7 @@ function rosterFromCandidate(candidate) {
 function newDeck({ source, tier, rank, url, title, units, style }) {
   const name = title.replace(/\s+/g, ' ').trim().slice(0, 70);
   return { source, tier, title: name, sourceTitle: name, url, style,
-    rank, units, carries: units.slice(-3).map(unit => [unit]), note: '목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.' };
+    rank, units, carries: [], note: '목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다.' };
 }
 async function updateMetaTft() {
   const response = await fetch('https://api-hc.metatft.com/tft-comps-api/comps_data', { signal: AbortSignal.timeout(20000) });
@@ -48,7 +49,7 @@ async function updateMetaTft() {
   if (data.tft_set !== 'TFTSet18') throw new Error('다른 세트 데이터이므로 보관본 유지');
   const clusters = Object.values(data.results?.data?.cluster_details || {})
     .filter(c => c.overall?.count >= 10000 && Number.isFinite(c.overall?.avg))
-    .sort((a, b) => a.overall.avg - b.overall.avg).slice(0, 10);
+    .sort((a, b) => a.overall.avg - b.overall.avg).slice(0, 20);
   if (clusters.length < 5) throw new Error('통계 표본이 부족합니다');
   const oldDecks = snapshot.decks.filter(d => d.source === 'metatft');
   let matched = 0;
@@ -75,8 +76,8 @@ async function updateMetaTft() {
   oldDecks.forEach(d => delete d._matched);
   if (next.length < 5) throw new Error('표시할 수 있는 덱이 부족합니다');
   snapshot.decks = snapshot.decks.filter(d => d.source !== 'metatft').concat(next);
-  snapshot.sources.metatft = { status: next.length === 10 ? 'verified' : 'partial', lastVerifiedAt: now, matched: next.length, total: 10, url: 'https://www.metatft.com/comps', patchSet: data.tft_set };
-  console.log('metatft: ' + next.length + '/10 comps, ' + matched + ' prior guides matched');
+  snapshot.sources.metatft = { status: next.length === 20 ? 'verified' : 'partial', lastVerifiedAt: now, matched: next.length, total: 20, url: 'https://www.metatft.com/comps', patchSet: data.tft_set };
+  console.log('metatft: ' + next.length + '/20 comps, ' + matched + ' prior guides matched');
 }
 
 try {
@@ -84,6 +85,54 @@ try {
     if (id === 'metatft') {
       try { await updateMetaTft(); }
       catch (error) { snapshot.sources[id] = { ...snapshot.sources[id], status: 'stale', checkedAt: now, error: String(error.message).slice(0, 180), url }; console.warn(id + ': retained prior data: ' + error.message); }
+      continue;
+    }
+    if (id === 'academy') {
+      const page = await browser.newPage({ locale: 'ko-KR', viewport: { width: 1440, height: 1100 } });
+      try {
+        const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+        if (!response?.ok()) throw new Error('HTTP ' + response?.status());
+        const links = await page.evaluate(() => {
+          const result=[];
+          for(const tier of ['A','B']){
+            const parent=document.querySelector('.tier-'+tier) || [...document.querySelectorAll('*')].find(e=>e.className?.includes?.('tier-'+tier));
+            for(const a of parent?.querySelectorAll('a[href*="/tierlist/comps/set-18-"]') || [])if(!result.some(x=>x.url===a.href))result.push({url:a.href,tier});
+          }
+          return result.slice(0,20);
+        });
+        const old=snapshot.decks.filter(d=>d.source==='academy');
+        const next=[];
+        for(const link of links){
+          try{
+            await page.goto(link.url,{waitUntil:'domcontentloaded',timeout:20000});
+            const detail=await page.evaluate(()=>{
+              const label=[...document.querySelectorAll('*')].find(e=>e.children.length===0&&e.textContent.trim()==='Positioning Example');
+              const grid=label?.parentElement?.querySelector('[class*="w-[100%]"]');
+              if(!grid)return null;
+              const slots=[];
+              [...grid.children].slice(0,4).forEach((row,y)=>[...row.children].forEach((cell,x)=>{
+                const icon=cell.querySelector('img[src*="champion_icons"]');
+                if(icon&&x>0&&x<8)slots.push({slot:y*7+x-1,id:icon.src.split('/').pop().replace(/\.webp$/,''),items:[...cell.querySelectorAll('img[src*="/items/"]')].map(img=>img.src.split('/').pop().replace(/\.webp$/,''))});
+              }));
+              return {title:document.querySelector('h1')?.innerText?.replace(/^Comps\s+/i,'').trim(),slots};
+            });
+            if(!detail?.slots?.length)continue;
+            const layout={},units=[],carries=[];
+            for(const entry of detail.slots){const name=championName(entry.id);if(!name||units.includes(name))continue;layout[entry.slot]=name;units.push(name);if(entry.items.length)carries.push([name]);}
+            if(units.length<5)continue;
+            const reference=old.map(d=>({d,overlap:d.units.filter(n=>units.includes(n)).length})).sort((a,b)=>b.overlap-a.overlap)[0];
+            const verified=reference?.overlap>=Math.ceil(Math.min(units.length,reference.d.units.length)*.7)?reference.d:null;
+            // Carry item labels are reused only when this is the same champion and original detail URL.
+            const precise=carries.map(c=>{const prior=verified?.url===link.url&&verified?.carries?.find(v=>v[0]===c[0]);return prior||c});
+            next.push({source:id,tier:link.tier,title:verified?.title||detail.title||units.slice(-2).join(' · '),sourceTitle:detail.title||'',url:link.url,style:'TFT Academy 상세 배치',rank:next.length+1,units,carries:precise,layout,note:'원문 배치 좌표 확인; 아이템은 같은 원문에서 이름이 확인된 경우에만 표시'});
+          }catch(error){console.warn('academy detail:',String(error.message).slice(0,100));}
+        }
+        if(next.length<5)throw new Error('Academy 상세 덱을 5개 이상 확인하지 못함');
+        snapshot.decks=snapshot.decks.filter(d=>d.source!==id).concat(next);
+        snapshot.sources[id]={status:next.length===20?'verified':'partial',lastVerifiedAt:now,matched:next.length,total:20,url};
+        console.log('academy: '+next.length+'/20');
+      }catch(error){snapshot.sources[id]={...snapshot.sources[id],status:'stale',checkedAt:now,error:String(error.message).slice(0,180),url};console.warn('academy: retained verified prior data: '+error.message)}
+      finally{await page.close()}
       continue;
     }
     const page = await browser.newPage({ locale: 'ko-KR', viewport: { width: 1440, height: 1100 } });
@@ -117,7 +166,7 @@ try {
       }
       const ranked = [];
       const used = new Set();
-      for (let position = 0; position < candidates.length && ranked.length < 10; position++) {
+      for (let position = 0; position < candidates.length && ranked.length < 20; position++) {
         const candidate = candidates[position];
         if (!validLink(candidate.href, host)) continue;
         const tier = exactTier(candidate.text) || (['lolchess', 'tactics'].includes(id) ? '상위' : null);
@@ -134,10 +183,10 @@ try {
         else ranked.push(newDeck({ source: id, tier, rank: ranked.length + 1, url: candidate.href,
           title, units, style: `${id} · 목록 추천` }));
       }
-      if (ranked.length < previous.length) throw new Error('검증된 덱 수가 이전보다 적어 보관본 유지');
+      if (ranked.length < 5) throw new Error('검증된 덱이 5개 미만이라 보관본 유지');
       snapshot.decks = snapshot.decks.filter(d => d.source !== id).concat(ranked);
-      snapshot.sources[id] = { status: ranked.length === 10 ? 'verified' : 'partial', lastVerifiedAt: now, matched: ranked.length, total: 10, url };
-      console.log(id + ': ' + ranked.length + '/10 ranked decks, ' + confirmed.length + ' prior guides matched');
+      snapshot.sources[id] = { status: ranked.length === 20 ? 'verified' : 'partial', lastVerifiedAt: now, matched: ranked.length, total: 20, url };
+      console.log(id + ': ' + ranked.length + '/20 ranked decks, ' + confirmed.length + ' prior guides matched');
     } catch (error) {
       snapshot.sources[id] = { ...snapshot.sources[id], status: 'stale', checkedAt: now, error: String(error.message).slice(0, 180), url };
       console.warn(id + ': retained prior data: ' + error.message);
