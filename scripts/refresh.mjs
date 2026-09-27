@@ -29,6 +29,18 @@ function championName(id) {
   const key = id.replace(/^DA_(?:18_)?/i, '').replace(/18(?:_[A-Z]+)?$/i, '').replace(/[^A-Za-z]/g, '').toLowerCase();
   return championIds[key] || null;
 }
+const championValues = unique(Object.values(championIds));
+function rosterFromCandidate(candidate) {
+  const text = [candidate.text, ...(candidate.images || [])].join(' ');
+  const fromKorean = championValues.filter(name => text.includes(name));
+  const fromEnglish = (candidate.images || []).map(value => championName(value));
+  return unique([...fromKorean, ...fromEnglish]);
+}
+function newDeck({ source, tier, rank, url, title, units, style }) {
+  const name = title.replace(/\s+/g, ' ').trim().slice(0, 70);
+  return { source, tier, title: name, sourceTitle: name, url, style,
+    rank, units, carries: units.slice(-3).map(unit => [unit]), note: '목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.' };
+}
 async function updateMetaTft() {
   const response = await fetch('https://api-hc.metatft.com/tft-comps-api/comps_data', { signal: AbortSignal.timeout(20000) });
   if (!response.ok) throw new Error('MetaTFT HTTP ' + response.status);
@@ -36,10 +48,11 @@ async function updateMetaTft() {
   if (data.tft_set !== 'TFTSet18') throw new Error('다른 세트 데이터이므로 보관본 유지');
   const clusters = Object.values(data.results?.data?.cluster_details || {})
     .filter(c => c.overall?.count >= 10000 && Number.isFinite(c.overall?.avg))
-    .sort((a, b) => a.overall.avg - b.overall.avg).slice(0, 5);
+    .sort((a, b) => a.overall.avg - b.overall.avg).slice(0, 10);
   if (clusters.length < 5) throw new Error('통계 표본이 부족합니다');
   const oldDecks = snapshot.decks.filter(d => d.source === 'metatft');
   let matched = 0;
+  const next = [];
   for (let rank = 0; rank < clusters.length; rank++) {
     const c = clusters[rank];
     const roster = unique(c.units_string.split(',').map(x => championName(x.trim())));
@@ -48,17 +61,22 @@ async function updateMetaTft() {
       const overlap = d.units.filter(name => roster.includes(name)).length;
       return { d, score: overlap / Math.max(d.units.length, roster.length) };
     }).sort((a, b) => b.score - a.score)[0];
-    if (!match || match.score < .65 || !roster.includes(match.d.carries?.[0]?.[0]) || match.d._matched) continue;
-    match.d._matched = true;
-    match.d.rank = rank + 1;
-    match.d.tier = c.overall.avg <= 4.2 ? 'S' : 'A';
-    match.d.style = `MetaTFT · 평균 순위 ${c.overall.avg.toFixed(2)} · ${c.overall.count.toLocaleString()}판`;
-    matched++;
+    const tier = c.overall.avg <= 4.2 ? 'S' : 'A';
+    const style = `MetaTFT · 평균 순위 ${c.overall.avg.toFixed(2)} · ${c.overall.count.toLocaleString()}판`;
+    if (match && match.score >= .65 && roster.includes(match.d.carries?.[0]?.[0]) && !match.d._matched) {
+      match.d._matched = true;
+      next.push({ ...match.d, tier, rank: rank + 1, style, units: roster });
+      matched++;
+    } else {
+      next.push(newDeck({ source: 'metatft', tier, rank: rank + 1, url: 'https://www.metatft.com/comps',
+        title: `${roster.slice(-2).join(' · ')} 조합`, units: roster, style }));
+    }
   }
   oldDecks.forEach(d => delete d._matched);
-  if (!matched) throw new Error('상위 통계와 연결되는 기존 덱이 없습니다');
-  snapshot.sources.metatft = { status: matched === oldDecks.length ? 'verified' : 'partial', lastVerifiedAt: now, matched, total: oldDecks.length, url: 'https://www.metatft.com/comps', patchSet: data.tft_set };
-  console.log('metatft: ' + matched + '/' + oldDecks.length + ' decks matched with public stats');
+  if (next.length < 5) throw new Error('표시할 수 있는 덱이 부족합니다');
+  snapshot.decks = snapshot.decks.filter(d => d.source !== 'metatft').concat(next);
+  snapshot.sources.metatft = { status: next.length === 10 ? 'verified' : 'partial', lastVerifiedAt: now, matched: next.length, total: 10, url: 'https://www.metatft.com/comps', patchSet: data.tft_set };
+  console.log('metatft: ' + next.length + '/10 comps, ' + matched + ' prior guides matched');
 }
 
 try {
@@ -76,7 +94,8 @@ try {
       const candidates = await page.evaluate(() => [...document.querySelectorAll('a[href]')].map(a => {
         const card = a.closest('article, li, [class*="comp"], [class*="card"], [class*="lineup"]') || a.parentElement;
         const text = (card?.innerText || '').slice(0, 1200);
-        return { href: a.href, label: a.innerText.trim().slice(0, 180), text };
+        const images = [...(card?.querySelectorAll('img') || [])].map(img => img.alt || img.title || '').filter(Boolean).slice(0, 28);
+        return { href: a.href, label: a.innerText.trim().slice(0, 180), text, images };
       }));
       const previous = snapshot.decks.filter(d => d.source === id);
       const confirmed = [];
@@ -96,17 +115,29 @@ try {
         if (!tier && !['lolchess', 'tactics'].includes(id)) continue;
         confirmed.push({ old, tier: tier || '상위', position });
       }
-      if (!confirmed.length) throw new Error('확인 가능한 덱 링크와 등급이 없습니다');
-      confirmed.sort((a, b) => a.position - b.position);
-      for (let index = 0; index < confirmed.length; index++) {
-        const { old, tier } = confirmed[index];
-        old.tier = tier;
-        old.rank = index + 1;
-        // Rank and tier are verified from the listing. Keep board coordinates,
-        // units, items and augments together until the full guide is verified.
+      const ranked = [];
+      const used = new Set();
+      for (let position = 0; position < candidates.length && ranked.length < 10; position++) {
+        const candidate = candidates[position];
+        if (!validLink(candidate.href, host)) continue;
+        const tier = exactTier(candidate.text) || (['lolchess', 'tactics'].includes(id) ? '상위' : null);
+        if (!tier) continue;
+        const old = confirmed.find(x => x.position === position)?.old;
+        const units = rosterFromCandidate(candidate);
+        if (!old && (units.length < 5 || units.length > 12)) continue;
+        const title = (candidate.label || candidate.text.split('\n').find(line => line.trim().length > 3) || '').trim();
+        if (!old && (title.length < 4 || title.length > 80)) continue;
+        const signature = old ? old.units.slice().sort().join('|') : units.slice().sort().join('|');
+        if (used.has(signature)) continue;
+        used.add(signature);
+        if (old) ranked.push({ ...old, rank: ranked.length + 1, tier });
+        else ranked.push(newDeck({ source: id, tier, rank: ranked.length + 1, url: candidate.href,
+          title, units, style: `${id} · 목록 추천` }));
       }
-      snapshot.sources[id] = { status: confirmed.length === previous.length ? 'verified' : 'partial', lastVerifiedAt: now, matched: confirmed.length, total: previous.length, url };
-      console.log(id + ': ' + confirmed.length + '/' + previous.length + ' ranked decks verified');
+      if (ranked.length < previous.length) throw new Error('검증된 덱 수가 이전보다 적어 보관본 유지');
+      snapshot.decks = snapshot.decks.filter(d => d.source !== id).concat(ranked);
+      snapshot.sources[id] = { status: ranked.length === 10 ? 'verified' : 'partial', lastVerifiedAt: now, matched: ranked.length, total: 10, url };
+      console.log(id + ': ' + ranked.length + '/10 ranked decks, ' + confirmed.length + ' prior guides matched');
     } catch (error) {
       snapshot.sources[id] = { ...snapshot.sources[id], status: 'stale', checkedAt: now, error: String(error.message).slice(0, 180), url };
       console.warn(id + ': retained prior data: ' + error.message);
