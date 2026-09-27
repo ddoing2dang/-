@@ -1,10 +1,10 @@
 {
   "schema": 2,
-  "publishedAt": "2026-09-27T16:11:54.580Z",
+  "publishedAt": "2026-09-27T16:14:07.056Z",
   "sources": {
     "lolchess": {
       "status": "partial",
-      "lastVerifiedAt": "2026-09-27T16:11:54.580Z",
+      "lastVerifiedAt": "2026-09-27T16:14:07.056Z",
       "matched": 5,
       "total": 20,
       "url": "https://lolchess.gg/meta"
@@ -12,13 +12,13 @@
     "opgg": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-27T16:11:54.580Z",
+      "checkedAt": "2026-09-27T16:14:07.056Z",
       "error": "HTTP 403",
       "url": "https://op.gg/tft/meta-trends/comps"
     },
     "metatft": {
       "status": "partial",
-      "lastVerifiedAt": "2026-09-27T16:11:54.580Z",
+      "lastVerifiedAt": "2026-09-27T16:14:07.056Z",
       "matched": 19,
       "total": 20,
       "url": "https://www.metatft.com/comps",
@@ -30,13 +30,13 @@
       "matched": 4,
       "total": 4,
       "url": "https://tactics.tools/team-compositions/gm",
-      "checkedAt": "2026-09-27T16:11:54.580Z",
+      "checkedAt": "2026-09-27T16:14:07.056Z",
       "error": "검증된 덱이 5개 미만이라 보관본 유지"
     },
     "qq": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-27T16:11:54.580Z",
+      "checkedAt": "2026-09-27T16:14:07.056Z",
       "error": "검증된 덱이 5개 미만이라 보관본 유지",
       "url": "https://lol.qq.com/tft/#/wrlineup"
     },
@@ -46,7 +46,7 @@
       "total": 20,
       "url": "https://tftacademy.com/tierlist/comps",
       "patch": "18.3b",
-      "checkedAt": "2026-09-27T16:11:54.580Z",
+      "checkedAt": "2026-09-27T16:14:07.056Z",
       "error": "Academy 상세 덱을 5개 이상 확인하지 못함"
     }
   },
@@ -1127,19 +1127,8 @@
         "소라카",
         "피들스틱"
       ],
-      "carries": [
-        [
-          "오른"
-        ],
-        [
-          "소라카"
-        ],
-        [
-          "피들스틱"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
     },
     {
       "source": "metatft",
@@ -1201,19 +1190,8 @@
         "타릭",
         "바이"
       ],
-      "carries": [
-        [
-          "아무무"
-        ],
-        [
-          "타릭"
-        ],
-        [
-          "바이"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
     },
     {
       "source": "metatft",
@@ -1233,19 +1211,8 @@
         "드레이븐",
         "타릭"
       ],
-      "carries": [
-        [
-          "아무무"
-        ],
-        [
-          "드레이븐"
-        ],
-        [
-          "타릭"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
     },
     {
       "source": "metatft",
@@ -1263,19 +1230,8 @@
         "아무무",
         "덩굴정령"
       ],
-      "carries": [
-        [
-          "자야"
-        ],
-        [
-          "아무무"
-        ],
-        [
-          "덩굴정령"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
     },
     {
       "source": "metatft",
@@ -1315,19 +1271,8 @@
         "드레이븐",
         "타릭"
       ],
-      "carries": [
-        [
-          "아무무"
-        ],
-        [
-          "드레이븐"
-        ],
-        [
-          "타릭"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
     },
     {
       "source": "metatft",
@@ -1345,19 +1290,8 @@
         "니달리",
         "바이"
       ],
-      "carries": [
-        [
-          "돌거북"
-        ],
-        [
-          "니달리"
-        ],
-        [
-          "바이"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
     },
     {
       "source": "metatft",
@@ -1584,7 +1518,7 @@
     }
   ],
   "rankEvidence": {
-    "asOf": "2026-09-27T16:11:54.580Z",
+    "asOf": "2026-09-27T16:14:07.056Z",
     "season": "set18",
     "playerCount": 10,
     "top4": 138,
@@ -1618,5 +1552,5 @@
       "모르가나|세트|아리|카르마|코그모|타릭": 1
     }
   },
-  "checkedAt": "2026-09-27T16:11:54.580Z"
+  "checkedAt": "2026-09-27T16:14:07.056Z"
 }
