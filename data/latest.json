@@ -1,26 +1,26 @@
 {
   "schema": 2,
-  "publishedAt": "2026-09-27T10:02:55.223Z",
+  "publishedAt": "2026-09-27T16:11:54.580Z",
   "sources": {
     "lolchess": {
       "status": "partial",
-      "lastVerifiedAt": "2026-09-27T10:02:55.223Z",
+      "lastVerifiedAt": "2026-09-27T16:11:54.580Z",
       "matched": 5,
-      "total": 10,
+      "total": 20,
       "url": "https://lolchess.gg/meta"
     },
     "opgg": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-27T10:02:55.223Z",
+      "checkedAt": "2026-09-27T16:11:54.580Z",
       "error": "HTTP 403",
-      "url": "https://op.gg/tft/tier-list"
+      "url": "https://op.gg/tft/meta-trends/comps"
     },
     "metatft": {
-      "status": "verified",
-      "lastVerifiedAt": "2026-09-27T10:02:55.223Z",
-      "matched": 10,
-      "total": 10,
+      "status": "partial",
+      "lastVerifiedAt": "2026-09-27T16:11:54.580Z",
+      "matched": 19,
+      "total": 20,
       "url": "https://www.metatft.com/comps",
       "patchSet": "TFTSet18"
     },
@@ -29,23 +29,25 @@
       "lastVerifiedAt": "2026-09-26T19:22:27.812Z",
       "matched": 4,
       "total": 4,
-      "url": "https://tactics.tools/ko/team-compositions",
-      "checkedAt": "2026-09-27T10:02:55.223Z",
-      "error": "검증된 덱 수가 이전보다 적어 보관본 유지"
+      "url": "https://tactics.tools/team-compositions/gm",
+      "checkedAt": "2026-09-27T16:11:54.580Z",
+      "error": "검증된 덱이 5개 미만이라 보관본 유지"
     },
     "qq": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-09-27T10:02:55.223Z",
-      "error": "page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://lol.qq.com/tft/#/index\nCall log:\n  - navigating to \"https://lol.qq.com/tft/#/index\", waiting until \"domcontentloaded\"\n",
-      "url": "https://lol.qq.com/tft/#/index"
+      "checkedAt": "2026-09-27T16:11:54.580Z",
+      "error": "검증된 덱이 5개 미만이라 보관본 유지",
+      "url": "https://lol.qq.com/tft/#/wrlineup"
     },
     "academy": {
-      "status": "partial",
+      "status": "stale",
       "matched": 10,
       "total": 20,
       "url": "https://tftacademy.com/tierlist/comps",
-      "patch": "18.3b"
+      "patch": "18.3b",
+      "checkedAt": "2026-09-27T16:11:54.580Z",
+      "error": "Academy 상세 덱을 5개 이상 확인하지 못함"
     }
   },
   "decks": [
@@ -470,463 +472,6 @@
         ]
       ],
       "note": ""
-    },
-    {
-      "source": "lolchess",
-      "tier": "상위",
-      "title": "나무정령 베이가",
-      "sourceTitle": "나무정령 베이가",
-      "url": "https://lolchess.gg/builder/guide/cff64403e21c354a5f9aae7523c46984382ac03f?type=guide",
-      "style": "추천 메타 상단 HOT",
-      "rank": 1,
-      "units": [
-        "오른",
-        "르블랑",
-        "베이가",
-        "카시오페아",
-        "피들스틱",
-        "알리스타",
-        "렉사이"
-      ],
-      "carries": [
-        [
-          "베이가"
-        ],
-        [
-          "오른"
-        ],
-        [
-          "르블랑"
-        ]
-      ],
-      "note": ""
-    },
-    {
-      "source": "lolchess",
-      "tier": "상위",
-      "title": "달빛 다이애나 카직스",
-      "sourceTitle": "달빛 다이애나 카직스",
-      "url": "https://lolchess.gg/builder/guide/8b4f9fd58bfa13f554e6182f4ab8e63e8a037322?type=guide",
-      "style": "추천 메타 상단 HOT",
-      "rank": 2,
-      "units": [
-        "헤카림",
-        "다이애나",
-        "카직스",
-        "피들스틱",
-        "이즈리얼",
-        "알룬",
-        "소라카",
-        "오른"
-      ],
-      "carries": [
-        [
-          "카직스"
-        ],
-        [
-          "다이애나"
-        ],
-        [
-          "오른"
-        ]
-      ],
-      "note": ""
-    },
-    {
-      "source": "lolchess",
-      "tier": "상위",
-      "title": "니달리 아펠리오스",
-      "sourceTitle": "니달리 아펠리오스",
-      "url": "https://lolchess.gg/builder/guide/3b63612ec74f55a077d47635f1e5a0d0b23149f5?type=guide",
-      "style": "추천 메타 상단 HOT",
-      "rank": 3,
-      "units": [
-        "바이",
-        "다이애나",
-        "아무무",
-        "니달리",
-        "아펠리오스",
-        "코그모",
-        "바루스"
-      ],
-      "carries": [
-        [
-          "아펠리오스"
-        ],
-        [
-          "니달리"
-        ],
-        [
-          "아무무"
-        ]
-      ],
-      "note": ""
-    },
-    {
-      "source": "lolchess",
-      "tier": "상위",
-      "title": "장로 드래곤 드레이븐",
-      "sourceTitle": "장로 드래곤 드레이븐",
-      "url": "https://lolchess.gg/builder/guide/301fa9a3daba63f50ac57f4904930721109a3526?type=guide",
-      "style": "추천 메타 상단 HOT",
-      "rank": 4,
-      "units": [
-        "타릭",
-        "아무무",
-        "마오카이",
-        "케넨",
-        "장로 드래곤",
-        "아이번",
-        "드레이븐"
-      ],
-      "carries": [
-        [
-          "장로 드래곤"
-        ],
-        [
-          "드레이븐"
-        ],
-        [
-          "타릭"
-        ]
-      ],
-      "note": ""
-    },
-    {
-      "source": "lolchess",
-      "tier": "상위",
-      "title": "전쟁기계 자이라",
-      "sourceTitle": "전쟁기계 자이라",
-      "url": "https://lolchess.gg/builder/guide/392566b48acdec58e57ad44d2d02fba04632c621?type=guide",
-      "style": "추천 메타 상위",
-      "rank": 5,
-      "units": [
-        "요릭",
-        "세주아니",
-        "바이",
-        "마오카이",
-        "아무무",
-        "케넨",
-        "자이라",
-        "아지르"
-      ],
-      "carries": [
-        [
-          "자이라"
-        ],
-        [
-          "아무무"
-        ],
-        [
-          "아지르"
-        ]
-      ],
-      "note": ""
-    },
-    {
-      "source": "metatft",
-      "tier": "S",
-      "title": "베이가 · 피들스틱 조합",
-      "sourceTitle": "베이가 · 피들스틱 조합",
-      "url": "https://www.metatft.com/comps",
-      "style": "MetaTFT · 평균 순위 4.18 · 77,930판",
-      "rank": 1,
-      "units": [
-        "알리스타",
-        "카시오페아",
-        "르블랑",
-        "오른",
-        "렉사이",
-        "베이가",
-        "피들스틱"
-      ],
-      "carries": [
-        [
-          "렉사이"
-        ],
-        [
-          "베이가"
-        ],
-        [
-          "피들스틱"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
-    },
-    {
-      "source": "metatft",
-      "tier": "A",
-      "title": "니달리 · 바이 조합",
-      "sourceTitle": "니달리 · 바이 조합",
-      "url": "https://www.metatft.com/comps",
-      "style": "MetaTFT · 평균 순위 4.30 · 115,977판",
-      "rank": 2,
-      "units": [
-        "아펠리오스",
-        "다이애나",
-        "바루스",
-        "아무무",
-        "코그모",
-        "니달리",
-        "바이"
-      ],
-      "carries": [
-        [
-          "코그모"
-        ],
-        [
-          "니달리"
-        ],
-        [
-          "바이"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
-    },
-    {
-      "source": "metatft",
-      "tier": "A",
-      "title": "소라카 · 피들스틱 조합",
-      "sourceTitle": "소라카 · 피들스틱 조합",
-      "url": "https://www.metatft.com/comps",
-      "style": "MetaTFT · 평균 순위 4.32 · 38,848판",
-      "rank": 3,
-      "units": [
-        "다이애나",
-        "이즈리얼",
-        "헤카림",
-        "카직스",
-        "오른",
-        "소라카",
-        "피들스틱"
-      ],
-      "carries": [
-        [
-          "오른"
-        ],
-        [
-          "소라카"
-        ],
-        [
-          "피들스틱"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
-    },
-    {
-      "source": "metatft",
-      "tier": "A",
-      "title": "돌거북 · 타릭 조합",
-      "sourceTitle": "돌거북 · 타릭 조합",
-      "url": "https://www.metatft.com/comps",
-      "style": "MetaTFT · 평균 순위 4.36 · 97,338판",
-      "rank": 4,
-      "units": [
-        "아리",
-        "모르가나",
-        "세트",
-        "카르마",
-        "돌거북",
-        "타릭"
-      ],
-      "carries": [
-        [
-          "카르마"
-        ],
-        [
-          "돌거북"
-        ],
-        [
-          "타릭"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
-    },
-    {
-      "source": "metatft",
-      "tier": "A",
-      "title": "바위 게 · 바이 조합",
-      "sourceTitle": "바위 게 · 바이 조합",
-      "url": "https://www.metatft.com/comps",
-      "style": "MetaTFT · 평균 순위 4.37 · 44,944판",
-      "rank": 5,
-      "units": [
-        "애쉬",
-        "마오카이",
-        "세주아니",
-        "시비르",
-        "요릭",
-        "자이라",
-        "아무무",
-        "바위 게",
-        "바이"
-      ],
-      "carries": [
-        [
-          "아무무"
-        ],
-        [
-          "바위 게"
-        ],
-        [
-          "바이"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
-      "_matched": true
-    },
-    {
-      "source": "metatft",
-      "tier": "A",
-      "title": "타릭 · 바이 조합",
-      "sourceTitle": "타릭 · 바이 조합",
-      "url": "https://www.metatft.com/comps",
-      "style": "MetaTFT · 평균 순위 4.37 · 60,953판",
-      "rank": 6,
-      "units": [
-        "애쉬",
-        "아이번",
-        "케넨",
-        "마오카이",
-        "라칸",
-        "시비르",
-        "아무무",
-        "타릭",
-        "바이"
-      ],
-      "carries": [
-        [
-          "아무무"
-        ],
-        [
-          "타릭"
-        ],
-        [
-          "바이"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
-    },
-    {
-      "source": "metatft",
-      "tier": "A",
-      "title": "드레이븐 · 타릭 조합",
-      "sourceTitle": "드레이븐 · 타릭 조합",
-      "url": "https://www.metatft.com/comps",
-      "style": "MetaTFT · 평균 순위 4.38 · 50,953판",
-      "rank": 7,
-      "units": [
-        "알리스타",
-        "이즈리얼",
-        "아이번",
-        "케넨",
-        "마오카이",
-        "아무무",
-        "드레이븐",
-        "타릭"
-      ],
-      "carries": [
-        [
-          "아무무"
-        ],
-        [
-          "드레이븐"
-        ],
-        [
-          "타릭"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
-    },
-    {
-      "source": "metatft",
-      "tier": "A",
-      "title": "아무무 · 덩굴정령 조합",
-      "sourceTitle": "아무무 · 덩굴정령 조합",
-      "url": "https://www.metatft.com/comps",
-      "style": "MetaTFT · 평균 순위 4.41 · 17,706판",
-      "rank": 8,
-      "units": [
-        "아펠리오스",
-        "라칸",
-        "바루스",
-        "자야",
-        "아무무",
-        "덩굴정령"
-      ],
-      "carries": [
-        [
-          "자야"
-        ],
-        [
-          "아무무"
-        ],
-        [
-          "덩굴정령"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
-    },
-    {
-      "source": "metatft",
-      "tier": "A",
-      "title": "니달리 · 바이 조합",
-      "sourceTitle": "니달리 · 바이 조합",
-      "url": "https://www.metatft.com/comps",
-      "style": "MetaTFT · 평균 순위 4.43 · 11,860판",
-      "rank": 9,
-      "units": [
-        "렝가",
-        "세트",
-        "요릭",
-        "돌거북",
-        "니달리",
-        "바이"
-      ],
-      "carries": [
-        [
-          "돌거북"
-        ],
-        [
-          "니달리"
-        ],
-        [
-          "바이"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
-    },
-    {
-      "source": "metatft",
-      "tier": "A",
-      "title": "드레이븐 · 타릭 조합",
-      "sourceTitle": "드레이븐 · 타릭 조합",
-      "url": "https://www.metatft.com/comps",
-      "style": "MetaTFT · 평균 순위 4.43 · 133,363판",
-      "rank": 10,
-      "units": [
-        "아이번",
-        "케넨",
-        "마오카이",
-        "아무무",
-        "드레이븐",
-        "타릭"
-      ],
-      "carries": [
-        [
-          "아무무"
-        ],
-        [
-          "드레이븐"
-        ],
-        [
-          "타릭"
-        ]
-      ],
-      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요."
     },
     {
       "source": "academy",
@@ -1372,6 +917,613 @@
         "27": "케이틀린"
       },
       "note": "TFT Academy 공개 배치 칸과 아이템 확인"
+    },
+    {
+      "source": "lolchess",
+      "tier": "상위",
+      "title": "나무정령 베이가",
+      "sourceTitle": "나무정령 베이가",
+      "url": "https://lolchess.gg/builder/guide/cff64403e21c354a5f9aae7523c46984382ac03f?type=guide",
+      "style": "추천 메타 상단 HOT",
+      "rank": 1,
+      "units": [
+        "오른",
+        "르블랑",
+        "베이가",
+        "카시오페아",
+        "피들스틱",
+        "알리스타",
+        "렉사이"
+      ],
+      "carries": [
+        [
+          "베이가"
+        ],
+        [
+          "오른"
+        ],
+        [
+          "르블랑"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "lolchess",
+      "tier": "상위",
+      "title": "달빛 다이애나 카직스",
+      "sourceTitle": "달빛 다이애나 카직스",
+      "url": "https://lolchess.gg/builder/guide/8b4f9fd58bfa13f554e6182f4ab8e63e8a037322?type=guide",
+      "style": "추천 메타 상단 HOT",
+      "rank": 2,
+      "units": [
+        "헤카림",
+        "다이애나",
+        "카직스",
+        "피들스틱",
+        "이즈리얼",
+        "알룬",
+        "소라카",
+        "오른"
+      ],
+      "carries": [
+        [
+          "카직스"
+        ],
+        [
+          "다이애나"
+        ],
+        [
+          "오른"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "lolchess",
+      "tier": "상위",
+      "title": "니달리 아펠리오스",
+      "sourceTitle": "니달리 아펠리오스",
+      "url": "https://lolchess.gg/builder/guide/3b63612ec74f55a077d47635f1e5a0d0b23149f5?type=guide",
+      "style": "추천 메타 상단 HOT",
+      "rank": 3,
+      "units": [
+        "바이",
+        "다이애나",
+        "아무무",
+        "니달리",
+        "아펠리오스",
+        "코그모",
+        "바루스"
+      ],
+      "carries": [
+        [
+          "아펠리오스"
+        ],
+        [
+          "니달리"
+        ],
+        [
+          "아무무"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "lolchess",
+      "tier": "상위",
+      "title": "장로 드래곤 드레이븐",
+      "sourceTitle": "장로 드래곤 드레이븐",
+      "url": "https://lolchess.gg/builder/guide/301fa9a3daba63f50ac57f4904930721109a3526?type=guide",
+      "style": "추천 메타 상단 HOT",
+      "rank": 4,
+      "units": [
+        "타릭",
+        "아무무",
+        "마오카이",
+        "케넨",
+        "장로 드래곤",
+        "아이번",
+        "드레이븐"
+      ],
+      "carries": [
+        [
+          "장로 드래곤"
+        ],
+        [
+          "드레이븐"
+        ],
+        [
+          "타릭"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "lolchess",
+      "tier": "상위",
+      "title": "전쟁기계 자이라",
+      "sourceTitle": "전쟁기계 자이라",
+      "url": "https://lolchess.gg/builder/guide/392566b48acdec58e57ad44d2d02fba04632c621?type=guide",
+      "style": "추천 메타 상위",
+      "rank": 5,
+      "units": [
+        "요릭",
+        "세주아니",
+        "바이",
+        "마오카이",
+        "아무무",
+        "케넨",
+        "자이라",
+        "아지르"
+      ],
+      "carries": [
+        [
+          "자이라"
+        ],
+        [
+          "아무무"
+        ],
+        [
+          "아지르"
+        ]
+      ],
+      "note": ""
+    },
+    {
+      "source": "metatft",
+      "tier": "S",
+      "title": "베이가 · 피들스틱 조합",
+      "sourceTitle": "베이가 · 피들스틱 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.19 · 80,291판",
+      "rank": 1,
+      "units": [
+        "알리스타",
+        "카시오페아",
+        "르블랑",
+        "오른",
+        "렉사이",
+        "베이가",
+        "피들스틱"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "니달리 · 바이 조합",
+      "sourceTitle": "니달리 · 바이 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.29 · 120,960판",
+      "rank": 2,
+      "units": [
+        "아펠리오스",
+        "다이애나",
+        "바루스",
+        "아무무",
+        "코그모",
+        "니달리",
+        "바이"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "소라카 · 피들스틱 조합",
+      "sourceTitle": "소라카 · 피들스틱 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.33 · 37,883판",
+      "rank": 3,
+      "units": [
+        "다이애나",
+        "이즈리얼",
+        "헤카림",
+        "카직스",
+        "오른",
+        "소라카",
+        "피들스틱"
+      ],
+      "carries": [
+        [
+          "오른"
+        ],
+        [
+          "소라카"
+        ],
+        [
+          "피들스틱"
+        ]
+      ],
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "돌거북 · 타릭 조합",
+      "sourceTitle": "돌거북 · 타릭 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.35 · 99,928판",
+      "rank": 4,
+      "units": [
+        "아리",
+        "모르가나",
+        "세트",
+        "카르마",
+        "돌거북",
+        "타릭"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "바위 게 · 바이 조합",
+      "sourceTitle": "바위 게 · 바이 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.38 · 48,403판",
+      "rank": 5,
+      "units": [
+        "애쉬",
+        "마오카이",
+        "세주아니",
+        "시비르",
+        "요릭",
+        "자이라",
+        "아무무",
+        "바위 게",
+        "바이"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "타릭 · 바이 조합",
+      "sourceTitle": "타릭 · 바이 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.38 · 63,186판",
+      "rank": 6,
+      "units": [
+        "애쉬",
+        "아이번",
+        "케넨",
+        "마오카이",
+        "라칸",
+        "시비르",
+        "아무무",
+        "타릭",
+        "바이"
+      ],
+      "carries": [
+        [
+          "아무무"
+        ],
+        [
+          "타릭"
+        ],
+        [
+          "바이"
+        ]
+      ],
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "드레이븐 · 타릭 조합",
+      "sourceTitle": "드레이븐 · 타릭 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.39 · 51,761판",
+      "rank": 7,
+      "units": [
+        "알리스타",
+        "이즈리얼",
+        "아이번",
+        "케넨",
+        "마오카이",
+        "아무무",
+        "드레이븐",
+        "타릭"
+      ],
+      "carries": [
+        [
+          "아무무"
+        ],
+        [
+          "드레이븐"
+        ],
+        [
+          "타릭"
+        ]
+      ],
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "아무무 · 덩굴정령 조합",
+      "sourceTitle": "아무무 · 덩굴정령 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.40 · 18,202판",
+      "rank": 8,
+      "units": [
+        "아펠리오스",
+        "라칸",
+        "바루스",
+        "자야",
+        "아무무",
+        "덩굴정령"
+      ],
+      "carries": [
+        [
+          "자야"
+        ],
+        [
+          "아무무"
+        ],
+        [
+          "덩굴정령"
+        ]
+      ],
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "바위 게 · 바이 조합",
+      "sourceTitle": "바위 게 · 바이 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.41 · 16,887판",
+      "rank": 9,
+      "units": [
+        "아이번",
+        "마오카이",
+        "세주아니",
+        "요릭",
+        "자이라",
+        "아무무",
+        "니달리",
+        "바위 게",
+        "바이"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "드레이븐 · 타릭 조합",
+      "sourceTitle": "드레이븐 · 타릭 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.42 · 135,965판",
+      "rank": 10,
+      "units": [
+        "아이번",
+        "케넨",
+        "마오카이",
+        "아무무",
+        "드레이븐",
+        "타릭"
+      ],
+      "carries": [
+        [
+          "아무무"
+        ],
+        [
+          "드레이븐"
+        ],
+        [
+          "타릭"
+        ]
+      ],
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "니달리 · 바이 조합",
+      "sourceTitle": "니달리 · 바이 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.42 · 12,017판",
+      "rank": 11,
+      "units": [
+        "렝가",
+        "세트",
+        "요릭",
+        "돌거북",
+        "니달리",
+        "바이"
+      ],
+      "carries": [
+        [
+          "돌거북"
+        ],
+        [
+          "니달리"
+        ],
+        [
+          "바이"
+        ]
+      ],
+      "note": "목록에서 확인한 유닛 구성입니다. 아이템과 증강은 별도 확인 후 적용하세요.",
+      "_matched": true
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "쉔 · 피들스틱 조합",
+      "sourceTitle": "쉔 · 피들스틱 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.43 · 26,195판",
+      "rank": 12,
+      "units": [
+        "카시오페아",
+        "레오나",
+        "릴리아",
+        "오른",
+        "람머스",
+        "쉔",
+        "피들스틱"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "자이라 · 피들스틱 조합",
+      "sourceTitle": "자이라 · 피들스틱 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.43 · 38,293판",
+      "rank": 13,
+      "units": [
+        "아지르",
+        "람머스",
+        "소라카",
+        "티모",
+        "베이가",
+        "자이라",
+        "피들스틱"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "아무무 · 피들스틱 조합",
+      "sourceTitle": "아무무 · 피들스틱 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.48 · 92,934판",
+      "rank": 14,
+      "units": [
+        "아지르",
+        "케넨",
+        "말파이트",
+        "소라카",
+        "요릭",
+        "자이라",
+        "아무무",
+        "피들스틱"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "오른 · 자야 조합",
+      "sourceTitle": "오른 · 자야 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.49 · 21,391판",
+      "rank": 15,
+      "units": [
+        "알리스타",
+        "아펠리오스",
+        "다이애나",
+        "이즈리얼",
+        "헤카림",
+        "릴리아",
+        "오른",
+        "자야"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "유나라 · 피들스틱 조합",
+      "sourceTitle": "유나라 · 피들스틱 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.53 · 17,807판",
+      "rank": 16,
+      "units": [
+        "아리",
+        "알리스타",
+        "이즈리얼",
+        "오른",
+        "세트",
+        "소라카",
+        "유나라",
+        "피들스틱"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "돌거북 · 어스름늑대 조합",
+      "sourceTitle": "돌거북 · 어스름늑대 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.54 · 17,113판",
+      "rank": 17,
+      "units": [
+        "아지르",
+        "다이애나",
+        "말파이트",
+        "렉사이",
+        "워윅",
+        "덩굴정령",
+        "돌거북",
+        "어스름늑대"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "자야 · 피들스틱 조합",
+      "sourceTitle": "자야 · 피들스틱 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.56 · 15,098판",
+      "rank": 19,
+      "units": [
+        "알리스타",
+        "이즈리얼",
+        "헤카림",
+        "르블랑",
+        "오른",
+        "소라카",
+        "자야",
+        "피들스틱"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
+    },
+    {
+      "source": "metatft",
+      "tier": "A",
+      "title": "카르마 · 바이 조합",
+      "sourceTitle": "카르마 · 바이 조합",
+      "url": "https://www.metatft.com/comps",
+      "style": "MetaTFT · 평균 순위 4.60 · 13,877판",
+      "rank": 20,
+      "units": [
+        "아리",
+        "애쉬",
+        "세트",
+        "시비르",
+        "요릭",
+        "자이라",
+        "카르마",
+        "바이"
+      ],
+      "carries": [],
+      "note": "목록에서 유닛만 확인했습니다. 아이템과 증강은 원문 상세에서 검증되지 않았습니다."
     }
   ],
   "academyEvidence": [
@@ -1432,35 +1584,39 @@
     }
   ],
   "rankEvidence": {
-    "asOf": "2026-09-27T16:10:18.057342+00:00",
+    "asOf": "2026-09-27T16:11:54.580Z",
     "season": "set18",
     "playerCount": 10,
     "top4": 138,
-    "unmatched": 55,
+    "unmatched": 48,
     "counts": {
       "니달리|다이애나|바루스|바이|아무무|아펠리오스|코그모": 8,
-      "라칸|바위 게|바이|세주아니|시비르|아무무|요릭|자이라": 6,
+      "라칸|바위 게|바이|세주아니|시비르|아무무|요릭|자이라": 3,
       "니달리|돌거북|렝가|바이|세트|요릭": 4,
-      "다이애나|소라카|오른|이즈리얼|카직스|피들스틱|헤카림": 5,
+      "다이애나|소라카|오른|이즈리얼|카직스|피들스틱|헤카림": 4,
       "드레이븐|마오카이|아무무|아이번|케넨|타릭": 7,
       "니달리|렝가|마스터 이|바이|세트|요릭|코그모": 1,
       "렉사이|르블랑|베이가|알리스타|오른|카시오페아|피들스틱": 10,
       "라칸|마오카이|바이|시비르|아무무|아이번|애쉬|타릭": 3,
+      "세트|소라카|아리|알리스타|오른|유나라|이즈리얼|피들스틱": 5,
       "마오카이|바이|세주아니|아무무|아지르|요릭|자이라|케넨": 2,
       "다이애나|소라카|알룬|오른|이즈리얼|카직스|피들스틱|헤카림": 2,
       "라칸|마오카이|바이|시비르|아무무|아이번|애쉬|케넨|타릭": 3,
       "드레이븐|마오카이|아무무|아이번|알리스타|이즈리얼|케넨|타릭": 4,
       "니달리|렉사이|말파이트|시비르|코그모|타릭": 2,
+      "르블랑|소라카|알리스타|오른|이즈리얼|자야|피들스틱|헤카림": 2,
       "렉사이|르블랑|베이가|아이번|알리스타|오른|카시오페아|피들스틱": 2,
       "돌거북|모르가나|세트|아리|카르마|타릭": 4,
       "말파이트|소라카|아무무|아지르|요릭|자이라|케넨|피들스틱": 5,
       "마오카이|바위 게|바이|시비르|아무무|애쉬|자이라|케넨": 3,
-      "마오카이|바위 게|바이|세주아니|시비르|아무무|애쉬|요릭|자이라": 3,
+      "마오카이|바위 게|바이|세주아니|시비르|아무무|애쉬|요릭|자이라": 2,
       "다이애나|아펠리오스|알룬|자이라|타릭|헤카림": 2,
       "레오나|바루스|세주아니|아칼리|오른|카밀|케일": 1,
       "람머스|베이가|소라카|아지르|자이라|티모|피들스틱": 4,
       "라칸|바위 게|바이|세주아니|시비르|케이틀린|트리스타나": 1,
+      "니달리|마오카이|바위 게|바이|세주아니|아무무|아이번|요릭|자이라": 5,
       "모르가나|세트|아리|카르마|코그모|타릭": 1
     }
-  }
+  },
+  "checkedAt": "2026-09-27T16:11:54.580Z"
 }
