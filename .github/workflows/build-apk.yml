@@ -34,4 +34,6 @@ jobs:
         run: |
           gh release view mobile-v1 >/dev/null 2>&1 || gh release create mobile-v1 --title "TFT 모바일 앱" --notes "원본과 마또 앱 설치 파일. 최신 화면은 연결된 사이트에서 갱신됩니다."
           cp app/build/outputs/apk/original/debug/*.apk "TFT 도우미.apk"
-          gh release upload mobile-v1 "TFT 도우미.apk" --clobber
+          cp "TFT 도우미.apk" TFT-Helper.apk
+          zip -j TFT-Helper.zip "TFT 도우미.apk"
+          gh release upload mobile-v1 TFT-Helper.apk TFT-Helper.zip --clobber
