@@ -7,8 +7,22 @@ android {
         applicationId 'kr.personal.tftguide'
         minSdk 29
         targetSdk 35
-        versionCode 2
-        versionName '1.0.1'
+        versionCode 3
+        versionName '1.0.2'
+    }
+    signingConfigs {
+        release {
+            storeFile file(System.getenv('MATTO_KEYSTORE_PATH') ?: "$rootDir/matto-release-key.p12")
+            storeType 'PKCS12'
+            storePassword System.getenv('MATTO_STORE_PASSWORD') ?: ''
+            keyAlias System.getenv('MATTO_KEY_ALIAS') ?: 'matto'
+            keyPassword System.getenv('MATTO_KEY_PASSWORD') ?: ''
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
     }
     flavorDimensions 'theme'
     productFlavors {
@@ -21,7 +35,7 @@ android {
         matto {
             dimension 'theme'
             applicationIdSuffix '.matto'
-            resValue 'string', 'app_name', '마또 배치툴'
+            resValue 'string', 'app_name', 'matto'
             buildConfigField 'String', 'APP_URL', '"https://tft-matto-mobile.dm26754899.chatgpt.site/"'
         }
     }
