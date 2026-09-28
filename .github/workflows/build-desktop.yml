@@ -41,4 +41,8 @@ jobs:
           gh release view desktop-v1 >/dev/null 2>&1 || gh release create desktop-v1 --title "TFT PC 앱" --notes "원본과 마또 Windows 설치 파일. 새 아이콘: 전략가의 왕관 / 친칠라."
           cp desktop/original/release/*.exe "TFT 도우미.exe"
           cp desktop/matto/release/*.exe "마또 도우미.exe"
-          gh release upload desktop-v1 "TFT 도우미.exe" "마또 도우미.exe" --clobber
+          cp "TFT 도우미.exe" TFT-Helper.exe
+          cp "마또 도우미.exe" Matto-Helper.exe
+          powershell -NoProfile -Command "Compress-Archive -LiteralPath 'TFT 도우미.exe' -DestinationPath 'TFT-Helper.zip' -Force"
+          powershell -NoProfile -Command "Compress-Archive -LiteralPath '마또 도우미.exe' -DestinationPath 'Matto-Helper.zip' -Force"
+          gh release upload desktop-v1 TFT-Helper.exe Matto-Helper.exe TFT-Helper.zip Matto-Helper.zip --clobber
