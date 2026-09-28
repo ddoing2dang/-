@@ -39,6 +39,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release view desktop-v1 >/dev/null 2>&1 || gh release create desktop-v1 --title "TFT PC 앱" --notes "원본과 마또 Windows 설치 파일. 새 아이콘: 전략가의 왕관 / 친칠라."
-          cp desktop/original/release/*.exe tft-original-setup.exe
-          cp desktop/matto/release/*.exe tft-matto-setup.exe
-          gh release upload desktop-v1 tft-original-setup.exe tft-matto-setup.exe --clobber
+          cp desktop/original/release/*.exe "TFT 도우미.exe"
+          cp desktop/matto/release/*.exe "마또 도우미.exe"
+          gh release upload desktop-v1 "TFT 도우미.exe" "마또 도우미.exe" --clobber
