@@ -7,8 +7,8 @@ android {
         applicationId 'kr.personal.tftguide'
         minSdk 29
         targetSdk 35
-        versionCode 3
-        versionName '1.0.2'
+        versionCode 4
+        versionName '1.0.3'
     }
     signingConfigs {
         release {
@@ -29,13 +29,13 @@ android {
         original {
             dimension 'theme'
             applicationIdSuffix '.original'
-            resValue 'string', 'app_name', 'TFT 배치툴'
+            resValue 'string', 'app_name', 'TFT 도우미'
             buildConfigField 'String', 'APP_URL', '"https://tft-board-mobile.dm26754899.chatgpt.site/"'
         }
         matto {
             dimension 'theme'
             applicationIdSuffix '.matto'
-            resValue 'string', 'app_name', 'matto'
+            resValue 'string', 'app_name', '마또 도우미'
             buildConfigField 'String', 'APP_URL', '"https://tft-matto-mobile.dm26754899.chatgpt.site/"'
         }
     }
