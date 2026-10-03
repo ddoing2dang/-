@@ -33,7 +33,7 @@
       const active=sources.filter(s=>['verified','partial'].includes(states[s]?.status));
       const stale=sources.filter(s=>!active.includes(s));
       const newest=group.filter(current);const rated=newest.length?newest:group;
-      const tier=rated.reduce((best,d)=>(weights[d.tier]||0)>(weights[best]||0)?d.tier:best,'상위');
+      const tier=rated.reduce((best,d)=>best===null||(weights[d.tier]||0)>(weights[best]||0)?d.tier:best,null)||'상위';
       const score=active.length*12+stale.length*2+(weights[tier]||0)*3+Math.max(...rated.map(d=>Math.max(0,21-sourceRank(d))))*.3+Number(current(lead))*5;
       return [{...lead,source:'curated',sources,sourceCount:sources.length,tier,score,layoutVerified:true,carries:(lead.carries||[]).filter(c=>lead.units.includes(c[0])).map(c=>c.slice(0,4)),evidence:`${active.length}개 최신 출처 · ${group.length}개 유사 조합`+(stale.length?` · 보관 출처 ${stale.length}개`:'')+(!current(lead)?' · 배치·아이템은 이전 확인값':''),referenceSource:lead.source,referenceCheckedAt:states[lead.source]?.lastVerifiedAt||null,selectionVersion:1}];
     }).sort((a,b)=>b.score-a.score||String(a.title).localeCompare(String(b.title))).slice(0,15).map((d,index)=>({...d,rank:index+1}));
