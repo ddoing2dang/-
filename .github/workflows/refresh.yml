@@ -2,14 +2,18 @@ name: Refresh TFT deck data
 on:
   push:
     paths:
-      - '.github/workflows/refresh.yml'
       - 'scripts/refresh.mjs'
+      - 'scripts/select-decks.cjs'
       - 'data/champion_ids.json'
   schedule:
-    - cron: '0 21 * * 3'
+    # Thursday 09:00 Asia/Seoul (00:00 UTC).
+    - cron: '0 0 * * 4'
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: tft-weekly-data
+  cancel-in-progress: false
 jobs:
   refresh:
     runs-on: ubuntu-latest
@@ -23,15 +27,29 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: node scripts/refresh.mjs
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: refreshed-decks
           path: data/latest.json
-      - name: Publish verified data
+      - name: Report source verification
+        if: always()
+        run: |
+          node --input-type=module - <<'NODE'
+          import { readFileSync, appendFileSync } from 'node:fs';
+          const d=JSON.parse(readFileSync('data/latest.json','utf8')),r=d.refreshReport;
+          if(!r)process.exit(0);
+          const lines=['# TFT weekly refresh',r.status+' · '+r.checkedAt,'Published: '+r.published+' · recommendations: '+r.recommendationCount,'','| Source | Collected / target | State |','|---|---|---|'];
+          for(const s of r.sourceReports)lines.push('| '+s.id+' | '+s.collected+' / '+s.target+' | '+s.status+' |');
+          appendFileSync(process.env.GITHUB_STEP_SUMMARY,lines.join('\n')+'\n');
+          NODE
+      - name: Publish data and verification report
+        if: always()
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add data/latest.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Refresh verified TFT deck data'
+            git commit -m 'Refresh TFT recommendations and source verification report'
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin HEAD:${GITHUB_REF_NAME}
           fi
