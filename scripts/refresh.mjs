@@ -101,7 +101,7 @@ try {
         await page.waitForTimeout(1500);
         diagnostics=await page.evaluate(()=>{
           const scripts=[...document.querySelectorAll('script')].map(x=>x.textContent||'');
-          const chunks=scripts.filter(x=>x.startsWith('self.__next_f.push(')).map(x=>{try{return JSON.parse(x.slice('self.__next_f.push('.length,-1)))}catch{return null}}).filter(x=>x?.[0]===1).map(x=>x[1]).join('');
+          const chunks=scripts.filter(x=>x.startsWith('self.__next_f.push(')).map(x=>{try{return JSON.parse(x.slice('self.__next_f.push('.length,-1))}catch{return null}}).filter(x=>x?.[0]===1).map(x=>x[1]).join('');
           const parsed=[];
           for(const line of chunks.split('\n')){const colon=line.indexOf(':');if(colon<0)continue;try{const v=JSON.parse(line.slice(colon+1));parsed.push(v)}catch{}}
           const arrays=[];const objects=[];
