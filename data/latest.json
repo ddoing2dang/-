@@ -1,10 +1,10 @@
 {
   "schema": 3,
-  "publishedAt": "2026-10-03T01:24:18.531Z",
+  "publishedAt": "2026-10-03T01:27:07.484Z",
   "sources": {
     "lolchess": {
       "status": "verified",
-      "lastVerifiedAt": "2026-10-03T01:24:18.531Z",
+      "lastVerifiedAt": "2026-10-03T01:27:07.484Z",
       "matched": 20,
       "total": 20,
       "url": "https://lolchess.gg/meta"
@@ -15,12 +15,12 @@
       "total": 20,
       "url": "https://op.gg/tft/meta-trends/comps",
       "lastVerifiedAt": "2026-09-27T16:25:06.546878+00:00",
-      "checkedAt": "2026-10-03T01:24:18.531Z",
+      "checkedAt": "2026-10-03T01:27:07.484Z",
       "error": "HTTP 403"
     },
     "metatft": {
       "status": "verified",
-      "lastVerifiedAt": "2026-10-03T01:24:18.531Z",
+      "lastVerifiedAt": "2026-10-03T01:27:07.484Z",
       "matched": 20,
       "total": 20,
       "url": "https://www.metatft.com/comps",
@@ -28,7 +28,7 @@
     },
     "tactics": {
       "status": "verified",
-      "lastVerifiedAt": "2026-10-03T01:24:18.531Z",
+      "lastVerifiedAt": "2026-10-03T01:27:07.484Z",
       "matched": 20,
       "total": 20,
       "url": "https://tactics.tools/team-compositions/gm"
@@ -36,7 +36,7 @@
     "qq": {
       "lastVerifiedAt": "2026-09-26",
       "status": "stale",
-      "checkedAt": "2026-10-03T01:24:18.531Z",
+      "checkedAt": "2026-10-03T01:27:07.484Z",
       "error": "검증된 덱이 5개 미만이라 보관본 유지",
       "url": "https://lol.qq.com/tft/#/wrlineup"
     },
@@ -46,7 +46,7 @@
       "total": 20,
       "url": "https://tftacademy.com/tierlist/comps",
       "patch": "18.3b",
-      "checkedAt": "2026-10-03T01:24:18.531Z",
+      "checkedAt": "2026-10-03T01:27:07.484Z",
       "error": "Academy 상세 덱을 5개 이상 확인하지 못함"
     }
   },
@@ -3903,7 +3903,7 @@
     }
   ],
   "rankEvidence": {
-    "asOf": "2026-10-03T01:24:18.531Z",
+    "asOf": "2026-10-03T01:27:07.484Z",
     "season": "set18",
     "playerCount": 10,
     "top4": 152,
@@ -3948,7 +3948,7 @@
       "렉사이|르블랑|베이가|아이번|알리스타|오른|카시오페아|피들스틱": 1
     }
   },
-  "checkedAt": "2026-10-03T01:24:18.531Z",
+  "checkedAt": "2026-10-03T01:27:07.484Z",
   "recommendations": [
     {
       "source": "curated",
@@ -4013,7 +4013,7 @@
       "layoutVerified": true,
       "evidence": "3개 최신 출처 · 14개 유사 조합 · 보관 출처 2개",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     },
     {
@@ -4077,7 +4077,7 @@
       "layoutVerified": true,
       "evidence": "2개 최신 출처 · 6개 유사 조합 · 보관 출처 3개",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     },
     {
@@ -4142,7 +4142,7 @@
       "layoutVerified": true,
       "evidence": "2개 최신 출처 · 5개 유사 조합 · 보관 출처 2개",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     },
     {
@@ -4204,7 +4204,7 @@
       "layoutVerified": true,
       "evidence": "2개 최신 출처 · 3개 유사 조합 · 보관 출처 1개",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     },
     {
@@ -4271,7 +4271,7 @@
       "layoutVerified": true,
       "evidence": "2개 최신 출처 · 12개 유사 조합 · 보관 출처 2개",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     },
     {
@@ -4335,7 +4335,7 @@
       "layoutVerified": true,
       "evidence": "2개 최신 출처 · 3개 유사 조합 · 보관 출처 1개",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     },
     {
@@ -4395,7 +4395,7 @@
       "layoutVerified": true,
       "evidence": "2개 최신 출처 · 3개 유사 조합 · 보관 출처 1개",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     },
     {
@@ -4456,7 +4456,7 @@
       "layoutVerified": true,
       "evidence": "1개 최신 출처 · 2개 유사 조합 · 보관 출처 1개",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     },
     {
@@ -4516,7 +4516,7 @@
       "layoutVerified": true,
       "evidence": "1개 최신 출처 · 2개 유사 조합 · 보관 출처 1개",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     },
     {
@@ -4745,7 +4745,7 @@
       "layoutVerified": true,
       "evidence": "1개 최신 출처 · 2개 유사 조합 · 보관 출처 1개",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     },
     {
@@ -4805,7 +4805,7 @@
       "layoutVerified": true,
       "evidence": "1개 최신 출처 · 1개 유사 조합",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     },
     {
@@ -4865,12 +4865,12 @@
       "layoutVerified": true,
       "evidence": "1개 최신 출처 · 1개 유사 조합",
       "referenceSource": "lolchess",
-      "referenceCheckedAt": "2026-10-03T01:24:18.531Z",
+      "referenceCheckedAt": "2026-10-03T01:27:07.484Z",
       "selectionVersion": 1
     }
   ],
   "refreshReport": {
-    "checkedAt": "2026-10-03T01:24:18.531Z",
+    "checkedAt": "2026-10-03T01:27:07.484Z",
     "status": "partial",
     "published": true,
     "recommendationCount": 15,
@@ -4882,7 +4882,7 @@
         "collected": 20,
         "target": 20,
         "retained": 20,
-        "lastVerifiedAt": "2026-10-03T01:24:18.531Z",
+        "lastVerifiedAt": "2026-10-03T01:27:07.484Z",
         "error": null
       },
       {
@@ -4902,7 +4902,7 @@
         "collected": 20,
         "target": 20,
         "retained": 20,
-        "lastVerifiedAt": "2026-10-03T01:24:18.531Z",
+        "lastVerifiedAt": "2026-10-03T01:27:07.484Z",
         "error": null
       },
       {
@@ -4912,7 +4912,7 @@
         "collected": 20,
         "target": 20,
         "retained": 20,
-        "lastVerifiedAt": "2026-10-03T01:24:18.531Z",
+        "lastVerifiedAt": "2026-10-03T01:27:07.484Z",
         "error": null
       },
       {
