@@ -1,5 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { createRequire } from 'node:module';
+const { selectWeeklyDecks } = createRequire(import.meta.url)('./select-decks.cjs');
 
 const root = new URL('../', import.meta.url);
 const file = new URL('data/latest.json', root);
@@ -13,7 +15,7 @@ const sources = [
   ['qq', 'https://lol.qq.com/tft/#/wrlineup', 'lol.qq.com'],
   ['academy', 'https://tftacademy.com/tierlist/comps', 'tftacademy.com'],
 ];
-delete snapshot.sources.mobalytics; snapshot.decks=snapshot.decks.filter(d=>d.source!=='mobalytics');snapshot.schema=2;
+delete snapshot.sources.mobalytics; snapshot.decks=snapshot.decks.filter(d=>d.source!=='mobalytics');snapshot.schema=3;
 const now = new Date().toISOString();
 const browser = await chromium.launch({ headless: true });
 
@@ -148,7 +150,7 @@ try {
         const groups=payload?.props?.pageProps?.initialData?.groups||[];
         const next=[];
         for(const group of groups){
-          for(const comp of (group.full?.comps||[]).filter(c=>c.count>=30).slice(0,4)){
+          for(const comp of (group.full?.comps||[]).filter(c=>c.count>=30).slice(0,20)){
             const units=unique(comp.units.map(championName));if(units.length<5)continue;
             const carried=(group.full?.carryUnits||[]).map(x=>championName(x[0])).filter(name=>units.includes(name)).slice(0,3);
             const carries=carried.map(name=>{const source=(group.full?.unitItems||[]).filter(x=>championName(x.unitId)===name).sort((a,b)=>b.count-a.count).slice(0,3);return [name,...source.map(x=>ACADEMY_ITEMS[String(x.itemId).replace(/^DA_/,'')]).filter(Boolean)]});
@@ -173,7 +175,7 @@ try {
         if (!response?.ok()) throw new Error('HTTP ' + response?.status());
         const links = await page.evaluate(() => {
           const result=[];
-          for(const tier of ['A','B']){
+          for(const tier of ['S','A','B','C']){
             const parent=document.querySelector('.tier-'+tier) || [...document.querySelectorAll('*')].find(e=>e.className?.includes?.('tier-'+tier));
             for(const a of parent?.querySelectorAll('a[href*="/tierlist/comps/set-18-"]') || [])if(!result.some(x=>x.url===a.href))result.push({url:a.href,tier});
           }
@@ -295,5 +297,18 @@ async function refreshRankEvidence(){
 try{await refreshRankEvidence()}catch(error){console.warn('ranking: retained prior evidence:',error.message)}
 
 snapshot.checkedAt = now;
-if (Object.values(snapshot.sources).some(s => ['verified', 'partial'].includes(s.status))) snapshot.publishedAt = now;
+const candidateRecommendations = selectWeeklyDecks(snapshot);
+const sourceReports = sources.map(([id,url])=>{
+ const status=snapshot.sources[id]||{};
+ const refreshed=['verified','partial'].includes(status.status)&&status.lastVerifiedAt===now;
+ return {id,url,status:refreshed?status.status:'stale',collected:refreshed?Number(status.matched)||0:0,target:20,retained:snapshot.decks.filter(d=>d.source===id).length,lastVerifiedAt:status.lastVerifiedAt||null,error:refreshed?null:status.error||'이번 실행에서 확인하지 못했습니다'};
+});
+const freshCount=sourceReports.filter(s=>s.collected>0).length;
+const published=freshCount>0&&candidateRecommendations.length===15;
+if(published){snapshot.recommendations=candidateRecommendations;snapshot.publishedAt=now;}
+snapshot.refreshReport={checkedAt:now,status:published?(sourceReports.every(s=>s.collected===20)?'complete':'partial'):'failed',published,recommendationCount:snapshot.recommendations?.length||0,sourceReports,schedule:{timezone:'Asia/Seoul',day:'Thursday',hour:9},selectionVersion:1};
 await writeFile(file, JSON.stringify(snapshot, null, 2) + '\n');
+console.log('REFRESH_REPORT',JSON.stringify(snapshot.refreshReport));
+if(!published){console.error('갱신 조건 미달: 이전 추천과 게시 시각을 유지합니다.');process.exitCode=1;}
+
+
