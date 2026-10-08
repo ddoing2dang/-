@@ -3,8 +3,7 @@ on:
   push:
     paths:
       - 'scripts/refresh.mjs'
-      - 'scripts/select-decks.cjs'
-      - 'data/champion_ids.json'
+      - 'scripts/refresh_verified.py'
   schedule:
     # Thursday 09:00 Asia/Seoul (00:00 UTC).
     - cron: '0 0 * * 4'
@@ -23,9 +22,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install --no-save playwright@1.55.0
-      - run: npx playwright install --with-deps chromium
-      - run: node scripts/refresh.mjs
+      - name: Collect and verify five sources
+        id: collect
+        run: node scripts/refresh.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -33,23 +32,25 @@ jobs:
           path: data/latest.json
       - name: Report source verification
         if: always()
+        env:
+          COLLECTION_OUTCOME: ${{ steps.collect.outcome }}
         run: |
           node --input-type=module - <<'NODE'
           import { readFileSync, appendFileSync } from 'node:fs';
-          const d=JSON.parse(readFileSync('data/latest.json','utf8')),r=d.refreshReport;
-          if(!r)process.exit(0);
-          const lines=['# TFT weekly refresh',r.status+' · '+r.checkedAt,'Published: '+r.published+' · recommendations: '+r.recommendationCount,'','| Source | Collected / target | State |','|---|---|---|'];
-          for(const s of r.sourceReports)lines.push('| '+s.id+' | '+s.collected+' / '+s.target+' | '+s.status+' |');
+          const d=JSON.parse(readFileSync('data/latest.json','utf8'));
+          const lines=['# TFT source verification','Collection: '+process.env.COLLECTION_OUTCOME,'Published dataset: '+d.publishedAt,'','| Source | Records | Note |','|---|---:|---|'];
+          for(const s of d.refreshReport?.sourceReports||[])lines.push('| '+s.id+' | '+s.collected+' | '+(s.note||s.status)+' |');
+          if(process.env.COLLECTION_OUTCOME!=='success')lines.push('Collection failed. The previous dataset was retained.');
           appendFileSync(process.env.GITHUB_STEP_SUMMARY,lines.join('\n')+'\n');
           NODE
-      - name: Publish data and verification report
-        if: always()
+      - name: Publish verified data
+        if: success()
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add data/latest.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Refresh TFT recommendations and source verification report'
+            git commit -m 'Refresh source-verified TFT recommendations'
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin HEAD:${GITHUB_REF_NAME}
           fi
