@@ -1,13 +1,14 @@
 {
   "name": "tft-matto-desktop",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "private": true,
   "description": "마또 도우미 Windows 앱",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist:win": "electron-builder --win portable --x64 --config.win.signAndEditExecutable=false",
-    "dist:win-installer": "electron-builder --win nsis --x64"
+    "dist:win-installer": "npm run prepack:web && electron-builder --win nsis --x64",
+    "prepack:web": "node ../../scripts/bundle-web.cjs matto desktop web"
   },
   "devDependencies": {
     "electron": "44.4.5",
@@ -20,7 +21,8 @@
     "files": [
       "main.js",
       "package.json",
-      "icon.ico"
+      "icon.ico",
+      "web/**/*"
     ],
     "directories": {
       "output": "release"

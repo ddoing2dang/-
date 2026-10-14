@@ -1,19 +1,40 @@
-# TFT 모바일 APK 빌드
+# 마또 도우미 — PC·모바일 복원
 
-원본과 마또 모바일 사이트를 각각 여는 Android 앱입니다. 사이트는 공개되어 있어 앱 사용에 로그인이 필요하지 않습니다. 화면과 추천 덱은 사이트에서 갱신됩니다. 인터넷 연결이 필요합니다.
+2026-10-14 GitHub 원본 기반 복원 버전. 이번 복원·배포 범위는 마또 PC(.exe)와 마또 Android(.apk)입니다. 원본 버전의 기존 파일은 유지합니다.
 
-## GitHub에서 APK 만들기
+## 다운로드
+- [PC 마또 도우미](https://github.com/ddoing2dang/-/releases/download/desktop-v1/Matto-Helper.exe)
+- [Android 마또 도우미](https://github.com/ddoing2dang/-/releases/download/mobile-v1/Matto-Helper.apk)
 
-1. GitHub에서 **Public** 저장소를 만듭니다. 이 폴더의 파일과 `.github/workflows/build-apk.yml`을 저장소 루트에 올립니다.
-2. **Actions → Build Android APKs → Run workflow**를 실행합니다. `main` 브랜치에 올릴 때도 자동 실행됩니다.
-3. 빌드 성공 후 저장소의 **Releases → TFT 모바일 앱**에서 `app-original-debug.apk`와 `app-matto-debug.apk`를 내려받습니다. 공개 저장소의 Release 파일은 앱 사용자에게 GitHub 로그인을 요구하지 않습니다.
+릴리즈 자산의 최신 업로드 시각과 Actions 성공 여부를 확인하세요. 마또 APK는 기존 release 서명키를 유지합니다. Windows 설치 파일에 유료 코드서명 인증서는 적용되어 있지 않습니다.
 
-두 앱은 서로 다른 패키지 이름으로 함께 설치됩니다. Android 10 이상을 지원합니다. APK를 설치할 때 휴대폰에서 해당 다운로드 출처의 설치를 허용해야 할 수 있습니다.
+## 복원된 화면
+- [PC 마또](https://matto-restored-pc.dm26754899.chatgpt.site)
+- [모바일 마또](https://matto-restored-mobile.dm26754899.chatgpt.site)
 
-**서명 및 업데이트:** 이 첫 빌드는 GitHub의 임시 디버그 서명으로 만들어집니다. 빌드마다 서명키가 바뀔 수 있어 새 APK를 기존 앱 위에 업데이트하지 못할 수 있습니다. 기존 앱에서 작업 파일을 저장한 뒤 앱을 삭제하고 새 APK를 설치해야 합니다. 장기적으로 덮어쓰기 업데이트가 필요하면 개인 서명키를 안전하게 GitHub Secrets에 저장하고 Release 빌드로 전환해야 합니다.
+설치 앱에는 `web/`의 화면 코드와 검증된 추천 데이터가 포함됩니다. 원격 사이트가 사라져도 기본 화면과 추천은 열립니다. 유닛/아이템/증강 이미지는 공개 CDN을 사용하므로 인터넷이 필요하며 연결 실패 시 이름은 유지됩니다. 연결되면 `data/latest.json`을 검증하고 갱신합니다. 작업은 각 기기에만 저장됩니다. 이전 앱/사이트에서 저장한 JSON을 작업 불러오기로 가져올 수 있습니다.
 
-개발자 참고: Android Gradle Plugin 8.7.3, Gradle 8.10.2, JDK 17, Android SDK 35를 사용합니다. 앱의 공개 URL은 `app/build.gradle`의 각 flavor에 있습니다.
+## 기능
+- 15개 추천덱: 티어·7/8/9 완성 레벨·검색, 원문 아이템/좌표/증강 상세
+- 28칸 배치 편집, 아이템·별 등급·증강·문구, 전체 초기화, 2배 확대/복귀
+- 되돌리기/다시 하기, 작업 JSON 저장/불러오기, 배치 PNG 저장
+- 보유 기물·장수·증강·골드·체력으로 전환 후보 비교, 7/8/9 운영 참고
+- 원본/마또 테마와 밝은/어두운 모드, 마또 로딩 문구 3종
+- 팀코드는 현재 추천과 일치할 때만 원문 배치를 적용합니다. 코드 번호는 세트18 Riot team-planner 번호의 공개 스냅샷이며 실제 게임 클라이언트에서의 가져오기 검증은 별도입니다.
 
-## 추천 덱 자동 갱신
+## 재현 및 백업
+`web/`는 웹 화면 전체 원본입니다. GitHub의 Android/Electron 셸만 백업하던 이전 구조와 달리 화면·데이터·아이콘·테스트도 함께 보관합니다.
 
-앱은 공개 `data/latest.json`을 실행할 때 확인합니다. `.github/workflows/refresh.yml`은 한국 시간 매주 목요일 오전 6시에 출처를 확인하고, 검증된 부분만 갱신합니다. GitHub Actions가 지연될 수 있으며 수집이 차단된 사이트는 이전 확인값을 유지합니다. `Actions → Refresh TFT deck data`에서 실행 결과와 출처별 상태를 확인할 수 있습니다. 이 작업은 ChatGPT 대화 예약과 별개입니다.
+```sh
+npm ci
+npm test
+node scripts/bundle-web.cjs original desktop /tmp/tft-web
+node scripts/bundle-web.cjs matto mobile /tmp/matto-web
+```
+
+`tests/web.cjs`는 jsdom에서 전체 화면 코드를 실행하여 네트워크 성공/실패/잘못된 응답, 두 테마, 추천 15개 적용, 검색, 초기화/실행취소, 확대 복귀, 세 번째 기물 회귀, 운영 경로, 원문 아이템 연결을 검사합니다. 실제 Android/Windows 기기에서의 화면·설치 검증을 대체하지 않습니다.
+
+## 추천 데이터 갱신
+한국시간 목요일 오전 9시 GitHub Actions로 갱신을 시도합니다. 출처 수집/검증 실패 시 직전 정상 데이터를 유지합니다. `scripts/refresh_verified.py`로 수동 실행할 수도 있습니다. LoLCHESS 30, OP.GG S/A/B 최대30, Academy 공개 S/A/B/C 상위30, QQ 현지 티어 상위30, MetaTFT 1000게임 이상 평균등수 상위30을 비교합니다. MetaTFT 공개 데이터에 없는 S/A/B 티어를 만들어 표시하지 않습니다. 최종 15개는 원문 공략 하나의 배치·아이템·증강 연결을 보존합니다.
+
+새 Sites 프로젝트 ID와 주소는 `deploy/sites.json`에 기록합니다. 삭제된 옛 주소의 자동 복구/리다이렉트는 제공하지 않습니다.

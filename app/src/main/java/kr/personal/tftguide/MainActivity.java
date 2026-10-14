@@ -97,6 +97,17 @@ public class MainActivity extends Activity {
         settings.setAllowContentAccess(true);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         web.setWebViewClient(new WebViewClient() {
+            @Override public android.webkit.WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                if (!"matto".equals(BuildConfig.FLAVOR)) return null;
+                if (!"https".equals(request.getUrl().getScheme()) || !host.equalsIgnoreCase(request.getUrl().getHost())) return null;
+                String path = request.getUrl().getPath();
+                if (path == null || path.equals("/")) path = "/index.html";
+                if (path.contains("..")) return new android.webkit.WebResourceResponse("text/plain", "UTF-8", new java.io.ByteArrayInputStream(new byte[0]));
+                String type = path.endsWith(".js") ? "application/javascript" : path.endsWith(".css") ? "text/css" : path.endsWith(".jpg") ? "image/jpeg" : path.endsWith(".json") || path.endsWith(".webmanifest") ? "application/json" : "text/html";
+                try { return new android.webkit.WebResourceResponse(type, "UTF-8", getAssets().open("web" + path)); }
+                catch (java.io.IOException e) { return new android.webkit.WebResourceResponse("text/plain", "UTF-8", 404, "Not Found", java.util.Collections.emptyMap(), new java.io.ByteArrayInputStream(new byte[0])); }
+            }
+
             @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri url = request.getUrl();
                 if ("https".equals(url.getScheme()) && host.equalsIgnoreCase(url.getHost())) return false;

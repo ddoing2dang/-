@@ -1,10 +1,11 @@
 const {app, BrowserWindow, shell} = require('electron');
-const APP_URL = 'https://tft-matto-board.dm26754899.chatgpt.site/';
+const APP_URL = 'https://matto-restored-pc.dm26754899.chatgpt.site/';
 const APP_HOST = new URL(APP_URL).hostname;
 const LOGIN_HOSTS = ['chatgpt.com', 'openai.com'];
 function trustedLogin(url) {
   try {
     const parsed = new URL(url);
+    if (url === require('url').pathToFileURL(require('path').join(__dirname,'web/index.html')).href) return true;
     return parsed.protocol === 'https:' && (parsed.hostname === APP_HOST || LOGIN_HOSTS.some(host => parsed.hostname === host || parsed.hostname.endsWith('.' + host)));
   } catch { return false; }
 }
@@ -30,7 +31,7 @@ function createWindow() {
     const safe = APP_URL;
     win.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(`<!doctype html><html lang="ko"><meta charset="utf-8"><title>연결 오류</title><style>body{font:18px system-ui;background:#f7f4f1;color:#2b2029;display:grid;place-items:center;min-height:90vh;text-align:center}a{color:#f7d27e}</style><main><h1>배치툴에 연결할 수 없습니다</h1><p>인터넷 연결을 확인한 뒤 다시 시도하세요.</p><a href="${safe}">다시 연결</a></main></html>`));
   });
-  win.loadURL(APP_URL);
+  win.loadFile(require('path').join(__dirname, 'web/index.html'));
 }
 app.whenReady().then(() => { app.setAppUserModelId('gg.tft.matto.desktop'); createWindow(); app.on('activate', () => { if (!BrowserWindow.getAllWindows().length) createWindow(); }); });
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });

@@ -1,8 +1,6 @@
-name: Build Android APKs
+name: Build debug APKs (manual testing only)
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
 permissions:
   contents: write
 jobs:
@@ -21,6 +19,13 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Bundle offline web apps
+        run: |
+          node scripts/bundle-web.cjs original mobile app/src/original/assets/web
+          node scripts/bundle-web.cjs matto mobile app/src/matto/assets/web
       - name: Build both APKs
         run: gradle :app:assembleOriginalDebug :app:assembleMattoDebug --no-daemon
       - name: Upload workflow artifacts
@@ -28,12 +33,3 @@ jobs:
         with:
           name: tft-mobile-apks
           path: app/build/outputs/apk/*/debug/*.apk
-      - name: Publish public downloads
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release view mobile-v1 >/dev/null 2>&1 || gh release create mobile-v1 --title "TFT 모바일 앱" --notes "원본과 마또 앱 설치 파일. 최신 화면은 연결된 사이트에서 갱신됩니다."
-          cp app/build/outputs/apk/original/debug/*.apk "TFT 도우미.apk"
-          cp "TFT 도우미.apk" TFT-Helper.apk
-          zip -j TFT-Helper.zip "TFT 도우미.apk"
-          gh release upload mobile-v1 TFT-Helper.apk TFT-Helper.zip --clobber

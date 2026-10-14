@@ -1,0 +1,9 @@
+node_modules/
+desktop/*/node_modules/
+desktop/*/web/
+desktop/*/release/
+app/src/*/assets/web/
+app/build/
+.gradle/
+*.p12
+*.keystore

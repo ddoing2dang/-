@@ -1,18 +1,33 @@
-name: Build signed Matto APK
+name: Build signed Matto release
 on:
   workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - "app/**"
-      - ".github/workflows/build-matto-release.yml"
+      - 'app/**'
+      - 'web/**'
+      - 'scripts/bundle-web.cjs'
+      - '.github/workflows/build-matto-release.yml'
 permissions:
   contents: write
+concurrency:
+  group: tft-signed-mobile
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify restored app startup and interactions
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm test
+      - name: Bundle offline web apps
+        run: |
+          node scripts/bundle-web.cjs matto mobile app/src/matto/assets/web
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -24,31 +39,38 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'
-      - name: Decode Matto signing key
+      - name: Decode existing release signing key
         env:
           MATTO_KEYSTORE_BASE64: ${{ secrets.MATTO_KEYSTORE_BASE64 }}
         run: |
           test -n "$MATTO_KEYSTORE_BASE64"
           printf '%s' "$MATTO_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/matto-release-key.p12"
           chmod 600 "$RUNNER_TEMP/matto-release-key.p12"
-      - name: Build signed release APK
+      - name: Build signed Matto release
         env:
           MATTO_KEYSTORE_PATH: ${{ runner.temp }}/matto-release-key.p12
           MATTO_STORE_PASSWORD: ${{ secrets.MATTO_STORE_PASSWORD }}
           MATTO_KEY_ALIAS: ${{ secrets.MATTO_KEY_ALIAS }}
           MATTO_KEY_PASSWORD: ${{ secrets.MATTO_KEY_PASSWORD }}
         run: gradle :app:assembleMattoRelease --no-daemon
-      - name: Name APK 마또 도우미.apk
-        run: cp app/build/outputs/apk/matto/release/app-matto-release.apk "마또 도우미.apk"
-      - name: Upload workflow artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: matto-release
-          path: "마또 도우미.apk"
-      - name: Publish to mobile release
+      - name: Verify signatures and packaged UI
+        run: |
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify app/build/outputs/apk/matto/release/app-matto-release.apk
+          unzip -l app/build/outputs/apk/matto/release/app-matto-release.apk | grep 'assets/web/data.js'
+      - name: Publish Matto installer
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp "마또 도우미.apk" Matto-Helper.apk
-          zip -j Matto-Helper.zip "마또 도우미.apk"
+          cp app/build/outputs/apk/matto/release/app-matto-release.apk '마또 도우미.apk'
+          cp '마또 도우미.apk' Matto-Helper.apk
+          zip -j Matto-Helper.zip '마또 도우미.apk'
+          gh release view mobile-v1 >/dev/null 2>&1 || gh release create mobile-v1 --title 'TFT 모바일 앱' --notes '마또 정식 서명 APK. 화면과 기본 추천 데이터가 앱에 포함됩니다.'
           gh release upload mobile-v1 Matto-Helper.apk Matto-Helper.zip --clobber
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tft-signed-apks
+          path: |
+            Matto-Helper.apk
+      - name: Remove temporary signing key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/matto-release-key.p12"

@@ -7,8 +7,8 @@ android {
         applicationId 'kr.personal.tftguide'
         minSdk 29
         targetSdk 35
-        versionCode 4
-        versionName '1.0.3'
+        versionCode 5
+        versionName '1.1.0'
     }
     signingConfigs {
         release {
@@ -27,6 +27,8 @@ android {
     flavorDimensions 'theme'
     productFlavors {
         original {
+            versionCode 4
+            versionName '1.0.3'
             dimension 'theme'
             applicationIdSuffix '.original'
             resValue 'string', 'app_name', 'TFT 도우미'
@@ -36,7 +38,7 @@ android {
             dimension 'theme'
             applicationIdSuffix '.matto'
             resValue 'string', 'app_name', '마또 도우미'
-            buildConfigField 'String', 'APP_URL', '"https://tft-matto-mobile.dm26754899.chatgpt.site/"'
+            buildConfigField 'String', 'APP_URL', '"https://appassets.androidplatform.net/index.html"'
         }
     }
     buildFeatures { buildConfig true }

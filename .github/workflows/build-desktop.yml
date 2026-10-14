@@ -1,10 +1,12 @@
-name: Build Windows desktop apps
+name: Build Matto Windows desktop
 on:
   workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - 'desktop/**'
+      - 'desktop/matto/**'
+      - 'web/**'
+      - 'scripts/bundle-web.cjs'
       - '.github/workflows/build-desktop.yml'
 permissions:
   contents: write
@@ -16,11 +18,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Build original
-        working-directory: desktop/original
+      - name: Verify restored app startup and interactions
         run: |
-          npm install --no-audit --no-fund
-          npm run dist:win-installer
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm test
       - name: Build Matto
         working-directory: desktop/matto
         run: |
@@ -31,7 +32,6 @@ jobs:
         with:
           name: tft-desktop-installers
           path: |
-            desktop/original/release/*.exe
             desktop/matto/release/*.exe
       - name: Publish public downloads
         shell: bash
@@ -39,10 +39,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release view desktop-v1 >/dev/null 2>&1 || gh release create desktop-v1 --title "TFT PC 앱" --notes "원본과 마또 Windows 설치 파일. 새 아이콘: 전략가의 왕관 / 친칠라."
-          cp desktop/original/release/*.exe "TFT 도우미.exe"
           cp desktop/matto/release/*.exe "마또 도우미.exe"
-          cp "TFT 도우미.exe" TFT-Helper.exe
           cp "마또 도우미.exe" Matto-Helper.exe
-          powershell -NoProfile -Command "Compress-Archive -LiteralPath 'TFT 도우미.exe' -DestinationPath 'TFT-Helper.zip' -Force"
           powershell -NoProfile -Command "Compress-Archive -LiteralPath '마또 도우미.exe' -DestinationPath 'Matto-Helper.zip' -Force"
-          gh release upload desktop-v1 TFT-Helper.exe Matto-Helper.exe TFT-Helper.zip Matto-Helper.zip --clobber
+          gh release upload desktop-v1 Matto-Helper.exe Matto-Helper.zip --clobber
