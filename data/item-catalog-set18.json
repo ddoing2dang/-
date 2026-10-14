@@ -1,0 +1,961 @@
+{
+  "season": 18,
+  "source": "https://lolchess.gg/items/set18?hl=ko",
+  "retrievedAt": "2026-10-14T22:37:39.026495+00:00",
+  "rule": "Set18 itemRefs; exclude isHidden, isRevival, isRevivalOnly; active DA_ namespace only. Preserve older icon artwork when item remains active.",
+  "sourceCount": 272,
+  "items": [
+    {
+      "name": "적응형 투구",
+      "url": "https://cdn.lolchess.gg/upload/images/items/AdaptiveHelm_1693209131-6665_tank_t4_jakshotheprotean.png",
+      "key": "AdaptiveHelm",
+      "ingameKey": "DA_AdaptiveHelm",
+      "category": "normal"
+    },
+    {
+      "name": "새벽의 방패",
+      "url": "https://cdn.lolchess.gg/upload/images/items/AegisOfDawn_1777375383-tft_item_artifact_aegisofdawn_tft_set16_bordered.png",
+      "key": "AegisOfDawn",
+      "ingameKey": "DA_Artifact_AegisOfDawn",
+      "category": "artifact"
+    },
+    {
+      "name": "황혼의 방패",
+      "url": "https://cdn.lolchess.gg/upload/images/items/AegisOfDusk_1777375357-tft_item_artifact_aegisofdusk_tft_set16_bordered.png",
+      "key": "AegisOfDusk",
+      "ingameKey": "DA_Artifact_AegisOfDusk",
+      "category": "artifact"
+    },
+    {
+      "name": "보석 건틀릿",
+      "url": "https://cdn.lolchess.gg/upload/images/items/ArcaneGauntlet_1710227032-jeweled_guantlet.png",
+      "key": "ArcaneGauntlet",
+      "ingameKey": "DA_JeweledGauntlet",
+      "category": "normal"
+    },
+    {
+      "name": "B.F. 대검",
+      "url": "https://cdn.lolchess.gg/upload/images/items/BFSword_1658364277-1038.png",
+      "key": "BFSword",
+      "ingameKey": "DA_Component_BFSword",
+      "category": "component"
+    },
+    {
+      "name": "역병의 보석",
+      "url": "https://cdn.lolchess.gg/upload/images/items/BlightingJewel_1714029927-tft_item_artifact_blightingjewel.png",
+      "key": "BlightingJewel",
+      "ingameKey": "DA_Artifact_BlightingJewel",
+      "category": "artifact"
+    },
+    {
+      "name": "피바라기",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Bloodthirster_1710231772-bloodthirster.png",
+      "key": "Bloodthirster",
+      "ingameKey": "DA_Bloodthirster",
+      "category": "normal"
+    },
+    {
+      "name": "푸른 파수꾼",
+      "url": "https://cdn.lolchess.gg/images/tft/item/BlueBuff.png",
+      "key": "BlueSentinel",
+      "ingameKey": "DA_BlueBuff",
+      "category": "normal"
+    },
+    {
+      "name": "덤불 조끼",
+      "url": "https://cdn.lolchess.gg/upload/images/items/BrambleVest_1640058438.png",
+      "key": "BrambleVest",
+      "ingameKey": "DA_BrambleVest",
+      "category": "normal"
+    },
+    {
+      "name": "쇠사슬 조끼",
+      "url": "https://cdn.lolchess.gg/upload/images/items/ChainVest_1640058945.png",
+      "key": "ChainVest",
+      "ingameKey": "DA_Component_ChainVest",
+      "category": "component"
+    },
+    {
+      "name": "크라운가드",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Crownguard_1710227947-crownguard.png",
+      "key": "Crownguard",
+      "ingameKey": "DA_Crownguard",
+      "category": "normal"
+    },
+    {
+      "name": "찬란한 크라운가드",
+      "url": "https://cdn.lolchess.gg/upload/images/items/CrownguardRadiant_1693376378-crownguard_radiant.png",
+      "key": "CrownguardRadiant",
+      "ingameKey": "DA_CrownguardRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "새벽심장",
+      "url": "https://cdn.lolchess.gg/upload/images/items/PBEDawncore_1752038401-Dawncore.png",
+      "key": "Dawncore",
+      "ingameKey": "DA_Artifact_Dawncore",
+      "category": "artifact"
+    },
+    {
+      "name": "용의 발톱",
+      "url": "https://cdn.lolchess.gg/upload/images/items/DragonsClaw_1640058416.png",
+      "key": "DragonsClaw",
+      "ingameKey": "DA_DragonsClaw",
+      "category": "normal"
+    },
+    {
+      "name": "영원한 서약",
+      "url": "https://cdn.lolchess.gg/upload/images/items/EternalPact_1777375398-tft16_artifact_eternalpact_tft_set16_bordered.png",
+      "key": "EternalPact",
+      "ingameKey": "DA_Artifact_EternalPact",
+      "category": "artifact"
+    },
+    {
+      "name": "저녁갑주",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Evenshroud_1693041191-3001_support_lunari.png",
+      "key": "Evenshroud",
+      "ingameKey": "DA_Evenshroud",
+      "category": "normal"
+    },
+    {
+      "name": "찬란한 저녁갑주",
+      "url": "https://cdn.lolchess.gg/upload/images/items/EvenshroudRadiant_1693376501-evenshroud_radiant.png",
+      "key": "EvenshroudRadiant",
+      "ingameKey": "DA_EvenshroudRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "수호자의 맹세",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Fimbulwinter_1660869394-3119_wintersapproach.png",
+      "key": "Fimbulwinter",
+      "ingameKey": "DA_ProtectorsVow",
+      "category": "normal"
+    },
+    {
+      "name": "찬란한 수호자의 맹세",
+      "url": "https://cdn.lolchess.gg/upload/images/items/FimbulwinterRadiant_1662688928-fimbulwinter_radiant.png",
+      "key": "FimbulwinterRadiant",
+      "ingameKey": "DA_ProtectorsVowRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "생선대가리",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Fishbones_1714028339-tft_item_artifact_fishbones.png",
+      "key": "Fishbones",
+      "ingameKey": "DA_Artifact_Fishbones",
+      "category": "artifact"
+    },
+    {
+      "name": "명멸검",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Flickerblade_1748484851-명멸검.jpg",
+      "key": "Flickerblade",
+      "ingameKey": "DA_Artifact_NavoriFlickerblade",
+      "category": "artifact"
+    },
+    {
+      "name": "금지된 우상",
+      "url": "https://cdn.lolchess.gg/upload/images/items/ForbiddenIdol_1714030179-tft_item_artifact_forbiddenidol.png",
+      "key": "ForbiddenIdol",
+      "ingameKey": "DA_Artifact_ForbiddenIdol",
+      "category": "artifact"
+    },
+    {
+      "name": "전략가의 왕관",
+      "url": "https://cdn.lolchess.gg/upload/images/items/ForceofNature_1726200222-tacticians_crown.png",
+      "key": "ForceofNature",
+      "ingameKey": "DA_TacticiansCrown",
+      "category": "normal"
+    },
+    {
+      "name": "프라이팬",
+      "url": "https://cdn.lolchess.gg/upload/images/items/FryingPan_1724990105-frying_pan.png",
+      "key": "FryingPan",
+      "ingameKey": "DA_Component_FryingPan",
+      "category": "component"
+    },
+    {
+      "name": "도박꾼의 칼날",
+      "url": "https://cdn.lolchess.gg/upload/images/items/GamblersBlade_1699930369-tft10_gamblersblade.tft_set10%20(1).png",
+      "key": "GamblersBlade",
+      "ingameKey": "DA_Artifact_GamblersBlade",
+      "category": "artifact"
+    },
+    {
+      "name": "거인의 허리띠",
+      "url": "https://cdn.lolchess.gg/upload/images/items/GiantsBelt_1658368751-1011.png",
+      "key": "GiantsBelt",
+      "ingameKey": "DA_Component_GiantsBelt",
+      "category": "component"
+    },
+    {
+      "name": "거인 학살자",
+      "url": "https://cdn.lolchess.gg/upload/images/items/GiantSlayer_1670462997-giant_slayer.png",
+      "key": "GiantSlayer",
+      "ingameKey": "DA_GiantSlayer",
+      "category": "normal"
+    },
+    {
+      "name": "타격대의 철퇴",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Guardbreaker_1710231640-stridebreaker.png",
+      "key": "Guardbreaker",
+      "ingameKey": "DA_StrikersFlail",
+      "category": "normal"
+    },
+    {
+      "name": "밤의 끝자락",
+      "url": "https://cdn.lolchess.gg/upload/images/items/GuardianAngel_1643780049.png",
+      "key": "GuardianAngel",
+      "ingameKey": "DA_EdgeOfNight",
+      "category": "normal"
+    },
+    {
+      "name": "구인수의 격노검",
+      "url": "https://cdn.lolchess.gg/upload/images/items/GuinsoosRageblade_1710231593-guinsoos_rageblade.png",
+      "key": "GuinsoosRageblade",
+      "ingameKey": "DA_GuinsoosRageblade",
+      "category": "normal"
+    },
+    {
+      "name": "정의의 손길",
+      "url": "https://cdn.lolchess.gg/upload/images/items/HandofJustice_1710227464-hand_of_justice.png",
+      "key": "HandofJustice",
+      "ingameKey": "DA_HandOfJustice",
+      "category": "normal"
+    },
+    {
+      "name": "지옥불 손도끼",
+      "url": "https://cdn.lolchess.gg/upload/images/items/HellfireHatchet_1777375329-tft_item_artifact_hellfirehatchet_tft_set16_bordered.png",
+      "key": "HellfireHatchet",
+      "ingameKey": "DA_Artifact_HellfireHatchet",
+      "category": "artifact"
+    },
+    {
+      "name": "마법공학 총검",
+      "url": "https://cdn.lolchess.gg/upload/images/items/HextechGunblade_1640058876.png",
+      "key": "HextechGunblade",
+      "ingameKey": "DA_HextechGunblade",
+      "category": "normal"
+    },
+    {
+      "name": "지평선의 초점",
+      "url": "https://cdn.lolchess.gg/upload/images/items/HorizonFocus_1714029051-tft_item_artifact_horizonfocus.png",
+      "key": "HorizonFocus",
+      "ingameKey": "DA_Artifact_HorizonFocus",
+      "category": "artifact"
+    },
+    {
+      "name": "선체분쇄자",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Hullcrusher_1710227062-tft9_ornnitem_hullbreaker.png",
+      "key": "Hullcrusher",
+      "ingameKey": "DA_Artifact_Hullcrusher",
+      "category": "artifact"
+    },
+    {
+      "name": "불굴",
+      "url": "https://cdn.lolchess.gg/upload/images/items/IndomitableGauntlet_1748484841-불굴.jpg",
+      "key": "IndomitableGauntlet",
+      "ingameKey": "DA_Artifact_TheIndomitable",
+      "category": "artifact"
+    },
+    {
+      "name": "무한의 대검",
+      "url": "https://cdn.lolchess.gg/upload/images/items/InfinityEdge_1710231787-infinity_edge.png",
+      "key": "InfinityEdge",
+      "ingameKey": "DA_InfinityEdge",
+      "category": "normal"
+    },
+    {
+      "name": "이온 충격기",
+      "url": "https://cdn.lolchess.gg/upload/images/items/IonicSpark_1640059091.png",
+      "key": "IonicSpark",
+      "ingameKey": "DA_IonicSpark",
+      "category": "normal"
+    },
+    {
+      "name": "가고일 돌갑옷",
+      "url": "https://cdn.lolchess.gg/upload/images/items/IronWill_AnyIyxtEcc5fby5mgL1NNIwzm76wiG0yxwcPQ7nj.png",
+      "key": "IronWill",
+      "ingameKey": "DA_GargoyleStoneplate",
+      "category": "normal"
+    },
+    {
+      "name": "찬란한 적응형 투구",
+      "url": "https://cdn.lolchess.gg/upload/images/items/JakshotheProtean_1693364692-adaptive_helm_radiant.png",
+      "key": "JakshotheProtean",
+      "ingameKey": "DA_AdaptiveHelm_Radiant",
+      "category": "radiant"
+    },
+    {
+      "name": "최후의 속삭임",
+      "url": "https://cdn.lolchess.gg/upload/images/items/LastWhisper_1710227918-last_whisper.png",
+      "key": "LastWhisper",
+      "ingameKey": "DA_LastWhisper",
+      "category": "normal"
+    },
+    {
+      "name": "리치베인",
+      "url": "https://cdn.lolchess.gg/upload/images/items/LichBane_1714030255-tft_item_artifact_lichbane.png",
+      "key": "LichBane",
+      "ingameKey": "DA_Artifact_LichBane",
+      "category": "artifact"
+    },
+    {
+      "name": "라이트실드 문장",
+      "url": "https://cdn.lolchess.gg/upload/images/items/LightshieldCrest_1714030338-tft_item_artifact_lightshieldcrest.png",
+      "key": "LightshieldCrest",
+      "ingameKey": "DA_Artifact_LightshieldCrest",
+      "category": "artifact"
+    },
+    {
+      "name": "죽음의 검",
+      "url": "https://cdn.lolchess.gg/upload/images/items/LordsEdge_1710227794-death_blade.png",
+      "key": "LordsEdge",
+      "ingameKey": "DA_Deathblade",
+      "category": "normal"
+    },
+    {
+      "name": "대천사의 지팡이",
+      "url": "https://cdn.lolchess.gg/upload/images/items/LudensEcho_1667202278-archangel_staff.png",
+      "key": "LudensEcho",
+      "ingameKey": "DA_ArchangelsStaff",
+      "category": "normal"
+    },
+    {
+      "name": "루덴의 폭풍",
+      "url": "https://cdn.lolchess.gg/upload/images/items/LudensTempest_1714029478-tft_item_artifact_ludenstempest.png",
+      "key": "LudensTempest",
+      "ingameKey": "DA_Artifact_LudensTempest",
+      "category": "artifact"
+    },
+    {
+      "name": "방한 장갑",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Mittens_1714029155-tft_item_artifact_mittens.png",
+      "key": "Mittens",
+      "ingameKey": "DA_Artifact_Mittens",
+      "category": "artifact"
+    },
+    {
+      "name": "거물의 갑옷",
+      "url": "https://cdn.lolchess.gg/upload/images/items/MogulsMail_1693364912-moguls_mail.png",
+      "key": "MogulsMail",
+      "ingameKey": "DA_Artifact_MogulsMail",
+      "category": "artifact"
+    },
+    {
+      "name": "모렐로노미콘",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Morellonomicon_1710231609-morellonomicon.png",
+      "key": "Morellonomicon",
+      "ingameKey": "DA_Morellonomicon",
+      "category": "normal"
+    },
+    {
+      "name": "내셔의 이빨",
+      "url": "https://cdn.lolchess.gg/upload/images/items/NashorsTooth_1693041452-3115_mage_t3_nashorstooth.png",
+      "key": "NashorsTooth",
+      "ingameKey": "DA_NashorsTooth",
+      "category": "normal"
+    },
+    {
+      "name": "찬란한 내셔의 이빨",
+      "url": "https://cdn.lolchess.gg/upload/images/items/NashorsToothRadiant_1693376535-nashors_tooth_radiant.png",
+      "key": "NashorsToothRadiant",
+      "ingameKey": "DA_NashorsToothRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "쓸데없이 큰 지팡이",
+      "url": "https://cdn.lolchess.gg/upload/images/items/NeedlesslyLargeRod_1640059008.png",
+      "key": "NeedlesslyLargeRod",
+      "ingameKey": "DA_Component_NeedlesslyLargeRod",
+      "category": "component"
+    },
+    {
+      "name": "음전자 망토",
+      "url": "https://cdn.lolchess.gg/upload/images/items/NegatronCloak_1640059073.png",
+      "key": "NegatronCloak",
+      "ingameKey": "DA_Component_NegatronCloak",
+      "category": "component"
+    },
+    {
+      "name": "마나자네",
+      "url": "https://cdn.lolchess.gg/upload/images/items/OrnnItemMuramana_1644815872.png",
+      "key": "OrnnItemMuramana",
+      "ingameKey": "DA_Artifact_Manazane",
+      "category": "artifact"
+    },
+    {
+      "name": "황금 징수의 총",
+      "url": "https://cdn.lolchess.gg/upload/images/items/OrnnItemTheCollector_1644815905.png",
+      "key": "OrnnItemTheCollector",
+      "ingameKey": "DA_Artifact_GoldCollector",
+      "category": "artifact"
+    },
+    {
+      "name": "무한한 삼위일체",
+      "url": "https://cdn.lolchess.gg/upload/images/items/OrnnItemTrinityForce_1644815912.png",
+      "key": "OrnnItemTrinityForce",
+      "ingameKey": "DA_Artifact_InfinityForce",
+      "category": "artifact"
+    },
+    {
+      "name": "존야의 역설",
+      "url": "https://cdn.lolchess.gg/upload/images/items/OrnnItemZhonyasHourglass_1644815918.png",
+      "key": "OrnnItemZhonyasHourglass",
+      "ingameKey": "DA_Artifact_ZhonyasParadox",
+      "category": "artifact"
+    },
+    {
+      "name": "수은",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Quicksilver_1710231779-quicksilver.png",
+      "key": "Quicksilver",
+      "ingameKey": "DA_Quicksilver",
+      "category": "normal"
+    },
+    {
+      "name": "라바돈의 죽음모자",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RabadonsDeathcap_1658368695-3089.png",
+      "key": "RabadonsDeathcap",
+      "ingameKey": "DA_RabadonsDeathcap",
+      "category": "normal"
+    },
+    {
+      "name": "찬란한 대천사의 지팡이",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientArchangelsStaff_1651209951.png",
+      "key": "RadientArchangelsStaff",
+      "ingameKey": "DA_ArchangelsStaffRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 피바라기",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientBloodthirster_1651209965.png",
+      "key": "RadientBloodthirster",
+      "ingameKey": "DA_BloodthirsterRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 푸른 파수꾼",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientBlueBuff_1651209972.png",
+      "key": "RadientBlueBuff",
+      "ingameKey": "DA_BlueBuffRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 덤불 조끼",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientBrambleVest_1651209978.png",
+      "key": "RadientBrambleVest",
+      "ingameKey": "DA_BrambleVestRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 죽음의 검",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientDeathblade_1651209988.png",
+      "key": "RadientDeathblade",
+      "ingameKey": "DA_DeathbladeRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 용의 발톱",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientDragonsClaw_1651209994.png",
+      "key": "RadientDragonsClaw",
+      "ingameKey": "DA_DragonsClawRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 밤의 끝자락",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientEdgeofNight_1651209999.png",
+      "key": "RadientEdgeofNight",
+      "ingameKey": "DA_EdgeOfNightRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 가고일 돌갑옷",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientGargoyleStoneplate_1651210010.png",
+      "key": "RadientGargoyleStoneplate",
+      "ingameKey": "DA_GargoyleStoneplate_Radiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 거인 학살자",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientGiantSlayer_1651210017.png",
+      "key": "RadientGiantSlayer",
+      "ingameKey": "DA_GiantSlayer_Radiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 구인수의 격노검",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientGuinsoosRageblade_1651210023.png",
+      "key": "RadientGuinsoosRageblade",
+      "ingameKey": "DA_GuinsoosRagebladeRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 정의의 손길",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientHandofJustice_1651210027.png",
+      "key": "RadientHandofJustice",
+      "ingameKey": "DA_HandOfJusticeRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 마법공학 총검",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientHextechGunblade_1651210032.png",
+      "key": "RadientHextechGunblade",
+      "ingameKey": "DA_HextechGunbladeRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 무한의 대검",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientInfinityEdge_1651210037.png",
+      "key": "RadientInfinityEdge",
+      "ingameKey": "DA_InfinityEdgeRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 이온 충격기",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientIonicSpark_1651210041.png",
+      "key": "RadientIonicSpark",
+      "ingameKey": "DA_IonicSparkRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 보석 건틀릿",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientJeweledGauntlet_1651210047.png",
+      "key": "RadientJeweledGauntlet",
+      "ingameKey": "DA_JeweledGauntletRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 최후의 속삭임",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientLastWhisper_1651210053.png",
+      "key": "RadientLastWhisper",
+      "ingameKey": "DA_LastWhisperRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 모렐로노미콘",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientMorellonomicon_1651210062.png",
+      "key": "RadientMorellonomicon",
+      "ingameKey": "DA_MorellonomiconRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 수은",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientQuicksilver_1651210070.png",
+      "key": "RadientQuicksilver",
+      "ingameKey": "DA_QuicksilverRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 라바돈의 죽음모자",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientRabadonsDeathcap_1651210075.png",
+      "key": "RadientRabadonsDeathcap",
+      "ingameKey": "DA_RabadonsDeathcap_Radiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 붉은 덩굴정령",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientRedBuff_1699258675-RadiantCrestofCinders.png",
+      "key": "RadientRedBuff",
+      "ingameKey": "DA_RedBuffRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 정령의 형상",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientRedemption_1748484766-정령의%20형상.jpg",
+      "key": "RadientRedemption",
+      "ingameKey": "DA_SpiritVisage_Radiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 크라켄의 분노",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientRunaansHurricane_1748484792-크라켄.jpg",
+      "key": "RadientRunaansHurricane",
+      "ingameKey": "DA_KrakensFury_Radiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 쇼진의 창",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientSpearofShojin_1670373892-spear_of_shojin_radiant.png",
+      "key": "RadientSpearofShojin",
+      "ingameKey": "DA_SpearOfShojinRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 공허의 지팡이",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientStatikkShiv_1748484780-공허의지팡이.jpg",
+      "key": "RadientStatikkShiv",
+      "ingameKey": "DA_VoidStaffRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 굳건한 심장",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientSteadfastHeart_1699383911-legacy-of-the-colossus.png",
+      "key": "RadientSteadfastHeart",
+      "ingameKey": "DA_SteadfastHeartRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 타격대의 철퇴",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Stridebreaker_1670373984-stridebreaker-radiant.png",
+      "key": "RadientStridebreaker",
+      "ingameKey": "DA_StrikersFlailRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 태양불꽃 망토",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientSunfireCape_1651210116.png",
+      "key": "RadientSunfireCape",
+      "ingameKey": "DA_SunfireCape_Radiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 도적의 장갑",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientThiefsGloves_1651210121.png",
+      "key": "RadientThiefsGloves",
+      "ingameKey": "DA_ThiefsGlovesRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 거인의 결의",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientTitansResolve_1651210127.png",
+      "key": "RadientTitansResolve",
+      "ingameKey": "DA_TitansResolve_Radiant",
+      "category": "radiant"
+    },
+    {
+      "name": "찬란한 워모그의 갑옷",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RadientWarmogsArmor_1651210131.png",
+      "key": "RadientWarmogsArmor",
+      "ingameKey": "DA_WarmogsArmorRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "고속 연사포",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RapidFirecannon_1714029325-tft_item_artifact_rapidfirecannon.png",
+      "key": "RapidFirecannon",
+      "ingameKey": "DA_Artifact_RapidFireCannon",
+      "category": "artifact"
+    },
+    {
+      "name": "곡궁",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RecurveBow_1640058784.png",
+      "key": "RecurveBow",
+      "ingameKey": "DA_Component_RecurveBow",
+      "category": "component"
+    },
+    {
+      "name": "붉은 덩굴정령",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RedBuffItem_1700526699-redbuff.png",
+      "key": "RedBuffItem",
+      "ingameKey": "DA_RedBuff",
+      "category": "normal"
+    },
+    {
+      "name": "정령의 형상",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Redemption_1748475217-5e0668acd02f73dfc316d1e02d2286f37149da08-512x512.png",
+      "key": "Redemption",
+      "ingameKey": "DA_SpiritVisage",
+      "category": "normal"
+    },
+    {
+      "name": "크라켄의 분노",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RunaansHurricane_1748474476-54e36c2efc36a585799d963fccb76e10f8d51da6-512x512.png",
+      "key": "RunaansHurricane",
+      "ingameKey": "DA_KrakensFury",
+      "category": "normal"
+    },
+    {
+      "name": "추적자의 팔목 보호대",
+      "url": "https://cdn.lolchess.gg/upload/images/items/SeekersArmguard_1714030423-tft_item_artifact_seekersarmguard.png",
+      "key": "SeekersArmguard",
+      "ingameKey": "DA_Artifact_SeekersArmguard",
+      "category": "artifact"
+    },
+    {
+      "name": "은빛 여명",
+      "url": "https://cdn.lolchess.gg/upload/images/items/SilvermereDawn_1714029565-tft_item_artifact_silvermeredawn.png",
+      "key": "SilvermereDawn",
+      "ingameKey": "DA_Artifact_SilvermereDawn",
+      "category": "artifact"
+    },
+    {
+      "name": "연습용 장갑",
+      "url": "https://cdn.lolchess.gg/upload/images/items/SparringGloves_1640059055.png",
+      "key": "SparringGloves",
+      "ingameKey": "DA_Component_SparringGloves",
+      "category": "component"
+    },
+    {
+      "name": "뒤집개",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Spatula_1658364227-4403.png",
+      "key": "Spatula",
+      "ingameKey": "DA_Component_Spatula",
+      "category": "component"
+    },
+    {
+      "name": "쇼진의 창",
+      "url": "https://cdn.lolchess.gg/upload/images/items/SpearofShojin_1669258937-spear_of_shojin.png",
+      "key": "SpearofShojin",
+      "ingameKey": "DA_SpearOfShojin",
+      "category": "normal"
+    },
+    {
+      "name": "스태틱의 단검",
+      "url": "https://cdn.lolchess.gg/upload/images/items/StatikkShiv_1748484859-스태틱.jpg",
+      "key": "StatikkShiv",
+      "ingameKey": "DA_Artifact_StatikkShiv",
+      "category": "artifact"
+    },
+    {
+      "name": "굳건한 심장",
+      "url": "https://cdn.lolchess.gg/upload/images/items/SteadfastHeart_1699383455-3084_tank_t4_heartsteel.png",
+      "key": "SteadfastHeart",
+      "ingameKey": "DA_SteadfastHeart",
+      "category": "normal"
+    },
+    {
+      "name": "스테락의 도전",
+      "url": "https://cdn.lolchess.gg/upload/images/items/SteraksGage_1693041113-3053_steraks_gage.png",
+      "key": "SteraksGage",
+      "ingameKey": "DA_SteraksGage",
+      "category": "normal"
+    },
+    {
+      "name": "찬란한 스테락의 도전",
+      "url": "https://cdn.lolchess.gg/upload/images/items/SteraksMegashield_1693365188-steraks_gage_radiant.png",
+      "key": "SteraksMegashield",
+      "ingameKey": "DA_SteraksGageRadiant",
+      "category": "radiant"
+    },
+    {
+      "name": "태양불꽃 망토",
+      "url": "https://cdn.lolchess.gg/upload/images/items/SunfireCape_1640059158.png",
+      "key": "SunfireCape",
+      "ingameKey": "DA_SunfireCape",
+      "category": "normal"
+    },
+    {
+      "name": "전략가의 망토",
+      "url": "https://cdn.lolchess.gg/upload/images/items/TacticiansCape_1724990309-tacticians_ring.png",
+      "key": "TacticiansCape",
+      "ingameKey": "DA_TacticiansCape",
+      "category": "normal"
+    },
+    {
+      "name": "전략가의 방패",
+      "url": "https://cdn.lolchess.gg/upload/images/items/TacticiansShield_1724990428-tacticians_scepter.png",
+      "key": "TacticiansShield",
+      "ingameKey": "DA_TacticiansShield",
+      "category": "normal"
+    },
+    {
+      "name": "승천의 부적",
+      "url": "https://cdn.lolchess.gg/upload/images/items/TalismanOfAscension_1714028034-tft_item_artifact_talismanofascension.png",
+      "key": "TalismanOfAscension",
+      "ingameKey": "DA_Item_Artifact_TalismanOfAscension",
+      "category": "artifact"
+    },
+    {
+      "name": "여신의 눈물",
+      "url": "https://cdn.lolchess.gg/upload/images/items/Tearofthegoddess_1640059037.png",
+      "key": "TearOfTheGoddess",
+      "ingameKey": "DA_Component_TearOfTheGoddess",
+      "category": "component"
+    },
+    {
+      "name": "도적의 장갑",
+      "url": "https://cdn.lolchess.gg/upload/images/items/ThiefsGloves_9PTkdu1Iyw6L1voQbNlsP5U74TzF7suIeq5RQjbh.png",
+      "key": "ThiefsGloves",
+      "ingameKey": "DA_ThiefsGloves",
+      "category": "normal"
+    },
+    {
+      "name": "거대한 히드라",
+      "url": "https://cdn.lolchess.gg/upload/images/items/TitanicHydra_1748484828-거대한히드라.jpg",
+      "key": "TitanicHydra",
+      "ingameKey": "DA_Artifact_TitanicHydra",
+      "category": "artifact"
+    },
+    {
+      "name": "거인의 결의",
+      "url": "https://cdn.lolchess.gg/upload/images/items/TitansResolve_1640058512.png",
+      "key": "TitansResolve",
+      "ingameKey": "DA_TitansResolve",
+      "category": "normal"
+    },
+    {
+      "name": "공허 건틀릿",
+      "url": "https://cdn.lolchess.gg/upload/images/items/VoidGauntlet_1777375000-tft16_artifact_voidgauntlet_tft_set16_bordered.png",
+      "key": "VoidGauntlet",
+      "ingameKey": "DA_Artifact_VoidGauntlet",
+      "category": "artifact"
+    },
+    {
+      "name": "공허의 지팡이",
+      "url": "https://cdn.lolchess.gg/upload/images/items/VoidStaff_1747207480-6f3e0c3861b876d768c4f9b501fbaabc585c3bc3-512x512.png",
+      "key": "VoidStaff",
+      "ingameKey": "DA_VoidStaff",
+      "category": "normal"
+    },
+    {
+      "name": "워모그의 갑옷",
+      "url": "https://cdn.lolchess.gg/upload/images/items/WarmogsArmor_1710228144-warmogs_armor.png",
+      "key": "WarmogsArmor",
+      "ingameKey": "DA_WarmogsArmor",
+      "category": "normal"
+    },
+    {
+      "name": "마법사의 최후",
+      "url": "https://cdn.lolchess.gg/upload/images/items/WitsEnd_1714029999-tft_item_artifact_witsend.png",
+      "key": "WitsEnd",
+      "ingameKey": "DA_Artifact_WitsEnd",
+      "category": "artifact"
+    },
+    {
+      "name": "요정 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/FaeEmblem_1785291239-DA_18_EmblemFae.jpg",
+      "key": "FaeEmblem",
+      "ingameKey": "DA_18_EmblemFae",
+      "category": "emblem"
+    },
+    {
+      "name": "사냥꾼 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/HunterEmblem_1785290993-DA_18_EmblemHunter.jpg",
+      "key": "HunterEmblem",
+      "ingameKey": "DA_18_EmblemHunter",
+      "category": "emblem"
+    },
+    {
+      "name": "지옥불 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/InfernoEmblem_1785291260-DA_18_EmblemInferno.jpg",
+      "key": "InfernoEmblem",
+      "ingameKey": "DA_18_EmblemInferno",
+      "category": "emblem"
+    },
+    {
+      "name": "속사포 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RapidfireEmblem_1785291201-DA_18_EmblemRapidfire.jpg",
+      "key": "RapidfireEmblem",
+      "ingameKey": "DA_18_EmblemRapidfire",
+      "category": "emblem"
+    },
+    {
+      "name": "나무정령 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/ElderwoodEmblem_1785483658-DA_18_EmblemElderwood.jpg",
+      "key": "ElderwoodEmblem",
+      "ingameKey": "DA_18_EmblemElderwood",
+      "category": "emblem"
+    },
+    {
+      "name": "약탈자 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/RavagerEmblem_1785291229-DA_18_EmblemSlayer.jpg",
+      "key": "RavagerEmblem",
+      "ingameKey": "DA_18_EmblemSlayer",
+      "category": "emblem"
+    },
+    {
+      "name": "날렵이 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/SprykinEmblem_1785290927-DA_18_EmblemSprykin.jpg",
+      "key": "SprykinEmblem",
+      "ingameKey": "DA_18_EmblemSprykin",
+      "category": "emblem"
+    },
+    {
+      "name": "선봉대 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/VanguardEmblem_1785291006-DA_18_EmblemVanguard.jpg",
+      "key": "VanguardEmblem",
+      "ingameKey": "DA_18_EmblemVanguard",
+      "category": "emblem"
+    },
+    {
+      "name": "개화 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/BlossomEmblem_1785290853-DA_18_EmblemBlossom.jpg",
+      "key": "BlossomEmblem",
+      "ingameKey": "DA_18_EmblemBlossom",
+      "category": "emblem"
+    },
+    {
+      "name": "주문술사 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/SpellweaverEmblem_1785291249-DA_18_EmblemSpellweaver.jpg",
+      "key": "SpellweaverEmblem",
+      "ingameKey": "DA_18_EmblemSpellweaver",
+      "category": "emblem"
+    },
+    {
+      "name": "기원자 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/InvokerEmblem_1785290864-DA_18_EmblemInvoker.jpg",
+      "key": "InvokerEmblem",
+      "ingameKey": "DA_18_EmblemInvoker",
+      "category": "emblem"
+    },
+    {
+      "name": "달빛 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/LunarEmblem_1785290980-DA_18_EmblemLunar.jpg",
+      "key": "LunarEmblem",
+      "ingameKey": "DA_18_EmblemLunar",
+      "category": "emblem"
+    },
+    {
+      "name": "싸움꾼 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/BrawlerEmblem_1785291212-DA_18_EmblemBrawler.jpg",
+      "key": "BrawlerEmblem",
+      "ingameKey": "DA_18_EmblemBrawler",
+      "category": "emblem"
+    },
+    {
+      "name": "검은 가시 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/EldritchEmblem_1785291181-DA_18_EmblemBlackthorn.jpg",
+      "key": "EldritchEmblem",
+      "ingameKey": "DA_18_EmblemBlackthorn",
+      "category": "emblem"
+    },
+    {
+      "name": "처형자 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/ExecutionerEmblem_1785291273-DA_18_EmblemExecutioner.jpg",
+      "key": "ExecutionerEmblem",
+      "ingameKey": "DA_18_EmblemExecutioner",
+      "category": "emblem"
+    },
+    {
+      "name": "원시 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/PrimalEmblem_1785291285-DA_18_EmblemPrimal.jpg",
+      "key": "PrimalEmblem",
+      "ingameKey": "DA_18_EmblemPrimal",
+      "category": "emblem"
+    },
+    {
+      "name": "악의 여단 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/CovenEmblem_1785482308-DA_18_EmblemCoven.jpg",
+      "key": "CovenEmblem",
+      "ingameKey": "DA_18_EmblemCoven",
+      "category": "emblem"
+    },
+    {
+      "name": "엄호대 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/DefenderEmblem_1785482315-DA_18_EmblemDefender.jpg",
+      "key": "DefenderEmblem",
+      "ingameKey": "DA_18_EmblemDefender",
+      "category": "emblem"
+    },
+    {
+      "name": "치명적인 꽃 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/FloraFatalisEmblem_1785482330-DA_18_EmblemFloraFatalis.jpg",
+      "key": "FloraFatalisEmblem",
+      "ingameKey": "DA_18_EmblemFloraFatalis",
+      "category": "emblem"
+    },
+    {
+      "name": "전쟁기계 상징",
+      "url": "https://cdn.lolchess.gg/upload/images/items/JuggernautEmblem_1785482323-DA_18_EmblemJuggernaut.jpg",
+      "key": "JuggernautEmblem",
+      "ingameKey": "DA_18_EmblemJuggernaut",
+      "category": "emblem"
+    },
+    {
+      "name": "치명적인 꽃 상징 (증강)",
+      "url": "https://cdn.lolchess.gg/upload/images/items/FloraFatalisEmblem_1785482330-DA_18_EmblemFloraFatalis.jpg",
+      "key": "FloraFatalisEmblemAugment",
+      "ingameKey": "DA_18_EmblemFloraFatalisAugment",
+      "category": "emblem"
+    }
+  ]
+}

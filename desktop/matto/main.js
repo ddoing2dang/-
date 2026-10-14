@@ -15,7 +15,7 @@ function openExternal(url) {
 function createWindow() {
   const win = new BrowserWindow({
     width: 1440, height: 940, minWidth: 1024, minHeight: 680,
-    title: 'TFT 마또 스튜디오', backgroundColor: '#f7f4f1',
+    title: '마또 도우미', icon: require('path').join(__dirname, 'icon.ico'), backgroundColor: '#f7f4f1',
     autoHideMenuBar: true,
     webPreferences: { nodeIntegration: false, contextIsolation: true, sandbox: true, webSecurity: true }
   });

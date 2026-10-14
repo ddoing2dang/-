@@ -1,1 +1,1 @@
-window.APP_CONFIG={theme:'original',platform:'desktop'};
+window.APP_CONFIG={theme:'matto',platform:'desktop'};

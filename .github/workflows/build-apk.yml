@@ -1,4 +1,4 @@
-name: Build debug APKs (manual testing only)
+name: Build Matto debug APK (manual testing only)
 on:
   workflow_dispatch:
 permissions:
@@ -24,12 +24,11 @@ jobs:
           node-version: '22'
       - name: Bundle offline web apps
         run: |
-          node scripts/bundle-web.cjs original mobile app/src/original/assets/web
           node scripts/bundle-web.cjs matto mobile app/src/matto/assets/web
-      - name: Build both APKs
-        run: gradle :app:assembleOriginalDebug :app:assembleMattoDebug --no-daemon
+      - name: Build Matto APK
+        run: gradle :app:assembleMattoDebug --no-daemon
       - name: Upload workflow artifacts
         uses: actions/upload-artifact@v4
         with:
           name: tft-mobile-apks
-          path: app/build/outputs/apk/*/debug/*.apk
+          path: app/build/outputs/apk/matto/debug/*.apk
