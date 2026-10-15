@@ -1,4 +1,7 @@
-const {app, BrowserWindow, shell} = require('electron');
+const {app, BrowserWindow, shell, protocol, Notification} = require('electron');
+const fs=require('node:fs/promises'),path=require('node:path'),{fileURLToPath}=require('node:url');
+let activeWeb=path.join(__dirname,'web');
+if(!app.requestSingleInstanceLock())app.quit();
 const APP_URL = 'https://matto-restored-pc.dm26754899.chatgpt.site/';
 const APP_HOST = new URL(APP_URL).hostname;
 const LOGIN_HOSTS = ['chatgpt.com', 'openai.com'];
@@ -33,5 +36,26 @@ function createWindow() {
   });
   win.loadFile(require('path').join(__dirname, 'web/index.html'));
 }
-app.whenReady().then(() => { app.setAppUserModelId('gg.tft.matto.desktop'); createWindow(); app.on('activate', () => { if (!BrowserWindow.getAllWindows().length) createWindow(); }); });
+app.whenReady().then(async () => {
+  app.setAppUserModelId('gg.tft.matto.desktop');
+  const updates=require('./web-updates')(path.join(app.getPath('userData'),'web-updates'));
+  let opened=false;
+  const pending=updates.refresh().then(changed=>{
+    if(changed&&opened&&Notification.isSupported())new Notification({title:'마또 도우미',body:'화면 업데이트 완료 · 앱을 완전히 종료 후 다시 열면 적용됩니다.'}).show();
+  }).catch(()=>{});
+  let timer;await Promise.race([pending,new Promise(resolve=>{timer=setTimeout(resolve,6000);})]);clearTimeout(timer);
+  activeWeb=await updates.current()||activeWeb;
+  // Keep the original file URL and localStorage while serving one complete snapshot.
+  protocol.handle('file',async request=>{
+    try{
+      const relative=path.relative(path.join(__dirname,'web'),fileURLToPath(request.url));
+      if(!relative||relative.startsWith('..')||path.isAbsolute(relative))return new Response('',{status:403});
+      const types={'.html':'text/html','.js':'application/javascript','.css':'text/css','.jpg':'image/jpeg','.png':'image/png','.json':'application/json','.webmanifest':'application/manifest+json'};
+      return new Response(await fs.readFile(path.join(activeWeb,relative)),{headers:{'Content-Type':types[path.extname(relative)]||'application/octet-stream','Cache-Control':'no-store'}});
+    }catch{return new Response('',{status:404});}
+  });
+  opened=true;createWindow();
+  app.on('activate',()=>{if(!BrowserWindow.getAllWindows().length)createWindow();});
+});
+app.on('second-instance',()=>{const win=BrowserWindow.getAllWindows()[0];if(win){if(win.isMinimized())win.restore();win.focus();}});
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
