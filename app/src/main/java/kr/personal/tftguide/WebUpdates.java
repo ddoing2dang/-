@@ -11,7 +11,7 @@ import java.security.MessageDigest;
 
 /** Downloads a complete, commit-pinned web snapshot before making it available. */
 final class WebUpdates {
-    private static final String API = "https://api.github.com/repos/ddoing2dang/-/git/trees/main?recursive=1";
+    private static final String API = "https://api.github.com/repos/ddoing2dang/-/git/";
     private final Context context;
     private final File root;
     WebUpdates(Context context) {
@@ -26,10 +26,13 @@ final class WebUpdates {
         return new File(dir, ".complete").isFile() ? dir : null;
     }
     boolean refresh() throws Exception {
-        JSONObject tree = new JSONObject(new String(get(API, 4 * 1024 * 1024), StandardCharsets.UTF_8));
+        JSONObject ref = new JSONObject(new String(get(API + "ref/heads/main", 65536), StandardCharsets.UTF_8));
+        String revision = ref.getJSONObject("object").getString("sha");
+        if (!revision.matches("[a-f0-9]{40}")) throw new IOException("Invalid revision");
+        JSONObject tree = new JSONObject(new String(get(API + "trees/" + revision + "?recursive=1", 4 * 1024 * 1024), StandardCharsets.UTF_8));
         if (tree.optBoolean("truncated")) throw new IOException("Incomplete tree");
         JSONArray entries = tree.getJSONArray("tree");
-        String revision = tree.getString("sha"), version = "";
+        String version = "";
         if (!revision.matches("[a-f0-9]{40}")) throw new IOException("Invalid revision");
         for (int i=0;i<entries.length();i++) {
             JSONObject entry=entries.getJSONObject(i);
