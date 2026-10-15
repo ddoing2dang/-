@@ -30,6 +30,10 @@ import java.net.URI;
 
 public class MainActivity extends Activity {
     private WebView web;
+    private volatile java.io.File activeWeb;
+    private boolean pageStarted;
+    private boolean destroyed;
+    private final android.os.Handler startupHandler = new android.os.Handler(android.os.Looper.getMainLooper());
     private View splash;
     private TextView splashSubtitle;
     private ProgressBar splashProgress;
@@ -93,6 +97,7 @@ public class MainActivity extends Activity {
         WebSettings settings = web.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(true);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
@@ -104,7 +109,7 @@ public class MainActivity extends Activity {
                 if (path == null || path.equals("/")) path = "/index.html";
                 if (path.contains("..")) return new android.webkit.WebResourceResponse("text/plain", "UTF-8", new java.io.ByteArrayInputStream(new byte[0]));
                 String type = path.endsWith(".js") ? "application/javascript" : path.endsWith(".css") ? "text/css" : path.endsWith(".jpg") ? "image/jpeg" : path.endsWith(".json") || path.endsWith(".webmanifest") ? "application/json" : "text/html";
-                try { return new android.webkit.WebResourceResponse(type, "UTF-8", getAssets().open("web" + path)); }
+                try { return new android.webkit.WebResourceResponse(type, "UTF-8", openWebAsset(path)); }
                 catch (java.io.IOException e) { return new android.webkit.WebResourceResponse("text/plain", "UTF-8", 404, "Not Found", java.util.Collections.emptyMap(), new java.io.ByteArrayInputStream(new byte[0])); }
             }
 
@@ -144,7 +149,35 @@ public class MainActivity extends Activity {
             }
         });
         web.addJavascriptInterface(new Downloads(), "NativeDownloads");
-        web.loadUrl(BuildConfig.APP_URL);
+        if (matto) {
+            WebUpdates updates = new WebUpdates(getApplicationContext());
+            splashSubtitle.setText("최신 화면을 확인하는 중…");
+            Runnable startPage = () -> {
+                if (destroyed || pageStarted) return;
+                pageStarted = true;
+                activeWeb = updates.current();
+                web.loadUrl(BuildConfig.APP_URL);
+            };
+            // Offline or slow connections never prevent opening the saved app.
+            startupHandler.postDelayed(startPage, 6000);
+            new Thread(() -> {
+                boolean changed = false;
+                try { changed = updates.refresh(); } catch (Exception ignored) { }
+                final boolean ready = changed;
+                runOnUiThread(() -> {
+                    if (destroyed) return;
+                    startupHandler.removeCallbacks(startPage);
+                    if (!pageStarted) startPage.run();
+                    else if (ready) Toast.makeText(this, "화면 업데이트 완료 · 앱을 다시 열면 적용돼요", Toast.LENGTH_LONG).show();
+                });
+            }, "matto-web-update").start();
+        } else web.loadUrl(BuildConfig.APP_URL);
+    }
+
+    private java.io.InputStream openWebAsset(String path) throws java.io.IOException {
+        java.io.File snapshot = activeWeb;
+        if (snapshot != null) return new java.io.FileInputStream(new java.io.File(snapshot, path.substring(1)));
+        return getAssets().open("web" + path);
     }
 
     private int dp(int value) { return Math.round(value * getResources().getDisplayMetrics().density); }
@@ -197,6 +230,8 @@ public class MainActivity extends Activity {
         if (web.canGoBack()) web.goBack(); else super.onBackPressed();
     }
     @Override protected void onDestroy() {
+        destroyed = true;
+        startupHandler.removeCallbacksAndMessages(null);
         web.destroy();
         super.onDestroy();
     }
