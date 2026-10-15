@@ -77,3 +77,5 @@ body.matto.light:before,body.editor-view.matto.light:before{opacity:.58}
 body.matto:before,body.editor-view.matto:before,body.matto.light:before,body.editor-view.matto.light:before{background-image:url('matto-wallpaper.jpg');background-position:center 35%;background-size:cover;background-repeat:no-repeat;mask-image:none;-webkit-mask-image:none;opacity:.28}
 body.matto.light:before,body.editor-view.matto.light:before{opacity:.23}
 @media(max-width:740px){body.matto:before,body.editor-view.matto:before,body.matto.light:before,body.editor-view.matto.light:before{background-position:52% center;background-size:cover}}
+
+#deckTips{grid-column:1/-1;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}#deckTips h3{margin:0 0 10px;color:var(--gold)}.tip-row{display:grid;grid-template-columns:70px minmax(0,1fr);gap:10px;padding:9px 0;line-height:1.65}.tip-row+.tip-row{border-top:1px solid var(--line)}.tip-row strong{color:var(--gold)}.tip-row span{overflow-wrap:anywhere}#tipNote{margin-bottom:0;font-size:11px}@media(max-width:740px){#deckTips{padding:12px}.tip-row{grid-template-columns:58px minmax(0,1fr);gap:7px;font-size:12px}}
