@@ -72,3 +72,8 @@ body.matto.light:before,body.editor-view.matto.light:before{opacity:.58}
  .editor-view #hexBoard .hex .item-dots img{width:clamp(7px,2.15vw,12px);height:clamp(7px,2.15vw,12px)}
  .editor-view .preview.zoomed #hexBoard .hex{aspect-ratio:0.8660254;min-height:0}
 }
+
+/* Shared rear wallpaper; preserve loading art and foreground panels. */
+body.matto:before,body.editor-view.matto:before,body.matto.light:before,body.editor-view.matto.light:before{background-image:url('matto-wallpaper.jpg');background-position:center 35%;background-size:cover;background-repeat:no-repeat;mask-image:none;-webkit-mask-image:none;opacity:.28}
+body.matto.light:before,body.editor-view.matto.light:before{opacity:.23}
+@media(max-width:740px){body.matto:before,body.editor-view.matto:before,body.matto.light:before,body.editor-view.matto.light:before{background-position:52% center;background-size:cover}}
