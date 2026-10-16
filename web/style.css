@@ -100,3 +100,7 @@ body.matto.light:before,body.editor-view.matto.light:before{opacity:.23}
  .editor-view .preview.zoomed .board-side{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
  .editor-view .preview.zoomed #hexBoard .hex{aspect-ratio:.8660254}
 }
+
+
+/* Evidence-based recommendation trends, readable on touch screens. */
+.trend-badges{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}.trend-badge{display:inline-flex;align-items:center;border:1px solid currentColor;border-radius:7px;padding:4px 9px;font-size:12px;font-weight:800;line-height:1.5;overflow-wrap:anywhere}.trend-pick{color:#90d8ff;background:#17394f}.trend-win{color:#ffc78c;background:#4a2d16}.light .trend-pick{color:#125477;background:#e5f4ff}.light .trend-win{color:#843d08;background:#fff0db}#trendGuide{margin:0 0 16px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}#trendGuide summary{color:var(--text)}#trendGuide p{line-height:1.75}
