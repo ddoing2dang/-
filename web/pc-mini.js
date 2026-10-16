@@ -8,7 +8,7 @@ async function request(fn){try{await fn();$('error').hidden=true;}catch(e){error
 function picture(record,withName=false){
  const holder=element('div',undefined,'portrait');holder.title=record.name;
  const fallback=()=>{const x=element('span',record.name.slice(0,2),'missing');holder.prepend(x);};
- if(record.url&&/^https:\/\//.test(record.url)){const img=element('img');img.src=record.url;img.alt=record.name;img.title=record.name;img.referrerPolicy='no-referrer';img.onerror=()=>{const x=element('span',record.name.slice(0,2),'missing');x.title=record.name;img.replaceWith(x);};holder.append(img);}else fallback();
+ if(record.url&&/^https:\/\//.test(record.url)){const img=element('img');img.alt=record.name;img.title=record.name;if(window.TFTPortraits)TFTPortraits.image(img,record);else{img.src=record.url;img.onerror=()=>{const x=element('span',record.name.slice(0,2),'missing');x.title=record.name;img.replaceWith(x);};}holder.append(img);}else fallback();
  if(withName)holder.append(element('span',record.name));
  return holder;
 }
