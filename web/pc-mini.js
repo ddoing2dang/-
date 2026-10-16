@@ -18,28 +18,13 @@ function section(title){const box=element('section');box.append(element('h3',tit
 function roster(parent,units){const row=element('div',undefined,'unit-list');for(const unit of units.filter(u=>window.TFTPortraits?.visible(typeof u==='string'?u:u.name)!==false))row.append(picture(typeof unit==='string'?record('champions',unit):unit,true));parent.append(row);}
 function sourceNote(plan){return `${plan.source==='opgg'?'OP.GG':'TFT Academy'} · ${plan.match||'원문 구성'} · 패치 ${plan.patch||payload.patch}${plan.source==='opgg'?' · 핫픽스 반영 미확인':''}`;}
 function renderLevels(d){
- const guide=d.guide||{},tabs=element('div',undefined,'level-tabs');
- const available=(guide.levelPlans||[]);
- const options=[{key:'early',label:'초반'},...[5,6,7,8,9].map(level=>({key:String(level),label:level+'레벨'}))];
- if(chosenLevel===null)chosenLevel=String(d.level);
- for(const o of options){const b=element('button',o.label);b.setAttribute('aria-pressed',String(chosenLevel===o.key));b.onclick=()=>{chosenLevel=o.key;renderDetail();};tabs.append(b);}
- $('content').append(tabs);
- if(chosenLevel==='early'){
-  $('content').append(element('h2','초반 빌드업'));
-  if(guide.early?.length){roster($('content'),guide.early);$('content').append(element('p','초반에 활용할 원문 예시입니다. 특정 레벨의 완성 배치는 아닙니다.','muted'));}
-  else $('content').append(element('p','현재 공략에 초반 구성 예시가 없습니다.','muted'));
- }else{
-  const level=Number(chosenLevel);$('content').append(element('h2',level+'레벨 구성'));
-  if(level===d.level){roster($('content'),d.units);$('content').append(element('p','TFT Academy 추천 완성 배치 · '+d.level+'레벨','muted'));}
-  else{
-   const plans=available.filter(p=>p.level===level);
-   if(plans.length)for(const plan of plans){const box=section(plan.title||'빌드업 예시');roster(box,plan.units);box.append(element('p',sourceNote(plan),'muted'));}
-   else $('content').append(element('p','현재 출처에서 이 레벨의 확정 구성을 제공하지 않습니다. 초반 구성이나 완성 레벨을 확인해 주세요.','muted'));
-  }
-  const additions=(guide.options||[]).filter(o=>o.level===level);
-  if(additions.length){const box=section('이 레벨의 추가 후보');roster(box,additions.map(o=>o.unit));box.append(element('p','원문 확장 후보이며, 모두 동시에 넣는 구성은 아닙니다.','muted'));}
- }
- if(d.tips?.[0])$('content').append(element('p',d.tips[0]));
+ const tabs=element('div',undefined,'level-tabs');
+ if(!['6','7','8','9'].includes(chosenLevel))chosenLevel=String(d.level);
+ for(const level of [6,7,8,9]){const b=element('button',level+'레벨');b.setAttribute('aria-pressed',String(chosenLevel===String(level)));b.onclick=()=>{chosenLevel=String(level);renderDetail();};tabs.append(b);}
+ $('content').append(tabs,element('h2',chosenLevel+'레벨 · 꿀팁 3줄'));
+ const lines=d.levelTips?.levels?.[chosenLevel];
+ if(lines?.length===3){const list=element('ol',undefined,'level-tip-lines');for(const line of lines)list.append(element('li',line));$('content').append(list);}
+ else $('content').append(element('p','현재 원문과 일치하는 레벨별 요약이 아직 준비되지 않았습니다.','muted'));
 }
 function renderItems(d){
  const priority=d.guide?.priority||[];$('content').append(element('h2','아이템 우선순위'));
@@ -62,9 +47,9 @@ function renderDetail(){
  const d=deck();if(!d)return;$('content').replaceChildren();
  document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===tab)));
  if(tab==='levels')renderLevels(d);else if(tab==='items')renderItems(d);else if(tab==='augments')renderAugments(d);else{
-  $('content').append(element('h2','운영 TIP'));const list=element('ol');for(const line of d.tips||[])list.append(element('li',line));$('content').append(list);if(!d.tips?.length)$('content').append(element('p','현재 공략의 요약이 준비되지 않았습니다.','muted'));
+  $('content').append(element('h2','총 요약 · 3줄'));const lines=d.levelTips?.summary||d.tips||[];const list=element('ol',undefined,'level-tip-lines');for(const line of lines)list.append(element('li',line));$('content').append(list);if(!lines.length)$('content').append(element('p','현재 공략의 요약이 준비되지 않았습니다.','muted'));
  }
- $('content').scrollTop=0;$('sourceNote').textContent='공략 기준: TFT Academy · '+payload.patch+' · '+(d.guide?.updatedAt?.slice(0,10)||payload.publishedAt.slice(0,10))+' · 빌드업 출처는 각 구성에 별도 표시';
+ $('content').scrollTop=0;$('sourceNote').textContent='공략 기준: TFT Academy · '+payload.patch+' · '+(d.guide?.updatedAt?.slice(0,10)||payload.publishedAt.slice(0,10))+' · 레벨별 TIP은 원문 운영 요약';
 }
 function render(){
  const d=deck();if(!d)return;

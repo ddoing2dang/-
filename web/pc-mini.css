@@ -10,3 +10,5 @@
 .collapsed #titlebar .grip:before{content:'⠿';font-size:17px}
 
 .toolbar-drag-gap{flex:0 0 24px;height:25px;-webkit-app-region:drag;cursor:move}
+
+.level-tip-lines{padding-left:25px;margin:12px 0}.level-tip-lines li{padding:10px 12px;margin:8px 0;border:1px solid var(--line);border-radius:8px;background:#fffdfb;line-height:1.8;font-size:13px;word-break:keep-all;overflow-wrap:anywhere}
