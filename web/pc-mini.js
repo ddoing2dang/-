@@ -15,7 +15,7 @@ function picture(record,withName=false){
 function namedIcon(record){const h=element('div',undefined,'named-icon');const p=picture(record);h.append(...p.childNodes,element('span',record.name));return h;}
 function record(type,name){return payload?.catalogs?.[type]?.find(r=>r.name===name)||{name};}
 function section(title){const box=element('section');box.append(element('h3',title));$('content').append(box);return box;}
-function roster(parent,units){const row=element('div',undefined,'unit-list');for(const unit of units)row.append(picture(typeof unit==='string'?record('champions',unit):unit,true));parent.append(row);}
+function roster(parent,units){const row=element('div',undefined,'unit-list');for(const unit of units.filter(u=>window.TFTPortraits?.visible(typeof u==='string'?u:u.name)!==false))row.append(picture(typeof unit==='string'?record('champions',unit):unit,true));parent.append(row);}
 function sourceNote(plan){return `${plan.source==='opgg'?'OP.GG':'TFT Academy'} · ${plan.match||'원문 구성'} · 패치 ${plan.patch||payload.patch}${plan.source==='opgg'?' · 핫픽스 반영 미확인':''}`;}
 function renderLevels(d){
  const guide=d.guide||{},tabs=element('div',undefined,'level-tabs');
