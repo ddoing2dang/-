@@ -43,6 +43,6 @@ jobs:
           cp desktop/matto/release/*.exe "마또 도우미.exe"
           cp "마또 도우미.exe" Matto-Helper.exe
           powershell -NoProfile -Command "Compress-Archive -LiteralPath '마또 도우미.exe' -DestinationPath 'Matto-Helper.zip' -Force"
-          cp Matto-Helper.exe Matto-Helper-1.7.1.exe
-          gh release upload desktop-v1 Matto-Helper.exe Matto-Helper.zip Matto-Helper-1.7.1.exe --clobber
+          cp Matto-Helper.exe Matto-Helper-1.7.2.exe
+          gh release upload desktop-v1 Matto-Helper.exe Matto-Helper.zip Matto-Helper-1.7.2.exe --clobber
 

@@ -2,7 +2,7 @@ const {BrowserWindow,ipcMain,screen}=require('electron');
 const fs=require('node:fs/promises'),path=require('node:path'),{fileURLToPath}=require('node:url');
 
 module.exports=function createMiniController(getMain){
- let mini=null,payload=null,selected='',timer,writing=Promise.resolve();
+ let mini=null,payload=null,selected='',timer,topTimer,writing=Promise.resolve();
  let settings={pinned:true,opacity:1,expanded:false,collapsed:false};
  const webRoot=path.join(__dirname,'web');
  const settingsPath=path.join(require('electron').app.getPath('userData'),'mini-window.json');
@@ -36,23 +36,33 @@ module.exports=function createMiniController(getMain){
   const height=Math.min(settings.collapsed?36:settings.expanded?620:158,area.height);
   mini.setBounds({width,height,x:Math.max(area.x,area.x+area.width-width-24),y:Math.min(area.y+24,area.y+area.height-height)});
  }
- function hide(){if(mini&&!mini.isDestroyed())mini.hide();announce();return state();}
+ function enforceTop(){
+  if(!mini||mini.isDestroyed()||!mini.isVisible())return;
+  mini.setAlwaysOnTop(true,'screen-saver');
+  mini.moveTop(); // Changes z-order without taking keyboard focus from the game.
+ }
+ function keepTop(){
+  clearInterval(topTimer);enforceTop();
+  topTimer=setInterval(enforceTop,2000);
+ }
+ function hide(){clearInterval(topTimer);if(mini&&!mini.isDestroyed())mini.hide();announce();return state();}
  async function show(ref){
   if(!payload?.decks?.length)throw Error('추천덱을 먼저 불러와 주세요.');
   if(typeof ref==='string'&&payload.decks.some(d=>d.ref===ref))selected=ref;
   if(!payload.decks.some(d=>d.ref===selected))selected=payload.decks[0].ref;
   if(!mini||mini.isDestroyed()){
    const area=screen.getPrimaryDisplay().workArea;
-   mini=new BrowserWindow({width:344,height:158,x:area.x+area.width-368,y:area.y+24,frame:false,resizable:false,maximizable:false,fullscreenable:false,show:false,skipTaskbar:true,alwaysOnTop:settings.pinned,title:'마또 미니 도우미',backgroundColor:'#fff7f1',webPreferences:{preload:path.join(__dirname,'preload.js'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true}});
-   mini.setMenu(null);mini.setOpacity(settings.opacity);
+   mini=new BrowserWindow({width:344,height:158,x:area.x+area.width-368,y:area.y+24,frame:false,resizable:false,maximizable:false,fullscreenable:false,show:false,skipTaskbar:true,alwaysOnTop:true,title:'마또 미니 도우미',backgroundColor:'#fff7f1',webPreferences:{preload:path.join(__dirname,'preload.js'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true}});
+   mini.setMenu(null);mini.setOpacity(settings.opacity);mini.setAlwaysOnTop(true,'screen-saver');
+   mini.on('blur',enforceTop);mini.on('restore',enforceTop);
    mini.webContents.setWindowOpenHandler(()=>({action:'deny'}));
    mini.webContents.on('will-navigate',event=>event.preventDefault());
-   mini.webContents.on('render-process-gone',()=>{const broken=mini;mini=null;if(broken&&!broken.isDestroyed())broken.destroy();announce();});
+   mini.webContents.on('render-process-gone',()=>{clearInterval(topTimer);const broken=mini;mini=null;if(broken&&!broken.isDestroyed())broken.destroy();announce();});
    mini.on('close',event=>{event.preventDefault();hide();});
    const created=mini;
-   created.once('ready-to-show',()=>{if(created.isDestroyed()||created!==mini)return;resetPosition();created.showInactive();send('matto:mini-data',data());announce();});
-   try{await created.loadFile(path.join(webRoot,'pc-mini.html'));}catch(error){if(!created.isDestroyed())created.destroy();if(mini===created)mini=null;announce();throw error;}
-  }else{if(!mini.isVisible())resetPosition();else resize();mini.showInactive();send('matto:mini-data',data());announce();}
+   created.once('ready-to-show',()=>{if(created.isDestroyed()||created!==mini)return;resetPosition();created.showInactive();keepTop();send('matto:mini-data',data());announce();});
+   try{await created.loadFile(path.join(webRoot,'pc-mini.html'));}catch(error){clearInterval(topTimer);if(!created.isDestroyed())created.destroy();if(mini===created)mini=null;announce();throw error;}
+  }else{if(!mini.isVisible())resetPosition();else resize();mini.showInactive();keepTop();send('matto:mini-data',data());announce();}
   return state();
  }
  function handle(channel,role,fn){ipcMain.handle(channel,(event,value)=>{if(!permitted(event,role))throw Error('허용되지 않은 창 요청입니다.');return fn(value);});}
@@ -70,13 +80,13 @@ module.exports=function createMiniController(getMain){
  handle('matto:mini-select','mini',ref=>{if(payload?.decks.some(d=>d.ref===ref)){selected=ref;send('matto:mini-data',data());}return state();});
  handle('matto:mini-configure','mini',next=>{
   if(!next||typeof next!=='object')return state();
-  for(const key of ['pinned','expanded','collapsed'])if(typeof next[key]==='boolean')settings[key]=next[key];
+  for(const key of ['expanded','collapsed'])if(typeof next[key]==='boolean')settings[key]=next[key];
   if(Number.isFinite(next.opacity))settings.opacity=Math.max(.65,Math.min(1,next.opacity));
-  if(mini&&!mini.isDestroyed()){mini.setAlwaysOnTop(settings.pinned);mini.setOpacity(settings.opacity);resize();}
+  if(mini&&!mini.isDestroyed()){mini.setAlwaysOnTop(true,'screen-saver');enforceTop();mini.setOpacity(settings.opacity);resize();}
   save();announce();return state();
  });
  return {
-  async load(){try{const saved=JSON.parse(await fs.readFile(settingsPath,'utf8'));for(const key of ['pinned','expanded','collapsed'])if(typeof saved[key]==='boolean')settings[key]=saved[key];if(Number.isFinite(saved.opacity))settings.opacity=Math.max(.65,Math.min(1,saved.opacity));}catch{}},
-  destroy(){clearTimeout(timer);if(mini&&!mini.isDestroyed())mini.destroy();mini=null;announce();}
+  async load(){try{const saved=JSON.parse(await fs.readFile(settingsPath,'utf8'));for(const key of ['expanded','collapsed'])if(typeof saved[key]==='boolean')settings[key]=saved[key];if(Number.isFinite(saved.opacity))settings.opacity=Math.max(.65,Math.min(1,saved.opacity));}catch{}},
+  destroy(){clearTimeout(timer);clearInterval(topTimer);if(mini&&!mini.isDestroyed())mini.destroy();mini=null;announce();}
  };
 };
