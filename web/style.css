@@ -104,3 +104,7 @@ body.matto.light:before,body.editor-view.matto.light:before{opacity:.23}
 
 /* Evidence-based recommendation trends, readable on touch screens. */
 .trend-badges{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}.trend-badge{display:inline-flex;align-items:center;border:1px solid currentColor;border-radius:7px;padding:4px 9px;font-size:12px;font-weight:800;line-height:1.5;overflow-wrap:anywhere}.trend-pick{color:#90d8ff;background:#17394f}.trend-win{color:#ffc78c;background:#4a2d16}.light .trend-pick{color:#125477;background:#e5f4ff}.light .trend-win{color:#843d08;background:#fff0db}#trendGuide{margin:0 0 16px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}#trendGuide summary{color:var(--text)}#trendGuide p{line-height:1.75}
+
+
+/* Native Windows mini-window controls. */
+.desktop-tools button,.mini-deck-button{font-weight:800;border-color:var(--accent);color:var(--accent)}.desktop-tools button[aria-pressed=true]{background:var(--accent);color:var(--bg)}.mini-deck-button{width:100%;margin-top:8px;background:var(--soft)}.editor-view .desktop-tools{display:flex}

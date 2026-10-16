@@ -5,6 +5,7 @@ on:
       - 'scripts/refresh.mjs'
       - 'scripts/refresh_verified.py'
       - 'scripts/deck_trends.py'
+      - 'scripts/pc_guides.py'
   schedule:
     # Thursday 09:00 Asia/Seoul (00:00 UTC).
     - cron: '0 0 * * 4'

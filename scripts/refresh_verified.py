@@ -203,6 +203,8 @@ from deck_trends import attach_trends
 output=pathlib.Path(args.output)
 previous=json.loads(output.read_text()) if output.exists() else {}
 attach_trends(result,meta,stats,cm,previous)
+from pc_guides import attach_pc_guides
+attach_pc_guides(result,ags,cm,im,P)
 # Prepare both payloads before replacing the published files.
 seed_path=output.parent.parent/'web'/'data.js'
 seed_text=None
@@ -212,3 +214,4 @@ if seed_path.exists():
  seed_text='window.TFT_SEED='+json.dumps(result,ensure_ascii=False,separators=(',',':'))+old_text[end:]
 output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
 if seed_text is not None:seed_path.write_text(seed_text)
+
