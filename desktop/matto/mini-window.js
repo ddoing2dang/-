@@ -29,6 +29,13 @@ module.exports=function createMiniController(getMain){
   // Expand toward the available side, keeping the whole window on its display.
   mini.setBounds(clampBounds({...old,width,height}));
  }
+ function resetPosition(){
+  if(!mini||mini.isDestroyed())return;
+  const area=screen.getPrimaryDisplay().workArea;
+  const width=Math.min(settings.expanded&&!settings.collapsed?760:344,area.width);
+  const height=Math.min(settings.collapsed?36:settings.expanded?620:158,area.height);
+  mini.setBounds({width,height,x:Math.max(area.x,area.x+area.width-width-24),y:Math.min(area.y+24,area.y+area.height-height)});
+ }
  function hide(){if(mini&&!mini.isDestroyed())mini.hide();announce();return state();}
  async function show(ref){
   if(!payload?.decks?.length)throw Error('추천덱을 먼저 불러와 주세요.');
@@ -42,12 +49,10 @@ module.exports=function createMiniController(getMain){
    mini.webContents.on('will-navigate',event=>event.preventDefault());
    mini.webContents.on('render-process-gone',()=>{const broken=mini;mini=null;if(broken&&!broken.isDestroyed())broken.destroy();announce();});
    mini.on('close',event=>{event.preventDefault();hide();});
-   mini.on('move',()=>{if(mini&&!mini.isDestroyed()){const b=mini.getBounds();settings.x=b.x;settings.y=b.y;save();}});
-   if(Number.isFinite(settings.x)&&Number.isFinite(settings.y))mini.setBounds(clampBounds({...mini.getBounds(),x:Math.round(settings.x),y:Math.round(settings.y)}));
    const created=mini;
-   created.once('ready-to-show',()=>{if(created.isDestroyed()||created!==mini)return;resize();created.showInactive();send('matto:mini-data',data());announce();});
+   created.once('ready-to-show',()=>{if(created.isDestroyed()||created!==mini)return;resetPosition();created.showInactive();send('matto:mini-data',data());announce();});
    try{await created.loadFile(path.join(webRoot,'pc-mini.html'));}catch(error){if(!created.isDestroyed())created.destroy();if(mini===created)mini=null;announce();throw error;}
-  }else{resize();mini.showInactive();send('matto:mini-data',data());announce();}
+  }else{if(!mini.isVisible())resetPosition();else resize();mini.showInactive();send('matto:mini-data',data());announce();}
   return state();
  }
  function handle(channel,role,fn){ipcMain.handle(channel,(event,value)=>{if(!permitted(event,role))throw Error('허용되지 않은 창 요청입니다.');return fn(value);});}
@@ -71,7 +76,7 @@ module.exports=function createMiniController(getMain){
   save();announce();return state();
  });
  return {
-  async load(){try{const saved=JSON.parse(await fs.readFile(settingsPath,'utf8'));for(const key of ['pinned','expanded','collapsed'])if(typeof saved[key]==='boolean')settings[key]=saved[key];if(Number.isFinite(saved.opacity))settings.opacity=Math.max(.65,Math.min(1,saved.opacity));for(const k of ['x','y'])if(Number.isFinite(saved[k]))settings[k]=saved[k];}catch{}},
+  async load(){try{const saved=JSON.parse(await fs.readFile(settingsPath,'utf8'));for(const key of ['pinned','expanded','collapsed'])if(typeof saved[key]==='boolean')settings[key]=saved[key];if(Number.isFinite(saved.opacity))settings.opacity=Math.max(.65,Math.min(1,saved.opacity));}catch{}},
   destroy(){clearTimeout(timer);if(mini&&!mini.isDestroyed())mini.destroy();mini=null;announce();}
  };
 };
