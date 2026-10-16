@@ -1,6 +1,6 @@
 /* Missing source portraits use explicitly labelled owner/representative icons. */
 window.TFTPortraits=(()=>{'use strict';
-const excluded=new Set(['골렘','꼬마 부리','깊은숲 수호자','꼬마 돌거북','생명꽃','정령 주술사','돌껍질 나무','훈련 봇']);
+const excluded=new Set(['골렘','꼬마 부리','꼬마 돌거북','정령 주술사','훈련 봇']);
 const visible=name=>!excluded.has(name);
 const replacements={'탑':{url:'https://cdn.lolchess.gg/upload/images/champions/Dummy_1689746192-tft_trainingdummy_donothing.png',note:'원본 초상화 미제공 · 훈련 봇 대표 아이콘'}};
 function deck(d){return {...d,units:d.units.filter(visible),summons:d.summons.filter(visible),layout:Object.fromEntries(Object.entries(d.layout).filter(([,n])=>visible(n))),equipment:Object.fromEntries(Object.entries(d.equipment).filter(([n])=>visible(n))),carries:d.carries.filter(c=>visible(c[0]))};}
