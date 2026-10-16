@@ -39,8 +39,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release view desktop-v1 >/dev/null 2>&1 || gh release create desktop-v1 --title "TFT PC 앱" --notes "원본과 마또 Windows 설치 파일. 새 아이콘: 전략가의 왕관 / 친칠라."
+          gh release view desktop-v1 >/dev/null 2>&1 || gh release create desktop-v1 --title "마또 도우미 PC" --notes "마또 Windows 설치 파일."
           cp desktop/matto/release/*.exe "마또 도우미.exe"
           cp "마또 도우미.exe" Matto-Helper.exe
           powershell -NoProfile -Command "Compress-Archive -LiteralPath '마또 도우미.exe' -DestinationPath 'Matto-Helper.zip' -Force"
-          gh release upload desktop-v1 Matto-Helper.exe Matto-Helper.zip --clobber
+          cp Matto-Helper.exe Matto-Helper-1.7.0.exe
+          gh release upload desktop-v1 Matto-Helper.exe Matto-Helper.zip Matto-Helper-1.7.0.exe --clobber
+

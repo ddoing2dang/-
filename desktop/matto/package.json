@@ -1,6 +1,6 @@
 {
   "name": "tft-matto-desktop",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "private": true,
   "description": "마또 도우미 Windows 앱",
   "main": "main.js",
@@ -23,7 +23,9 @@
       "package.json",
       "icon.ico",
       "web/**/*",
-      "web-updates.js"
+      "web-updates.js",
+      "preload.js",
+      "mini-window.js"
     ],
     "directories": {
       "output": "release"

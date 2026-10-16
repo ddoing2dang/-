@@ -25,7 +25,7 @@ module.exports=function(root){
     if(hash!==entry.sha)throw Error('File mismatch');
     const file=path.join(staging,relative);await fs.mkdir(path.dirname(file),{recursive:true});await fs.writeFile(file,bytes);
    }
-   for(const name of ['index.html','app.js','engine.js','data.js','items.js','codes.js','board-data.js','style.css'])await fs.access(path.join(staging,name));
+   for(const name of ['index.html','app.js','engine.js','data.js','items.js','codes.js','board-data.js','style.css','desktop-tools.js','pc-mini.html','pc-mini.js','pc-mini.css'])await fs.access(path.join(staging,name));
    await fs.writeFile(path.join(staging,'config.js'),"window.APP_CONFIG={theme:'matto',platform:'desktop'};");
    await fs.writeFile(path.join(staging,'.complete'),'');
    await fs.rm(destination,{recursive:true,force:true});await fs.rename(staging,destination);
@@ -37,3 +37,4 @@ module.exports=function(root){
  }
  return {current,refresh};
 };
+
