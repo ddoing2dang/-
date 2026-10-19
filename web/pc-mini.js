@@ -1,7 +1,7 @@
 'use strict';
 const api=window.MattoDesktop,$=id=>document.getElementById(id);
 const element=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
-let payload=null,settings={},tab='levels',chosenLevel=null,lastRef='';
+let payload=null,settings={},tab='levels',chosenLevel=null,lastRef='',pinPending=false,suppressPinClick=false;
 const deck=()=>payload?.decks.find(d=>d.ref===payload.selectedRef)||payload?.decks[0];
 function error(e){$('error').textContent=e?.message||'미니 창을 불러오지 못했습니다.';$('error').hidden=false;}
 async function request(fn){try{await fn();$('error').hidden=true;}catch(e){error(e);}}
@@ -62,11 +62,25 @@ function render(){
  $('patch').textContent='패치 '+payload.patch;renderDetail();
 }
 function closeDeckMenu(){$('deckMenu').hidden=true;$('deckSelect').setAttribute('aria-expanded','false');}
-function updateState(next){settings=next;if(next.collapsed||next.visible===false)closeDeckMenu();$('mainWindowToggle').hidden=typeof api?.toggleMainWindow!=='function';$('mainWindowToggle').textContent=next.mainHidden?'메인 창 다시 보기':'메인 창 숨기기';$('mainWindowToggle').setAttribute('aria-pressed',String(!!next.mainHidden));const pinned=!!next.pinned;$('pin').setAttribute('aria-pressed',String(pinned));$('pin').setAttribute('aria-label',pinned?'항상 위 고정 켜짐':'항상 위 고정 꺼짐');$('pin').title=api?.miniVersion===2?(pinned?'항상 위 고정 켜짐 · 눌러서 해제':'항상 위 고정 꺼짐 · 눌러서 고정'):'고정 전환은 Windows 1.7.4 설치 후 사용할 수 있습니다.';$('pin').disabled=api?.miniVersion!==2;document.body.classList.toggle('expanded',!!next.expanded);document.body.classList.toggle('collapsed',!!next.collapsed);$('detail').hidden=!next.expanded;$('expand').textContent=next.expanded?'접기 ‹':'상세보기 ›';$('expand').setAttribute('aria-expanded',String(!!next.expanded));$('opacity').value=String(Math.round(next.opacity*100));$('collapse').textContent=next.collapsed?'+':'−';$('collapse').title=next.collapsed?'미니 창 펼치기':'한 줄로 접기';$('collapse').setAttribute('aria-label',$('collapse').title);}
+function updateState(next){settings=next;if(next.collapsed||next.visible===false)closeDeckMenu();$('mainWindowToggle').hidden=typeof api?.toggleMainWindow!=='function';$('mainWindowToggle').textContent=next.mainHidden?'메인 창 다시 보기':'메인 창 숨기기';$('mainWindowToggle').setAttribute('aria-pressed',String(!!next.mainHidden));const pinned=!!next.pinned;$('pin').setAttribute('aria-pressed',String(pinned));$('pin').textContent=pinPending?'…':pinned?'고정':'해제';$('pin').setAttribute('aria-busy',String(pinPending));$('pin').setAttribute('aria-label',pinned?'항상 위 고정 켜짐':'항상 위 고정 꺼짐');$('pin').title=api?.miniVersion===2?(pinned?'항상 위 고정 켜짐 · 눌러서 해제':'항상 위 고정 꺼짐 · 눌러서 고정'):'고정 전환은 Windows 1.7.4 설치 후 사용할 수 있습니다.';$('pin').disabled=api?.miniVersion!==2||pinPending;document.body.classList.toggle('expanded',!!next.expanded);document.body.classList.toggle('collapsed',!!next.collapsed);$('detail').hidden=!next.expanded;$('expand').textContent=next.expanded?'접기 ‹':'상세보기 ›';$('expand').setAttribute('aria-expanded',String(!!next.expanded));$('opacity').value=String(Math.round(next.opacity*100));$('collapse').textContent=next.collapsed?'+':'−';$('collapse').title=next.collapsed?'미니 창 펼치기':'한 줄로 접기';$('collapse').setAttribute('aria-label',$('collapse').title);}
 if(!api){error(Error('PC 프로그램에서 미니 창을 열어 주세요.'));}else{
  api.onMiniData(next=>{payload=next;if(next?.settings)updateState(next.settings);render();});api.onMiniState(updateState);
  request(async()=>{const initial=await api.getMini();updateState(initial.state);if(initial.data){payload=initial.data;render();}});
- $('mainWindowToggle').onclick=()=>request(async()=>{updateState(await api.toggleMainWindow());});$('pin').onclick=()=>{if(api.miniVersion!==2)return;return request(async()=>{updateState(await api.configureMini({pinned:!settings.pinned}));});};$('close').onclick=()=>request(()=>api.closeMini());$('collapse').onclick=()=>request(()=>api.configureMini({collapsed:!settings.collapsed}));$('expand').onclick=()=>request(()=>api.configureMini({expanded:!settings.expanded,collapsed:false}));$('opacity').oninput=()=>request(()=>api.configureMini({opacity:Number($('opacity').value)/100}));$('deckSelect').onclick=()=>request(async()=>{
+ $('mainWindowToggle').onclick=()=>request(async()=>{updateState(await api.toggleMainWindow());});// Handle the press directly: do not depend solely on a focus-dependent click.
+ const changePin=async()=>{
+  if(api.miniVersion!==2||pinPending)return;
+  const wanted=!settings.pinned;pinPending=true;updateState(settings);
+  try{
+   const confirmed=await api.configureMini({pinned:wanted});
+   if(typeof confirmed?.pinned!=='boolean')throw Error('고정 상태를 확인하지 못했습니다.');
+   updateState(confirmed);
+   if(confirmed.pinned!==wanted)throw Error('고정 상태가 변경되지 않았습니다.');
+   $('error').hidden=true;
+  }catch(e){error(e);}finally{pinPending=false;updateState(settings);}
+ };
+ $('pin').onpointerdown=e=>{if(e.button!==0)return;e.preventDefault();e.stopPropagation();suppressPinClick=true;void changePin();};
+ $('pin').onclick=e=>{if(suppressPinClick&&e.detail>0){suppressPinClick=false;return;}suppressPinClick=false;void changePin();};
+ $('close').onclick=()=>request(()=>api.closeMini());$('collapse').onclick=()=>request(()=>api.configureMini({collapsed:!settings.collapsed}));$('expand').onclick=()=>request(()=>api.configureMini({expanded:!settings.expanded,collapsed:false}));$('opacity').oninput=()=>request(()=>api.configureMini({opacity:Number($('opacity').value)/100}));$('deckSelect').onclick=()=>request(async()=>{
   if(!$('deckMenu').hidden){closeDeckMenu();return;}
   if(settings.collapsed)updateState(await api.configureMini({collapsed:false}));
   $('deckMenu').hidden=false;$('deckSelect').setAttribute('aria-expanded','true');

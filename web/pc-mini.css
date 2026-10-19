@@ -24,3 +24,9 @@
 #deckMenu{position:fixed;z-index:20;top:54px;left:6px;right:6px;max-height:calc(100vh - 62px);overflow-y:auto;overscroll-behavior:contain;padding:4px;background:var(--bg);border:1px solid var(--accent);border-radius:6px;box-shadow:0 3px 10px #49313b33;-webkit-app-region:no-drag}
 #deckMenu button{display:block;width:100%;min-height:30px;padding:5px 8px;text-align:left;font-size:11px;margin:2px 0}
 #deckMenu button[aria-pressed=true]{background:var(--soft);border-color:var(--accent);font-weight:800}
+
+/* Text and strong contrast show the confirmed native pin state. */
+#titlebar #pin{flex:0 0 42px;width:42px;font-size:11px;font-weight:800;filter:none;touch-action:manipulation;-webkit-app-region:no-drag}
+#titlebar #pin[aria-pressed="true"]{background:#ad315d;border-color:#ad315d;color:#fff;filter:none}
+#titlebar #pin[aria-pressed="false"]{background:#f1ecee;border-color:#a89ba0;color:#594b51;filter:none}
+#titlebar #pin[aria-busy="true"]{opacity:.7;cursor:wait}
