@@ -1,6 +1,6 @@
 {
   "name": "tft-matto-desktop",
-  "version": "1.7.6",
+  "version": "1.7.7",
   "private": true,
   "description": "마또 도우미 Windows 앱",
   "main": "main.js",
