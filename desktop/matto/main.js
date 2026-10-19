@@ -23,6 +23,7 @@ function createWindow() {
     webPreferences: { preload:path.join(__dirname,'preload.js'), nodeIntegration: false, contextIsolation: true, sandbox: true, webSecurity: true }
   });
   mainWindow=win;
+  miniController?.attachMain(win);
   win.on('closed',()=>{miniController?.destroy();mainWindow=null;});
   win.webContents.setWindowOpenHandler(({url}) => {
     if (trustedLogin(url)) return {action: 'allow'};
@@ -62,6 +63,6 @@ app.whenReady().then(async () => {
   opened=true;createWindow();
   app.on('activate',()=>{if(!BrowserWindow.getAllWindows().length)createWindow();});
 });
-app.on('second-instance',()=>{const win=mainWindow;if(win){if(win.isMinimized())win.restore();win.focus();}});
+app.on('second-instance',()=>{const win=mainWindow;if(win){if(win.isMinimized())win.restore();win.show();win.focus();}});
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
 

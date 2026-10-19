@@ -3,6 +3,7 @@ const listen=(channel,callback)=>{if(typeof callback!=='function')return ()=>{};
 contextBridge.exposeInMainWorld('MattoDesktop',Object.freeze({
  version:1,
  miniVersion:2,
+ toggleMainWindow:()=>ipcRenderer.invoke('matto:main-toggle'),
  publishMini:payload=>ipcRenderer.invoke('matto:mini-publish',payload),
  toggleMini:()=>ipcRenderer.invoke('matto:mini-toggle'),
  showMini:ref=>ipcRenderer.invoke('matto:mini-show',ref),

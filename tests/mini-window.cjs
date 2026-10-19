@@ -15,18 +15,20 @@ function harness(saved={pinned:true},deferred=false){
   focus(){assert.fail('must not force focus')}moveTop(){assert.fail('must not force z-order')}
   async loadFile(){if(deferred)await new Promise(resolve=>{finishLoad=()=>{this.emit('ready-to-show');resolve()}});else this.emit('ready-to-show')}
  }
- const main=new EventEmitter();main.isDestroyed=()=>false;main.minimized=false;main.bounds={x:0,y:0};main.webContents={mainFrame:{url:pathToFileURL(path.join(root,'web/index.html')).href},send(){}};
+ const main=new EventEmitter();main.isDestroyed=()=>false;main.minimized=false;main.visible=true;main.isVisible=()=>main.visible;main.isMinimized=()=>main.minimized;main.hide=()=>{main.visible=false;main.emit('hide')};main.show=main.showInactive=()=>{main.visible=true;main.emit('show')};main.restore=()=>{main.minimized=false;main.emit('restore')};main.focus=()=>{};main.bounds={x:0,y:0};main.webContents={mainFrame:{url:pathToFileURL(path.join(root,'web/index.html')).href},send(){}};
  const electron={BrowserWindow:Window,screen,ipcMain:{handle:(channel,fn)=>handlers[channel]=fn},app:{getPath:()=>'/test'}};
  const context={module:{exports:{}},__dirname:root,require:name=>name==='electron'?electron:name==='node:fs/promises'?{readFile:async()=>JSON.stringify(saved),writeFile:async(_p,v)=>writes.push(JSON.parse(v))}:require(name),setTimeout:(fn,delay)=>{const id=++serial;jobs.set(id,{fn,delay});return id},clearTimeout:id=>jobs.delete(id),setInterval:()=>assert.fail('no periodic recovery allowed')};
- vm.runInNewContext(source,context);const controller=context.module.exports(()=>main);
- const invoke=(name,value,role='mini')=>{const w=role==='main'?main:lastWindow;return handlers['matto:mini-'+name]({sender:w.webContents,senderFrame:w.webContents.mainFrame},value)};
+ vm.runInNewContext(source,context);const controller=context.module.exports(()=>main);controller.attachMain(main);
+ const invoke=(name,value,role='mini')=>{const w=role==='main'?main:lastWindow;return handlers[name==='main-toggle'?'matto:main-toggle':'matto:mini-'+name]({sender:w.webContents,senderFrame:w.webContents.mainFrame},value)};
  return {controller,main,screen,jobs,writes,invoke,get window(){return lastWindow},finish:()=>finishLoad(),flush(delay){for(const [id,j]of [...jobs])if(j.delay===delay){jobs.delete(id);j.fn()}},async init(){await controller.load();await invoke('publish',{decks:Array.from({length:15},(_,i)=>({ref:String(i),title:'덱',units:[]}))},'main')}};
 }
 (async()=>{
  const h=harness();await h.init();await h.invoke('show',undefined,'main');const w=h.window;
  assert.equal(w.options.parent,null);assert.equal(w.options.type,'toolbar');assert.equal(w.options.minimizable,false);assert(w.options.focusable);
+ let mainState=await h.invoke('main-toggle');assert(mainState.mainHidden);assert(!h.main.visible);assert(w.visible);mainState=await h.invoke('main-toggle');assert(!mainState.mainHidden);assert(h.main.visible);assert(w.visible);
+ await h.invoke('main-toggle');await h.invoke('close');assert(h.main.visible);assert(!w.visible);await h.invoke('show',undefined,'main');
  h.main.minimized=true;h.main.emit('minimize');h.main.bounds={x:2200,y:100};h.main.emit('move');for(let i=0;i<100;i++){w.emit('focus');w.emit('blur')}
- assert(w.visible);assert.equal(w.showCount,1);assert.equal(h.jobs.size,0);
+ assert(w.visible);assert.equal(w.showCount,2);assert.equal(h.jobs.size,0);
  w.bounds={x:-360,y:100,width:344,height:158};let changes=w.boundChanges;
  let state=await h.invoke('configure',{pinned:false});assert.equal(state.pinned,false);assert.equal(w.top,false);assert.equal(w.boundChanges,changes);assert(w.visible);
  await h.invoke('configure',{opacity:.8});assert.equal(w.boundChanges,changes);assert.equal(w.opacity,.8);
@@ -45,5 +47,5 @@ function harness(saved={pinned:true},deferred=false){
  h.controller.destroy();assert(w.dead);assert.equal(h.jobs.size,0);assert.equal(h.screen.listenerCount('display-removed'),0);
  const restored=harness({pinned:false});await restored.init();await restored.invoke('show',undefined,'main');assert.equal(restored.window.top,false);restored.controller.destroy();
  const loading=harness({},true);await loading.init();const pending=loading.invoke('show',undefined,'main');await loading.invoke('close');loading.finish();await pending;assert(!loading.window.visible);loading.controller.destroy();
- console.log('PASS native controller mocks: pin persistence, independent toolbar, main minimized/moved, click/focus, monitor-bound expansion, bounded recovery, close/load race, cleanup; no polling or forced focus');
+ console.log('PASS native controller mocks: main hide/restore, mini close restores hidden main, pin persistence, independent toolbar, main minimized/moved, click/focus, monitor-bound expansion, bounded recovery, close/load race, cleanup; no polling or forced focus');
 })().catch(e=>{console.error(e);process.exitCode=1});
