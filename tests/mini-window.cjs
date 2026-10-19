@@ -27,16 +27,15 @@ function harness(saved={pinned:true},deferred=false){
  assert.equal(w.options.parent,null);assert.equal(w.options.type,undefined);assert.equal(w.options.minimizable,false);assert.equal(w.options.focusable,false);
  let mainState=await h.invoke('main-toggle');assert(mainState.mainHidden);assert(!h.main.visible);assert(w.visible);mainState=await h.invoke('main-toggle');assert(!mainState.mainHidden);assert(h.main.visible);assert(w.visible);
  await h.invoke('main-toggle');await h.invoke('close');assert(h.main.visible);assert(!w.visible);await h.invoke('show',undefined,'main');
- // Model click activation: an inactive non-focusable mini must not activate the app.
- let foreground='game';
- const clickMini=()=>{if(w.options.focusable){foreground='mini';w.emit('focus')}else w.emit('mouse-input');};
+ // Contract checks only, not a simulation of Windows/TFT activation.
  h.main.minimized=true;h.main.emit('minimize');h.main.bounds={x:2200,y:100};h.main.emit('move');
- for(let i=0;i<100;i++){clickMini();w.emit('blur')}
- assert.equal(foreground,'game');assert(w.top);assert(w.visible);assert.equal(w.showCount,2);assert.equal(h.jobs.size,0);
- // A real mini action must still be accepted without restoring/activating the main.
- await h.invoke('select','3');assert(h.main.minimized);assert.equal(foreground,'game');
+ for(let i=0;i<100;i++){w.emit('focus');w.emit('blur')}
+ assert(w.top);assert(w.visible);assert.equal(w.showCount,2);assert.equal(h.jobs.size,0);
+ await h.invoke('select','3');assert(h.main.minimized);
+ // External topmost removal is repaired once without recursive flag changes.
+ w.top=false;w.emit('always-on-top-changed');assert(w.top);assert.equal(h.jobs.size,0);
  w.bounds={x:-360,y:100,width:344,height:158};let changes=w.boundChanges;
- let state=await h.invoke('configure',{pinned:false});assert.equal(state.pinned,false);assert.equal(w.top,false);assert.equal(w.boundChanges,changes);assert(w.visible);clickMini();assert.equal(foreground,'game');
+ let state=await h.invoke('configure',{pinned:false});assert.equal(state.pinned,false);assert.equal(w.top,false);assert.equal(w.boundChanges,changes);assert(w.visible);w.emit('always-on-top-changed');assert(!w.top);
  await h.invoke('configure',{opacity:.8});assert.equal(w.boundChanges,changes);assert.equal(w.opacity,.8);
  state=await h.invoke('configure',{pinned:true});assert(state.pinned);assert(w.top);assert.equal(w.boundChanges,changes);
  await h.invoke('configure',{expanded:true});assert(w.bounds.x<0);assert(w.bounds.x+w.bounds.width<=0);assert.equal(w.bounds.width,760);

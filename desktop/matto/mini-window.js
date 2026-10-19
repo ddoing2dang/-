@@ -3,7 +3,7 @@ const fs=require('node:fs/promises'),path=require('node:path'),{fileURLToPath}=r
 
 module.exports=function createMiniController(getMain){
  let mini=null,payload=null,selected='',timer,writing=Promise.resolve();
- let wantedVisible=false,ready=false,recoveryTimer,recoveryAvailable=false,observedMain=null;
+ let wantedVisible=false,ready=false,recoveryTimer,recoveryAvailable=false,observedMain=null,applyingPin=false;
  let settings={pinned:true,opacity:1,expanded:false,collapsed:false};
  const webRoot=path.join(__dirname,'web');
  const settingsPath=path.join(require('electron').app.getPath('userData'),'mini-window.json');
@@ -38,7 +38,17 @@ module.exports=function createMiniController(getMain){
   const area=screen.getPrimaryDisplay().workArea,d=dimensions();
   mini.setBounds(clampBounds({...d,x:area.x+area.width-d.width-24,y:area.y+24},area));
  }
- function applyPin(){if(alive()&&mini.isAlwaysOnTop()!==settings.pinned)mini.setAlwaysOnTop(settings.pinned);}
+ function applyPin(){
+  if(!alive()||applyingPin||mini.isAlwaysOnTop()===settings.pinned)return;
+  applyingPin=true;
+  try{mini.setAlwaysOnTop(settings.pinned);}finally{applyingPin=false;}
+ }
+ function topmostChanged(){
+  // Repair an OS topmost flag change, not every focus/blur or timer tick.
+  // Reentrancy guard also bounds synchronous Electron notifications.
+  if(wantedVisible&&ready&&settings.pinned)applyPin();
+  announce();
+ }
  // A game overlay must accept mouse input without activating the application.
  // Windows focusable:false uses a non-activating window. Do not repair on focus:
  // by then the game has already lost activation and may have changed its z-order.
@@ -83,7 +93,7 @@ module.exports=function createMiniController(getMain){
    });
    created.on('close',event=>{event.preventDefault();hide();});
    created.on('hide',recoverUnexpectedVisibility);created.on('minimize',recoverUnexpectedVisibility);
-   created.on('show',announce);created.on('restore',announce);created.on('always-on-top-changed',announce);
+   created.on('show',announce);created.on('restore',announce);created.on('always-on-top-changed',topmostChanged);
    created.once('ready-to-show',()=>{if(created.isDestroyed()||created!==mini)return;ready=true;present(true);});
    try{await created.loadFile(path.join(webRoot,'pc-mini.html'));}catch(error){
     if(mini===created){wantedVisible=false;ready=false;clearTimeout(recoveryTimer);recoveryTimer=null;mini=null;}
