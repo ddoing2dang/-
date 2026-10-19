@@ -38,8 +38,8 @@ module.exports=function createMiniController(getMain){
   const area=screen.getPrimaryDisplay().workArea,d=dimensions();
   mini.setBounds(clampBounds({...d,x:area.x+area.width-d.width-24,y:area.y+24},area));
  }
- function applyPin(){
-  if(!alive()||applyingPin||mini.isAlwaysOnTop()===settings.pinned)return;
+ function applyPin(force=false){
+  if(!alive()||applyingPin||(!force&&mini.isAlwaysOnTop()===settings.pinned))return;
   applyingPin=true;
   try{mini.setAlwaysOnTop(settings.pinned);}finally{applyingPin=false;}
  }
@@ -56,7 +56,11 @@ module.exports=function createMiniController(getMain){
   if(!alive()||!ready||!wantedVisible)return;
   if(mini.isMinimized())mini.restore();
   if(reset)resetPosition();else resize();
-  applyPin();mini.showInactive();send('matto:mini-data',data());announce();
+  // Showing a non-activating HWND does not promise foreground z-order.
+  // Apply TOPMOST after showing, then raise once without taking keyboard focus.
+  mini.showInactive();applyPin(true);
+  if(settings.pinned)mini.moveTop();
+  send('matto:mini-data',data());announce();
  }
  function recoverUnexpectedVisibility(){
   announce();
@@ -73,6 +77,8 @@ module.exports=function createMiniController(getMain){
  function hide(){wantedVisible=false;recoveryAvailable=false;clearTimeout(recoveryTimer);recoveryTimer=null;if(alive())mini.hide();if(mainHidden())restoreMain(true);announce();return state();}
  async function show(ref){
   if(!payload?.decks?.length)throw Error('추천덱을 먼저 불러와 주세요.');
+  // An explicit open must recover a previously unpinned, obscured overlay.
+  if(!settings.pinned){settings.pinned=true;save();}
   wantedVisible=true;recoveryAvailable=true;
   clearTimeout(recoveryTimer);recoveryTimer=null;
   if(typeof ref==='string'&&payload.decks.some(d=>d.ref===ref))selected=ref;

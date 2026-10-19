@@ -6,13 +6,13 @@ function harness(saved={pinned:true},deferred=false){
  const primary={x:0,y:0,width:1920,height:1040},left={x:-1280,y:0,width:1280,height:984};
  const screen=new EventEmitter();screen.getPrimaryDisplay=()=>({workArea:primary});screen.getDisplayMatching=b=>({workArea:b.x<0?left:primary});
  class Window extends EventEmitter{
-  constructor(options){super();lastWindow=this;this.options=options;this.visible=false;this.minimized=false;this.dead=false;this.top=options.alwaysOnTop;this.bounds={x:options.x,y:options.y,width:options.width,height:options.height};this.boundChanges=0;this.showCount=0;this.raises=0;this.webContents=new EventEmitter();this.webContents.mainFrame={url:pathToFileURL(path.join(root,'web/pc-mini.html')).href};this.messages=[];this.webContents.send=(channel,value)=>this.messages.push({channel,value});this.webContents.setWindowOpenHandler=()=>{};}
+  constructor(options){super();lastWindow=this;this.options=options;this.visible=false;this.minimized=false;this.dead=false;this.top=options.alwaysOnTop;this.bounds={x:options.x,y:options.y,width:options.width,height:options.height};this.boundChanges=0;this.showCount=0;this.raises=0;this.order=[];this.webContents=new EventEmitter();this.webContents.mainFrame={url:pathToFileURL(path.join(root,'web/pc-mini.html')).href};this.messages=[];this.webContents.send=(channel,value)=>this.messages.push({channel,value});this.webContents.setWindowOpenHandler=()=>{};}
   isDestroyed(){return this.dead}isVisible(){return this.visible}isMinimized(){return this.minimized}isAlwaysOnTop(){return this.top}
-  setAlwaysOnTop(value,level){assert.equal(level,undefined);this.top=value;this.emit('always-on-top-changed')}
+  setAlwaysOnTop(value,level){assert.equal(level,undefined);this.order.push('top:'+value);this.top=value;this.emit('always-on-top-changed')}
   setMenu(){}setOpacity(v){this.opacity=v}getBounds(){return {...this.bounds}}setBounds(b){this.boundChanges++;this.bounds={...b}}
-  showInactive(){this.showCount++;this.visible=true;this.emit('show')}hide(){this.visible=false;this.emit('hide')}
+  showInactive(){this.order.push('show');this.showCount++;this.visible=true;this.emit('show')}hide(){this.visible=false;this.emit('hide')}
   restore(){this.minimized=false;this.emit('restore')}destroy(){this.dead=true;this.visible=false;this.emit('hide')}
-  focus(){assert.fail('must not force focus')}moveTop(){assert.fail('no foreground or z-order forcing')}
+  focus(){assert.fail('must not force focus')}moveTop(){assert(this.visible);this.order.push('raise');this.raises++}
   async loadFile(){if(deferred)await new Promise(resolve=>{finishLoad=()=>{this.emit('ready-to-show');resolve()}});else this.emit('ready-to-show')}
  }
  const main=new EventEmitter();main.isDestroyed=()=>false;main.minimized=false;main.visible=true;main.isVisible=()=>main.visible;main.isMinimized=()=>main.minimized;main.hide=()=>{main.visible=false;main.emit('hide')};main.show=main.showInactive=()=>{main.visible=true;main.emit('show')};main.restore=()=>{main.minimized=false;main.emit('restore')};main.focus=()=>{};main.bounds={x:0,y:0};main.webContents={mainFrame:{url:pathToFileURL(path.join(root,'web/index.html')).href},send(){}};
@@ -25,11 +25,12 @@ function harness(saved={pinned:true},deferred=false){
 (async()=>{
  const h=harness();await h.init();await h.invoke('show',undefined,'main');const w=h.window;
  assert.equal(w.options.parent,null);assert.equal(w.options.type,undefined);assert.equal(w.options.minimizable,false);assert.equal(w.options.focusable,false);
+ assert.deepEqual(w.order.slice(-3),['show','top:true','raise']);const openingRaises=w.raises;
  let mainState=await h.invoke('main-toggle');assert(mainState.mainHidden);assert(!h.main.visible);assert(w.visible);mainState=await h.invoke('main-toggle');assert(!mainState.mainHidden);assert(h.main.visible);assert(w.visible);
  await h.invoke('main-toggle');await h.invoke('close');assert(h.main.visible);assert(!w.visible);await h.invoke('show',undefined,'main');
  // Contract checks only, not a simulation of Windows/TFT activation.
  h.main.minimized=true;h.main.emit('minimize');h.main.bounds={x:2200,y:100};h.main.emit('move');
- for(let i=0;i<100;i++){w.emit('focus');w.emit('blur')}
+ const beforeFocus=w.raises;for(let i=0;i<100;i++){w.emit('focus');w.emit('blur')}assert.equal(w.raises,beforeFocus);
  assert(w.top);assert(w.visible);assert.equal(w.showCount,2);assert.equal(h.jobs.size,0);
  await h.invoke('select','3');assert(h.main.minimized);
  // External topmost removal is repaired once without recursive flag changes.
@@ -50,7 +51,7 @@ function harness(saved={pinned:true},deferred=false){
  await h.invoke('show',undefined,'main');w.bounds.x=-9999;h.screen.getDisplayMatching=()=>({workArea:{x:0,y:0,width:1920,height:1040}});h.screen.emit('display-removed');assert(w.bounds.x>=0);
  await h.invoke('configure',{pinned:false});h.flush(200);await new Promise(r=>setImmediate(r));assert.equal(h.writes.at(-1).pinned,false);
  h.controller.destroy();assert(w.dead);assert.equal(h.jobs.size,0);assert.equal(h.screen.listenerCount('display-removed'),0);
- const restored=harness({pinned:false});await restored.init();await restored.invoke('show',undefined,'main');assert.equal(restored.window.top,false);restored.controller.destroy();
+ const restored=harness({pinned:false});await restored.init();await restored.invoke('show',undefined,'main');assert.equal(restored.window.top,true);assert.deepEqual(restored.window.order.slice(-3),['show','top:true','raise']);restored.controller.destroy();
  const loading=harness({},true);await loading.init();const pending=loading.invoke('show',undefined,'main');await loading.invoke('close');loading.finish();await pending;assert(!loading.window.visible);loading.controller.destroy();
  console.log('PASS native controller mocks: main hide/restore, mini close restores hidden main, pin persistence, independent normal window, main minimized/moved, click/focus, monitor-bound expansion, bounded recovery, close/load race, cleanup; Windows non-activating constructor and mouse IPC, no blur/polling or forced focus');
 })().catch(e=>{console.error(e);process.exitCode=1});
