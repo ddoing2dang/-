@@ -1,6 +1,8 @@
 const {app, BrowserWindow, shell, protocol, Notification} = require('electron');
 const fs=require('node:fs/promises'),path=require('node:path'),{fileURLToPath}=require('node:url');
 let activeWeb=path.join(__dirname,'web'),mainWindow=null,miniController=null;
+// Preserve existing settings and web-update cache after changing the display name.
+app.setPath('userData',path.join(app.getPath('appData'),'마또 도우미'));
 if(!app.requestSingleInstanceLock())app.quit();
 const APP_URL = 'https://matto-restored-pc.dm26754899.chatgpt.site/';
 const APP_HOST = new URL(APP_URL).hostname;
@@ -18,7 +20,7 @@ function openExternal(url) {
 function createWindow() {
   const win = new BrowserWindow({
     width: 1440, height: 940, minWidth: 1024, minHeight: 680,
-    title: '마또 도우미', icon: require('path').join(__dirname, 'icon.ico'), backgroundColor: '#f7f4f1',
+    title: '마또 PC', icon: require('path').join(__dirname, 'icon.ico'), backgroundColor: '#f7f4f1',
     autoHideMenuBar: true,
     webPreferences: { preload:path.join(__dirname,'preload.js'), nodeIntegration: false, contextIsolation: true, sandbox: true, webSecurity: true }
   });
@@ -44,7 +46,7 @@ app.whenReady().then(async () => {
   const updates=require('./web-updates')(path.join(app.getPath('userData'),'web-updates'));
   let opened=false;
   const pending=updates.refresh().then(changed=>{
-    if(changed&&opened&&Notification.isSupported())new Notification({title:'마또 도우미',body:'화면 업데이트 완료 · 앱을 완전히 종료 후 다시 열면 적용됩니다.'}).show();
+    if(changed&&opened&&Notification.isSupported())new Notification({title:'마또 PC',body:'화면 업데이트 완료 · 앱을 완전히 종료 후 다시 열면 적용됩니다.'}).show();
   }).catch(()=>{});
   let timer;await Promise.race([pending,new Promise(resolve=>{timer=setTimeout(resolve,6000);})]);clearTimeout(timer);
   const downloaded=await updates.current();
