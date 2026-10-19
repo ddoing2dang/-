@@ -3,7 +3,7 @@ const fs=require('node:fs/promises'),path=require('node:path'),{fileURLToPath}=r
 
 module.exports=function createMiniController(getMain){
  let mini=null,payload=null,selected='',timer,writing=Promise.resolve();
- let wantedVisible=false,ready=false,recoveryTimer,recoveryAvailable=false,observedMain=null;
+ let wantedVisible=false,ready=false,recoveryTimer,recoveryAvailable=false,observedMain=null,raiseTimer=null;
  let settings={pinned:true,opacity:1,expanded:false,collapsed:false};
  const webRoot=path.join(__dirname,'web');
  const settingsPath=path.join(require('electron').app.getPath('userData'),'mini-window.json');
@@ -39,11 +39,22 @@ module.exports=function createMiniController(getMain){
   mini.setBounds(clampBounds({...d,x:area.x+area.width-d.width-24,y:area.y+24},area));
  }
  function applyPin(){if(alive()&&mini.isAlwaysOnTop()!==settings.pinned)mini.setAlwaysOnTop(settings.pinned);}
+ // Repair z-order only after explicit presentation or mini activation, never on blur/polling.
+ function raisePinned(){
+  if(!alive()||!ready||!wantedVisible||!settings.pinned||!mini.isVisible()||mini.isMinimized())return;
+  mini.setAlwaysOnTop(true);mini.moveTop();
+ }
+ function queueActivationRaise(){
+  if(raiseTimer!==null||!settings.pinned)return;
+  const target=mini;
+  raiseTimer=setTimeout(()=>{raiseTimer=null;if(target===mini)raisePinned();},0);
+ }
+ function cancelRaise(){clearTimeout(raiseTimer);raiseTimer=null;}
  function present(reset){
   if(!alive()||!ready||!wantedVisible)return;
   if(mini.isMinimized())mini.restore();
   if(reset)resetPosition();else resize();
-  applyPin();mini.showInactive();send('matto:mini-data',data());announce();
+  applyPin();mini.showInactive();raisePinned();send('matto:mini-data',data());announce();
  }
  function recoverUnexpectedVisibility(){
   announce();
@@ -57,7 +68,7 @@ module.exports=function createMiniController(getMain){
    if(wantedVisible&&target===mini&&alive()&&(!mini.isVisible()||mini.isMinimized()))present(false);
   },120);
  }
- function hide(){wantedVisible=false;recoveryAvailable=false;clearTimeout(recoveryTimer);recoveryTimer=null;if(alive())mini.hide();if(mainHidden())restoreMain(true);announce();return state();}
+ function hide(){cancelRaise();wantedVisible=false;recoveryAvailable=false;clearTimeout(recoveryTimer);recoveryTimer=null;if(alive())mini.hide();if(mainHidden())restoreMain(true);announce();return state();}
  async function show(ref){
   if(!payload?.decks?.length)throw Error('추천덱을 먼저 불러와 주세요.');
   wantedVisible=true;recoveryAvailable=true;
@@ -67,8 +78,8 @@ module.exports=function createMiniController(getMain){
   if(!alive()){
    ready=false;
    const area=screen.getPrimaryDisplay().workArea;
-   // Independent toolbar, not owned by the main window; retain mouse/keyboard interaction.
-   mini=new BrowserWindow({width:344,height:158,x:area.x+area.width-368,y:area.y+24,type:'toolbar',parent:null,modal:false,frame:false,resizable:false,minimizable:false,maximizable:false,fullscreenable:false,focusable:true,show:false,skipTaskbar:true,alwaysOnTop:settings.pinned,title:'마또 미니 도우미',backgroundColor:'#fff7f1',webPreferences:{preload:path.join(__dirname,'preload.js'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true}});
+   // Normal independent window: avoid Windows toolbar activation semantics; retain keyboard controls.
+   mini=new BrowserWindow({width:344,height:158,x:area.x+area.width-368,y:area.y+24,parent:null,modal:false,frame:false,resizable:false,minimizable:false,maximizable:false,fullscreenable:false,focusable:true,show:false,skipTaskbar:true,alwaysOnTop:settings.pinned,title:'마또 미니 도우미',backgroundColor:'#fff7f1',webPreferences:{preload:path.join(__dirname,'preload.js'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true}});
    const created=mini;
    created.setMenu(null);created.setOpacity(settings.opacity);
    created.webContents.setWindowOpenHandler(()=>({action:'deny'}));
@@ -80,6 +91,7 @@ module.exports=function createMiniController(getMain){
    });
    created.on('close',event=>{event.preventDefault();hide();});
    created.on('hide',recoverUnexpectedVisibility);created.on('minimize',recoverUnexpectedVisibility);
+   created.on('focus',queueActivationRaise);
    created.on('show',announce);created.on('restore',announce);created.on('always-on-top-changed',announce);
    created.once('ready-to-show',()=>{if(created.isDestroyed()||created!==mini)return;ready=true;present(true);});
    try{await created.loadFile(path.join(webRoot,'pc-mini.html'));}catch(error){
@@ -114,7 +126,7 @@ module.exports=function createMiniController(getMain){
   for(const key of ['pinned','expanded','collapsed'])if(typeof next[key]==='boolean')settings[key]=next[key];
   if(Number.isFinite(next.opacity))settings.opacity=Math.max(.65,Math.min(1,next.opacity));
   if(alive()){
-   if(before.pinned!==settings.pinned)applyPin();
+   if(before.pinned!==settings.pinned){cancelRaise();applyPin();if(settings.pinned)raisePinned();}
    if(before.opacity!==settings.opacity)mini.setOpacity(settings.opacity);
    if(before.expanded!==settings.expanded||before.collapsed!==settings.collapsed)resize();
   }
@@ -125,6 +137,6 @@ module.exports=function createMiniController(getMain){
  return {
   attachMain(win){observedMain=win;for(const event of ['show','hide','minimize','restore'])win.on(event,announce);},
   async load(){try{const saved=JSON.parse(await fs.readFile(settingsPath,'utf8'));for(const key of ['pinned','expanded','collapsed'])if(typeof saved[key]==='boolean')settings[key]=saved[key];if(Number.isFinite(saved.opacity))settings.opacity=Math.max(.65,Math.min(1,saved.opacity));}catch{}},
-  destroy(){if(observedMain)for(const event of ['show','hide','minimize','restore'])observedMain.removeListener(event,announce);observedMain=null;wantedVisible=false;ready=false;clearTimeout(timer);clearTimeout(recoveryTimer);recoveryTimer=null;screen.removeListener('display-removed',displayChanged);screen.removeListener('display-metrics-changed',displayChanged);if(alive())mini.destroy();mini=null;announce();}
+  destroy(){cancelRaise();if(observedMain)for(const event of ['show','hide','minimize','restore'])observedMain.removeListener(event,announce);observedMain=null;wantedVisible=false;ready=false;clearTimeout(timer);clearTimeout(recoveryTimer);recoveryTimer=null;screen.removeListener('display-removed',displayChanged);screen.removeListener('display-metrics-changed',displayChanged);if(alive())mini.destroy();mini=null;announce();}
  };
 };

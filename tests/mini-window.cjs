@@ -6,13 +6,13 @@ function harness(saved={pinned:true},deferred=false){
  const primary={x:0,y:0,width:1920,height:1040},left={x:-1280,y:0,width:1280,height:984};
  const screen=new EventEmitter();screen.getPrimaryDisplay=()=>({workArea:primary});screen.getDisplayMatching=b=>({workArea:b.x<0?left:primary});
  class Window extends EventEmitter{
-  constructor(options){super();lastWindow=this;this.options=options;this.visible=false;this.minimized=false;this.dead=false;this.top=options.alwaysOnTop;this.bounds={x:options.x,y:options.y,width:options.width,height:options.height};this.boundChanges=0;this.showCount=0;this.webContents=new EventEmitter();this.webContents.mainFrame={url:pathToFileURL(path.join(root,'web/pc-mini.html')).href};this.messages=[];this.webContents.send=(channel,value)=>this.messages.push({channel,value});this.webContents.setWindowOpenHandler=()=>{};}
+  constructor(options){super();lastWindow=this;this.options=options;this.visible=false;this.minimized=false;this.dead=false;this.top=options.alwaysOnTop;this.bounds={x:options.x,y:options.y,width:options.width,height:options.height};this.boundChanges=0;this.showCount=0;this.raises=0;this.webContents=new EventEmitter();this.webContents.mainFrame={url:pathToFileURL(path.join(root,'web/pc-mini.html')).href};this.messages=[];this.webContents.send=(channel,value)=>this.messages.push({channel,value});this.webContents.setWindowOpenHandler=()=>{};}
   isDestroyed(){return this.dead}isVisible(){return this.visible}isMinimized(){return this.minimized}isAlwaysOnTop(){return this.top}
   setAlwaysOnTop(value,level){assert.equal(level,undefined);this.top=value;this.emit('always-on-top-changed')}
   setMenu(){}setOpacity(v){this.opacity=v}getBounds(){return {...this.bounds}}setBounds(b){this.boundChanges++;this.bounds={...b}}
   showInactive(){this.showCount++;this.visible=true;this.emit('show')}hide(){this.visible=false;this.emit('hide')}
   restore(){this.minimized=false;this.emit('restore')}destroy(){this.dead=true;this.visible=false;this.emit('hide')}
-  focus(){assert.fail('must not force focus')}moveTop(){assert.fail('must not force z-order')}
+  focus(){assert.fail('must not force focus')}moveTop(){this.raises++}
   async loadFile(){if(deferred)await new Promise(resolve=>{finishLoad=()=>{this.emit('ready-to-show');resolve()}});else this.emit('ready-to-show')}
  }
  const main=new EventEmitter();main.isDestroyed=()=>false;main.minimized=false;main.visible=true;main.isVisible=()=>main.visible;main.isMinimized=()=>main.minimized;main.hide=()=>{main.visible=false;main.emit('hide')};main.show=main.showInactive=()=>{main.visible=true;main.emit('show')};main.restore=()=>{main.minimized=false;main.emit('restore')};main.focus=()=>{};main.bounds={x:0,y:0};main.webContents={mainFrame:{url:pathToFileURL(path.join(root,'web/index.html')).href},send(){}};
@@ -24,13 +24,18 @@ function harness(saved={pinned:true},deferred=false){
 }
 (async()=>{
  const h=harness();await h.init();await h.invoke('show',undefined,'main');const w=h.window;
- assert.equal(w.options.parent,null);assert.equal(w.options.type,'toolbar');assert.equal(w.options.minimizable,false);assert(w.options.focusable);
+ assert.equal(w.options.parent,null);assert.equal(w.options.type,undefined);assert.equal(w.options.minimizable,false);assert(w.options.focusable);
  let mainState=await h.invoke('main-toggle');assert(mainState.mainHidden);assert(!h.main.visible);assert(w.visible);mainState=await h.invoke('main-toggle');assert(!mainState.mainHidden);assert(h.main.visible);assert(w.visible);
  await h.invoke('main-toggle');await h.invoke('close');assert(h.main.visible);assert(!w.visible);await h.invoke('show',undefined,'main');
+ const initialRaises=w.raises;
  h.main.minimized=true;h.main.emit('minimize');h.main.bounds={x:2200,y:100};h.main.emit('move');for(let i=0;i<100;i++){w.emit('focus');w.emit('blur')}
- assert(w.visible);assert.equal(w.showCount,2);assert.equal(h.jobs.size,0);
+ assert(w.visible);assert.equal(w.showCount,2);assert.equal(h.jobs.size,1);
+ h.flush(0);assert.equal(w.raises,initialRaises+1);assert.equal(h.jobs.size,0);
+ // Simulate external demotion, then activation with the main behind another window.
+ w.top=false;w.emit('focus');h.flush(0);assert(w.top);assert.equal(w.raises,initialRaises+2);
+ const raised=w.raises;for(let i=0;i<100;i++)w.emit('blur');h.flush(0);assert.equal(w.raises,raised);
  w.bounds={x:-360,y:100,width:344,height:158};let changes=w.boundChanges;
- let state=await h.invoke('configure',{pinned:false});assert.equal(state.pinned,false);assert.equal(w.top,false);assert.equal(w.boundChanges,changes);assert(w.visible);
+ let state=await h.invoke('configure',{pinned:false});assert.equal(state.pinned,false);assert.equal(w.top,false);assert.equal(w.boundChanges,changes);assert(w.visible);w.emit('focus');h.flush(0);assert.equal(w.raises,raised);
  await h.invoke('configure',{opacity:.8});assert.equal(w.boundChanges,changes);assert.equal(w.opacity,.8);
  state=await h.invoke('configure',{pinned:true});assert(state.pinned);assert(w.top);assert.equal(w.boundChanges,changes);
  await h.invoke('configure',{expanded:true});assert(w.bounds.x<0);assert(w.bounds.x+w.bounds.width<=0);assert.equal(w.bounds.width,760);
@@ -40,12 +45,12 @@ function harness(saved={pinned:true},deferred=false){
  w.hide();h.flush(120);assert(!w.visible);assert.equal(w.showCount,shown);assert(![...h.jobs.values()].some(j=>j.delay===120));
  await h.invoke('show',undefined,'main');assert(w.visible);assert(w.bounds.x>=0);
  w.minimized=true;w.visible=false;w.emit('minimize');h.flush(120);assert(!w.minimized);assert(w.visible);
- await h.invoke('close');h.flush(120);assert(!w.visible);
+ w.emit('focus');const beforeClose=w.raises;await h.invoke('close');h.flush(0);h.flush(120);assert(!w.visible);assert.equal(w.raises,beforeClose);
  await h.invoke('show',undefined,'main');w.hide();await h.invoke('close');h.flush(120);assert(!w.visible);
  await h.invoke('show',undefined,'main');w.bounds.x=-9999;h.screen.getDisplayMatching=()=>({workArea:{x:0,y:0,width:1920,height:1040}});h.screen.emit('display-removed');assert(w.bounds.x>=0);
  await h.invoke('configure',{pinned:false});h.flush(200);await new Promise(r=>setImmediate(r));assert.equal(h.writes.at(-1).pinned,false);
  h.controller.destroy();assert(w.dead);assert.equal(h.jobs.size,0);assert.equal(h.screen.listenerCount('display-removed'),0);
  const restored=harness({pinned:false});await restored.init();await restored.invoke('show',undefined,'main');assert.equal(restored.window.top,false);restored.controller.destroy();
  const loading=harness({},true);await loading.init();const pending=loading.invoke('show',undefined,'main');await loading.invoke('close');loading.finish();await pending;assert(!loading.window.visible);loading.controller.destroy();
- console.log('PASS native controller mocks: main hide/restore, mini close restores hidden main, pin persistence, independent toolbar, main minimized/moved, click/focus, monitor-bound expansion, bounded recovery, close/load race, cleanup; no polling or forced focus');
+ console.log('PASS native controller mocks: main hide/restore, mini close restores hidden main, pin persistence, independent normal window, main minimized/moved, click/focus, monitor-bound expansion, bounded recovery, close/load race, cleanup; activation-only coalesced z-order repair, no blur/polling or forced focus');
 })().catch(e=>{console.error(e);process.exitCode=1});
