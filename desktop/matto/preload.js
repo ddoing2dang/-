@@ -2,6 +2,7 @@ const {contextBridge,ipcRenderer}=require('electron');
 const listen=(channel,callback)=>{if(typeof callback!=='function')return ()=>{};const listener=(_event,value)=>callback(value);ipcRenderer.on(channel,listener);return ()=>ipcRenderer.removeListener(channel,listener);};
 contextBridge.exposeInMainWorld('MattoDesktop',Object.freeze({
  version:1,
+ miniVersion:2,
  publishMini:payload=>ipcRenderer.invoke('matto:mini-publish',payload),
  toggleMini:()=>ipcRenderer.invoke('matto:mini-toggle'),
  showMini:ref=>ipcRenderer.invoke('matto:mini-show',ref),

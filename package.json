@@ -1,1 +1,1 @@
-{"name":"tft-helper-restored-web","version":"1.4.0","private":true,"scripts":{"test":"node tests/web.cjs && node tests/mini.cjs"},"devDependencies":{"jsdom":"30.1.2"}}
+{"name":"tft-helper-restored-web","version":"1.4.0","private":true,"scripts":{"test":"node tests/web.cjs && node tests/mini.cjs && node tests/mini-window.cjs"},"devDependencies":{"jsdom":"30.1.2"}}

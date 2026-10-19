@@ -9,6 +9,10 @@
 .collapsed #titlebar .grip{position:static;inset:auto;flex:0 0 27px;height:25px;font-size:0}
 .collapsed #titlebar .grip:before{content:'⠿';font-size:17px}
 
-.toolbar-drag-gap{flex:0 0 24px;height:25px;-webkit-app-region:drag;cursor:move}
+
 
 .level-tip-lines{padding-left:25px;margin:12px 0}.level-tip-lines li{padding:10px 12px;margin:8px 0;border:1px solid var(--line);border-radius:8px;background:#fffdfb;line-height:1.8;font-size:13px;word-break:keep-all;overflow-wrap:anywhere}
+
+#titlebar #pin{border:1px solid transparent;filter:grayscale(1);background:transparent;color:var(--muted)}
+#titlebar #pin[aria-pressed="true"]{filter:none;background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 0 0 1px #ad536e22}
+#titlebar #pin[aria-pressed="false"]{filter:grayscale(1);background:transparent;border-color:var(--line);box-shadow:none}
