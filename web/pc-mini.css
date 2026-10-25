@@ -30,3 +30,5 @@
 #titlebar #pin[aria-pressed="true"]{background:#ad315d;border-color:#ad315d;color:#fff;filter:none}
 #titlebar #pin[aria-pressed="false"]{background:#f1ecee;border-color:#a89ba0;color:#594b51;filter:none}
 #titlebar #pin[aria-busy="true"]{opacity:.7;cursor:wait}
+
+#pivotQuick{flex:0 0 auto;padding:4px 6px;font-size:10px;min-height:27px;background:var(--soft);font-weight:700}#detail nav{grid-template-columns:repeat(5,minmax(0,1fr))}@media(max-width:500px){#detail nav{grid-template-columns:repeat(3,minmax(0,1fr))}.bottom{gap:4px}#expand{padding-left:6px;padding-right:6px}}

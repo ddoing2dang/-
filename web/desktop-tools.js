@@ -8,7 +8,7 @@ window.MattoPCInit=function({getData,getState,catalogs,tipSummaries,E,toast,rend
  function update(next){visible=!!next.visible;toggle.textContent=visible?'▣ 미니 창 끄기':'▣ 미니 창 켜기';toggle.setAttribute('aria-pressed',String(visible));}
  function snapshot(preferApplied=false){const data=getData(),state=getState();return {patch:data.patch,publishedAt:data.publishedAt,selectedRef:preferApplied?state.deckRef:'',
   catalogs:{champions:catalogs.champions,items:catalogs.items,augments:catalogs.augments},
-  decks:data.recommendations.map(d=>window.TFTPortraits?.deck(d)||d).map(d=>{const tip=tipSummaries[d.url];return {ref:d.url,title:d.title,level:d.level,units:d.units,equipment:d.equipment,carries:d.carries,augments:d.augments,conditions:d.conditions,guide:d.pcGuide||null,levelTips:window.MattoPCLevelTips?.forDeck(d)||null,tips:tip?.evidence===JSON.stringify([d.sourceTips,d.sourceAugmentTip])?tip.lines:[]};})};}
+  decks:data.recommendations.map(d=>window.TFTPortraits?.deck(d)||d).map(d=>{const tip=tipSummaries[d.url];return {ref:d.url,title:d.title,level:d.level,units:d.units,equipment:d.equipment,carries:d.carries,augments:d.augments,conditions:d.conditions,pivot:window.MattoPivot?.forDeck(d,data)||null,guide:d.pcGuide||null,levelTips:window.MattoPCLevelTips?.forDeck(d)||null,tips:tip?.evidence===JSON.stringify([d.sourceTips,d.sourceAugmentTip])?tip.lines:[]};})};}
  function publish(preferApplied=false){publishing=publishing.catch(()=>{}).then(()=>api.publishMini(snapshot(preferApplied))).then(update);return publishing;}
  async function action(fn){toggle.disabled=true;try{await publish();update(await fn());}catch(e){toast(e.message||'미니 창을 열지 못했습니다.');}finally{toggle.disabled=false;}}
  toggle.onclick=()=>action(()=>api.toggleMini());
