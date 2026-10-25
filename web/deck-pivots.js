@@ -23,32 +23,27 @@ window.MattoPivot=(()=>{
   const emblems=d=>{const bag=new Map();for(const items of Object.values(d.equipment))for(const item of items)if(item.includes('상징'))bag.set(item,(bag.get(item)||0)+1);return bag;};
   const owned=emblems(source);
   for(const target of pool(data)){
-   const other=units(target);if(source.url===target.url||other.slice().sort().join('|')===own.slice().sort().join('|'))continue;
-   if([...emblems(target)].some(([n,k])=>(owned.get(n)||0)<k))continue;
-   let transfer=null;
-   for(const from of [carry])for(const [to]of target.carries||[]){
-    if(target.source==='lolchess'&&to!==from)continue;
-    const remaining=[...(target.equipment[to]||[])],items=[];
-    for(const item of source.equipment[from]||[]){if(!normal.has(item))continue;const i=remaining.indexOf(item);if(i>=0){items.push(item);remaining.splice(i,1);}}
-    if(items.length>=2&&(!transfer||items.length>transfer.items.length||(items.length===transfer.items.length&&from===carry)))transfer={from,to,items};
-   }
-   if(!transfer)continue;
-   const {to,items}=transfer;
-   const shared=own.filter(n=>other.includes(n)),ratio=shared.length/Math.max(own.length,other.length);
-   const reroll=(source.style||'').includes('Reroll')||(target.style||'').includes('Reroll');
-   const early=(source.pcGuide?.early||[]).map(u=>u.name).filter(n=>(target.pcGuide?.early||[]).some(u=>u.name===n));
-   let mode,label,kept=shared;
-   if(transfer.from===carry&&to===carry&&shared.length>=3&&ratio>=.45&&target.level>=source.level&&target.level-source.level<=1){mode='late';label='핵심 유지형';}
-   else if(!reroll&&shared.length>=2&&ratio>=.3&&target.level>=source.level&&target.level-source.level<=1){mode='items';label='아이템 활용형';}
-   else if(early.length>=2){mode='early';label='초반 방향 변경용';kept=early;}
-   else continue;
-   candidates.push({mode,label,ref:target.url,title:target.title,level:target.level,units:other,shared:kept,removed:own.filter(n=>!other.includes(n)),added:other.filter(n=>!own.includes(n)),transfer,source:target.referenceSource||target.source,url:target.url,score:kept.length*10+items.length*8-Math.abs(target.level-source.level)*4,note:mode==='early'?'3성·핵심 투자 전에만 검토하는 사전 경로':'상점·체력·골드·별 등급 미반영 · 아이템 이동 시 판매·제거기 확인'});
+   const canonical=s=>(s||'').replace(/\s+/g,'').toLowerCase();if(canonical(target.title)===canonical(source.title)||canonical(target.sourceTitle)===canonical(source.sourceTitle))continue;
+   const other=units(target);if(other.slice().sort().join('|')===own.slice().sort().join('|'))continue;
+   const required=[...emblems(target)].filter(([n,k])=>(owned.get(n)||0)<k).map(([n,k])=>n+' '+(k-(owned.get(n)||0))+'개');
+   const to=main(target),remaining=[...(target.equipment[to]||[])],items=[];
+   for(const item of held){const i=remaining.indexOf(item);if(i>=0){items.push(item);remaining.splice(i,1);}}
+   const shared=own.filter(n=>other.includes(n)),removed=own.filter(n=>!other.includes(n)),added=other.filter(n=>!own.includes(n));
+   const sameCarry=to===carry,reroll=(source.style||'').includes('Reroll')||(target.style||'').includes('Reroll');
+   const warnings=[];
+   if(required.length)warnings.push('추가 필요: '+required.join(' · '));
+   if(reroll&&!sameCarry)warnings.push('주력 3성 투자 전 방향 변경용');
+   if(!items.length)warnings.push('현재 주력과 원문 핵심 아이템이 겹치지 않아요');
+   if(target.source==='lolchess')warnings.push('LoLCHESS는 주력 역할 미표기 · 첫 아이템 기물 기준 비교');
+   if(Math.abs(source.level-target.level)>1)warnings.push('완성 레벨 차이가 커요');
+   const score=shared.length*10+items.length*9+(sameCarry?15:0)-required.length*25-Math.abs(target.level-source.level)*4-(reroll&&!sameCarry?12:0);
+   const label=sameCarry?'핵심 기물 유지':items.length>=2?'아이템 활용 후보':'새 방향 후보';
+   candidates.push({mode:'recommend',label,primary:to,ref:target.url,title:target.title,level:target.level,units:other,shared,removed,added,transfer:{from:carry,to,items},source:target.referenceSource||target.source,url:target.url,score,required,warnings,note:'구성·아이템 유사도 순 추천이며 즉시 전환 권장이 아니에요. '+(warnings.length?warnings.join(' · '):'상점·체력·골드·별 등급은 반영하지 않아요.')});
   }
-  candidates.sort((a,b)=>b.score-a.score||a.ref.localeCompare(b.ref));
-  const branches=[];for(const mode of ['late','items','early']){const best=candidates.find(r=>r.mode===mode);if(best)branches.push(best);}
-  // Fill remaining slots with distinct configurations, never duplicate the same board.
-  for(const c of candidates)if(branches.length<3&&!branches.some(r=>r.ref===c.ref))branches.push(c);
-  const fallback=strengthen(source);return branches.length?{...branches[0],branches}: {...fallback,branches:[]};
+  candidates.sort((a,b)=>a.required.length-b.required.length||b.score-a.score||a.ref.localeCompare(b.ref));
+  const distinct=[];for(const r of candidates){if(distinct.some(x=>x.primary===r.primary))continue;distinct.push(r);if(distinct.length===3)break;}
+  const branches=distinct.map((r,i)=>({...r,label:(i+1)+'순위 · '+r.label}));
+  return branches.length?{...branches[0],branches}:{...strengthen(source),branches:[]};
  }
  return {forDeck};
 })();

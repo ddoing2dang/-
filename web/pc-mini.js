@@ -45,10 +45,10 @@ function renderAugments(d){
  if(d.guide?.augmentNote){const box=section('원문 선택 기준');box.append(element('p',d.guide.augmentNote,'muted'));}
 }
 function renderPivot(d){
- $('content').append(element('h2','전환·보강 경로'));
+ $('content').append(element('h2','다른 덱 추천 · 3개'));
  const plan=d.pivot;if(!plan)return;
  if(!plan.branches?.length){for(const action of plan.actions||[])$('content').append(element('p',action));return;}
- for(const route of plan.branches){const box=element('details',undefined,'pivot-branch');box.append(element('summary',route.label+' · '+route.title));box.append(element('h3',route.level+'레벨 원문 구성'));roster(box,route.units);box.append(element('p',(route.mode==='early'?'초반 공통: ':'유지: ')+route.shared.join(' · ')),element('p','아이템 '+route.transfer.from+' → '+route.transfer.to+' · '+route.transfer.items.join(' / ')),element('p','추가: '+(route.added.join(' · ')||'없음')),element('p','교체: '+(route.removed.join(' · ')||'없음')));box.append(element('p',(route.source==='academy'?'TFT Academy':'LoLCHESS')+' · '+route.url,'muted'),element('p',route.note,'muted'));$('content').append(box);}
+ for(const route of plan.branches){const box=element('details',undefined,'pivot-branch');box.append(element('summary',route.label+' · '+route.title));box.append(element('h3',route.level+'레벨 원문 구성'));roster(box,route.units);box.append(element('p',(route.mode==='early'?'초반 공통: ':'유지: ')+(route.shared.join(' · ')||'없음')),element('p','공통 기물 '+route.shared.length+'명 · 핵심 아이템 '+route.transfer.items.length+'개'+(route.transfer.items.length?' · '+route.transfer.from+' → '+route.transfer.to+' / '+route.transfer.items.join(' / '):'')),element('p','추가: '+(route.added.join(' · ')||'없음')),element('p','교체: '+(route.removed.join(' · ')||'없음')));box.append(element('p',(route.source==='academy'?'TFT Academy':'LoLCHESS')+' · '+route.url,'muted'),element('p',route.note,'muted'));$('content').append(box);}
 }
 function renderDetail(){
  const d=deck();if(!d)return;$('content').replaceChildren();
