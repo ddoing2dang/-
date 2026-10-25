@@ -27,15 +27,15 @@ function renderLevels(d){
  else $('content').append(element('p','현재 원문과 일치하는 레벨별 요약이 아직 준비되지 않았습니다.','muted'));
 }
 function renderItems(d){
- const priority=d.guide?.priority||[];$('content').append(element('h2','아이템 우선순위'));
- if(priority.length){$('content').append(element('p','원문 회전초밥 우선순위 · 완성 아이템과 재료가 함께 표시됩니다.','muted'));priority.forEach((r,i)=>{const box=element('div',undefined,'item-row');box.append(element('strong',(i+1)+'순위'));box.append(namedIcon(r));$('content').append(box);});}
- else $('content').append(element('p','이 공략에는 아이템 제작 순서가 없습니다. 아래는 챔피언별 추천 완성 아이템입니다.','muted'));
- section('챔피언별 추천 아이템');
- for(const [name,items] of Object.entries(d.equipment)){const box=element('div',undefined,'item-row');box.append(element('strong',name));const row=element('div',undefined,'icons');items.forEach(n=>row.append(namedIcon(record('items',n))));box.append(row);$('content').append(box);}
- const alts=d.guide?.itemAlternatives||[];
- if(alts.length){const box=section('원문 대체 빌드 · 특수 아이템 포함 가능');for(const alt of alts){const row=element('div',undefined,'item-row');row.append(element('strong',alt.unit));const icons=element('div',undefined,'icons');alt.items.forEach(item=>icons.append(namedIcon(item)));row.append(icons);box.append(row);}}
- for(const row of d.assist||[]){const box=section(row.unit+' · 마또 일반 아이템 대체안');for(const item of row.items){box.append(element('strong',item.name),element('p',item.note,'muted'));if(item.sources?.length)box.append(element('p','동일 챔피언 현재 패치 공략 '+item.sources.length+'개에서 확인','muted'));else box.append(element('p','마또 상황별 제안 · 원문 추천과 별도','muted'));}}
- if(d.tips?.[1])$('content').append(element('p',d.tips[1]));
+ $('content').append(element('h2','핵심 아이템'));
+ const normal=new Set((payload.catalogs.items||[]).filter(i=>i.category==='normal').map(i=>i.name));
+ for(const carry of (d.carries||[]).slice(0,3)){
+  const name=carry[0],main=d.equipment[name]||[],box=element('div',undefined,'core-item-entry'),head=element('div',undefined,'core-item-head'),champ=element('div',undefined,'core-unit');
+  champ.append(picture(record('champions',name)),element('strong',name));const icons=element('div',undefined,'core-item-icons');for(const item of main)icons.append(picture(record('items',item)));head.append(champ,icons);box.append(head);
+  const alts=new Map();for(const build of d.guide?.itemAlternatives||[])if(build.unit===name)for(const item of build.items)if(normal.has(item.name)&&!main.includes(item.name))alts.set(item.name,'원문 대체 빌드');
+  for(const item of d.assist?.find(r=>r.unit===name)?.items||[])if(!main.includes(item.name)&&!alts.has(item.name))alts.set(item.name,item.note);
+  const line=element('div',undefined,'core-alt-line');line.append(element('span','대체'));for(const [item,note]of [...alts].slice(0,4)){const icon=picture(record('items',item));icon.title=item+' · '+note;line.append(icon);}if(!alts.size)line.append(element('span','—'));box.append(line);$('content').append(box);
+ }
 }
 function renderAugments(d){
  $('content').append(element('h2','추천 증강'));

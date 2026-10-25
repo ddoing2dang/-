@@ -65,15 +65,16 @@ function itemAlternatives(d,unit){
  return (d.pcGuide.itemAlternatives||[]).filter(r=>(!unit||r.unit===unit)&&d.units.includes(r.unit)&&Array.isArray(r.items)&&r.items.length&&r.items.every(i=>allowed.has(i.name)));
 }
 function alternativesPanel(d,unit){
- const rows=itemAlternatives(d,unit),assist=(window.MattoAssist?.alternatives(d,data)||[]).filter(r=>!unit||r.unit===unit),box=E('details','item-alternatives');
- box.append(E('summary','','아이템 대체안 · 원문 / 마또'));
+ const box=E('div','core-item-list'),assist=window.MattoAssist?.alternatives(d,data)||[];
  const normal=new Set(window.TFT_ITEM_POLICY.items.filter(i=>i.category==='normal').map(i=>i.name));
- box.append(E('p','alternative-note','원문은 별도 빌드 묶음이며, 마또 대체안은 상황별 후보예요. 어느 슬롯이든 같은 효과로 교체되는 것은 아니에요.'));
- for(const [i,row]of rows.entries()){const group=E('div','alternative-build');group.append(E('strong','',row.unit+' · 원문 '+(row.items.every(x=>normal.has(x.name))?'일반 빌드':'특수 아이템 포함 빌드')+' '+(i+1)));const items=E('div','alternative-items');for(const item of row.items){const chip=E('span','alternative-item');chip.append(picture('items',item.name),E('span','',item.name));items.append(chip);}group.append(items);box.append(group);}
- for(const row of assist){const group=E('div','alternative-build');group.append(E('strong','',row.unit+' · 마또 일반 아이템 대체안'));
-  for(const item of row.items){const chip=E('div','assist-choice');chip.append(E('strong','',item.name),E('p','alternative-note',item.note));if(item.sources.length){const evidence=E('details');evidence.append(E('summary','','근거 공략 '+item.sources.length+'개'));for(const source of item.sources){const link=E('a','',source.title);link.href=source.url;link.target='_blank';link.rel='noopener noreferrer';evidence.append(link,E('br'));}chip.append(evidence);}else chip.append(E('span','alternative-note','마또 상황별 제안 · 원문 추천과 별도'));group.append(chip);}box.append(group);
+ const names=unit?[unit]:(d.carries||[]).slice(0,3).map(r=>r[0]);
+ for(const name of names){const main=d.equipment[name]||[],row=E('div','core-item-entry');
+  if(!unit){const head=E('div','core-item-head'),champ=E('div','core-unit');champ.append(picture('champions',name),E('strong','',name));const icons=E('div','core-item-icons');for(const item of main){const im=picture('items',item);im.title=item;icons.append(im);}head.append(champ,icons);row.append(head);}
+  const alternatives=new Map();
+  for(const build of itemAlternatives(d,name))for(const item of build.items)if(normal.has(item.name)&&!main.includes(item.name))alternatives.set(item.name,'원문 대체 빌드');
+  for(const item of assist.find(r=>r.unit===name)?.items||[])if(!main.includes(item.name)&&!alternatives.has(item.name))alternatives.set(item.name,item.note);
+  const line=E('div','core-alt-line');line.append(E('span','','대체'));for(const [item,note]of [...alternatives].slice(0,4)){const im=picture('items',item);im.title=item+' · '+note;line.append(im);}if(!alternatives.size)line.append(E('span','core-alt-empty','—'));row.append(line);box.append(row);
  }
- if(!rows.length&&!assist.length)box.append(E('p','alternative-note','현재 챔피언의 확인된 대체 정보가 부족해요. 기존 추천 아이템을 우선해요.'));
  return box;
 }
 function appendDeckChanges(card,d){
