@@ -124,3 +124,5 @@ body.matto.light:before,body.editor-view.matto.light:before{opacity:.23}
 .pivot-panel{margin:10px 0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card)}.pivot-panel summary{cursor:pointer;font-size:12px;font-weight:750;min-height:28px;color:var(--accent)}.pivot-panel p{font-size:12px;line-height:1.85;margin:9px 0;overflow-wrap:anywhere}.pivot-panel .pivot-route{font-weight:750}.pivot-panel button{min-height:42px;width:100%}
 
 .assist-choice{padding:9px;margin:7px 0;border:1px solid var(--line);border-radius:8px;background:var(--panel)}.assist-choice>strong{font-size:12px}.assist-choice a{color:var(--accent);font-size:11px}.assist-choice details summary{font-size:11px}
+
+#recommend .filters{grid-template-columns:minmax(0,1fr)}#recommend .filters #deckSearch{grid-column:1/-1}
