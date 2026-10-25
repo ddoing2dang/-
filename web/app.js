@@ -65,11 +65,15 @@ function itemAlternatives(d,unit){
  return (d.pcGuide.itemAlternatives||[]).filter(r=>(!unit||r.unit===unit)&&d.units.includes(r.unit)&&Array.isArray(r.items)&&r.items.length&&r.items.every(i=>allowed.has(i.name)));
 }
 function alternativesPanel(d,unit){
- const rows=itemAlternatives(d,unit),box=E('details','item-alternatives');
- box.append(E('summary','',rows.length?'아이템 대체안 · '+rows.length+'개 빌드':'아이템 대체안 · 원문 정보 없음'));
- if(!rows.length){box.append(E('p','alternative-note','이 공략에는 확인된 대체 빌드가 없어요.'));return box;}
- box.append(E('p','alternative-note','Academy 원문 대체 빌드예요. 각 묶음은 별도 구성으로, 아이템 하나씩의 교체 순서를 뜻하지 않아요.'));
- for(const [i,row] of rows.entries()){const group=E('div','alternative-build');group.append(E('strong','',row.unit+' · 대체 '+(i+1)));const items=E('div','alternative-items');for(const item of row.items){const chip=E('span','alternative-item');chip.append(picture('items',item.name),E('span','',item.name));items.append(chip);}group.append(items);box.append(group);}
+ const rows=itemAlternatives(d,unit),assist=(window.MattoAssist?.alternatives(d,data)||[]).filter(r=>!unit||r.unit===unit),box=E('details','item-alternatives');
+ box.append(E('summary','','아이템 대체안 · 원문 / 마또'));
+ const normal=new Set(window.TFT_ITEM_POLICY.items.filter(i=>i.category==='normal').map(i=>i.name));
+ box.append(E('p','alternative-note','원문은 별도 빌드 묶음이며, 마또 대체안은 상황별 후보예요. 어느 슬롯이든 같은 효과로 교체되는 것은 아니에요.'));
+ for(const [i,row]of rows.entries()){const group=E('div','alternative-build');group.append(E('strong','',row.unit+' · 원문 '+(row.items.every(x=>normal.has(x.name))?'일반 빌드':'특수 아이템 포함 빌드')+' '+(i+1)));const items=E('div','alternative-items');for(const item of row.items){const chip=E('span','alternative-item');chip.append(picture('items',item.name),E('span','',item.name));items.append(chip);}group.append(items);box.append(group);}
+ for(const row of assist){const group=E('div','alternative-build');group.append(E('strong','',row.unit+' · 마또 일반 아이템 대체안'));
+  for(const item of row.items){const chip=E('div','assist-choice');chip.append(E('strong','',item.name),E('p','alternative-note',item.note));if(item.sources.length){const evidence=E('details');evidence.append(E('summary','','근거 공략 '+item.sources.length+'개'));for(const source of item.sources){const link=E('a','',source.title);link.href=source.url;link.target='_blank';link.rel='noopener noreferrer';evidence.append(link,E('br'));}chip.append(evidence);}else chip.append(E('span','alternative-note','마또 상황별 제안 · 원문 추천과 별도'));group.append(chip);}box.append(group);
+ }
+ if(!rows.length&&!assist.length)box.append(E('p','alternative-note','현재 챔피언의 확인된 대체 정보가 부족해요. 기존 추천 아이템을 우선해요.'));
  return box;
 }
 function appendDeckChanges(card,d){
@@ -89,10 +93,11 @@ function appendDeckChanges(card,d){
 }
 function pivotPanel(d){
  const route=window.MattoPivot?.forDeck(d,data),box=E('details','pivot-panel');
- box.append(E('summary','',route?'전환 비상구 · '+route.title:'전환 비상구 · 추천 경로 없음'));
+ box.append(E('summary','',route?'전환 비상구 · '+(route.label||route.title):'전환 비상구'));
  if(!route){box.append(E('p','','기물·아이템·운영 조건이 맞는 전환 후보가 없어요. 억지로 전환하지 않아도 돼요.'));return box;}
+ if(route.mode==='strengthen'){for(const action of route.actions)box.append(E('p','',action));box.append(E('p','muted',route.note));return box;}
  box.append(E('p','pivot-route',d.title+' → '+route.title+' · 완성 '+route.level+'레벨'));
- box.append(E('p','','유지 후보: '+route.shared.join(' · ')));
+ box.append(E('p','',(route.mode==='early'?'초반 공통 기물: ':'유지 후보: ')+route.shared.join(' · ')));
  box.append(E('p','','아이템 연결: '+route.transfer.from+' → '+route.transfer.to+' · '+route.transfer.items.join(' / ')));
  box.append(E('p','muted',route.note));const button=E('button','','전환 후보 배치 보기');button.type='button';button.onclick=()=>{const target=data.recommendations.find(x=>x.url===route.ref);if(target)applyDeck(target);};box.append(E('p','muted','아래 버튼을 누르면 배치툴의 현재 배치가 후보 덱으로 바뀝니다.'),button);return box;
 }

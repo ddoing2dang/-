@@ -33,7 +33,8 @@ function renderItems(d){
  section('챔피언별 추천 아이템');
  for(const [name,items] of Object.entries(d.equipment)){const box=element('div',undefined,'item-row');box.append(element('strong',name));const row=element('div',undefined,'icons');items.forEach(n=>row.append(namedIcon(record('items',n))));box.append(row);$('content').append(box);}
  const alts=d.guide?.itemAlternatives||[];
- if(alts.length){const box=section('원문 대체 아이템 후보');for(const alt of alts){const row=element('div',undefined,'item-row');row.append(element('strong',alt.unit));const icons=element('div',undefined,'icons');alt.items.forEach(item=>icons.append(namedIcon(item)));row.append(icons);box.append(row);}}
+ if(alts.length){const box=section('원문 대체 빌드 · 특수 아이템 포함 가능');for(const alt of alts){const row=element('div',undefined,'item-row');row.append(element('strong',alt.unit));const icons=element('div',undefined,'icons');alt.items.forEach(item=>icons.append(namedIcon(item)));row.append(icons);box.append(row);}}
+ for(const row of d.assist||[]){const box=section(row.unit+' · 마또 일반 아이템 대체안');for(const item of row.items){box.append(element('strong',item.name),element('p',item.note,'muted'));if(item.sources?.length)box.append(element('p','동일 챔피언 현재 패치 공략 '+item.sources.length+'개에서 확인','muted'));else box.append(element('p','마또 상황별 제안 · 원문 추천과 별도','muted'));}}
  if(d.tips?.[1])$('content').append(element('p',d.tips[1]));
 }
 function renderAugments(d){
@@ -47,9 +48,11 @@ function renderPivot(d){
  $('content').append(element('h2','미리 보는 전환 비상구'));
  const route=d.pivot;
  if(!route){$('content').append(element('p','기물·아이템·운영 조건이 맞는 전환 후보가 없어요.'));return;}
+ if(route.mode==='strengthen'){for(const action of route.actions)$('content').append(element('p',action));$('content').append(element('p',route.note,'muted'));return;}
+ $('content').append(element('h3',route.label));
  $('content').append(element('h3','현재: '+d.title));roster($('content'),d.units);
  $('content').append(element('h3','후보: '+route.title+' · '+route.level+'레벨'));roster($('content'),route.units);
- $('content').append(element('p','유지 후보: '+route.shared.join(' · ')));
+ $('content').append(element('p',(route.mode==='early'?'초반 공통 기물: ':'유지 후보: ')+route.shared.join(' · ')));
  $('content').append(element('p','아이템 연결: '+route.transfer.from+' → '+route.transfer.to+' · '+route.transfer.items.join(' / ')));
  $('content').append(element('p',route.note,'muted'));
 }
@@ -69,7 +72,7 @@ function render(){
  $('levelBadge').textContent=d.level+'레벨';$('roster').replaceChildren();for(const n of d.units)$('roster').append(picture(record('champions',n)));
  const priority=d.guide?.priority||[];const fallback=d.carries?.[0]?.slice(1)||[];
  $('priorityLabel').textContent=priority.length?'우선 아이템':'핵심 아이템';$('priorityIcons').replaceChildren();for(const r of (priority.length?priority:fallback.map(n=>record('items',n))).slice(0,3)){const p=picture(r);$('priorityIcons').append(...p.childNodes);}
- $('pivotQuick').textContent=d.pivot?'비상구':'전환 없음';$('pivotQuick').title=d.pivot?'전환 후보 '+d.pivot.title:'조건이 맞는 후보 없음';$('patch').textContent='패치 '+payload.patch;renderDetail();
+ $('pivotQuick').textContent=d.pivot?.mode==='strengthen'?'덱 보강':'비상구';$('pivotQuick').title=d.pivot?(d.pivot.mode==='strengthen'?'현재 덱 보강':'전환 후보 '+d.pivot.title):'조건이 맞는 후보 없음';$('patch').textContent='패치 '+payload.patch;renderDetail();
 }
 function closeDeckMenu(){$('deckMenu').hidden=true;$('deckSelect').setAttribute('aria-expanded','false');}
 function updateState(next){settings=next;if(next.collapsed||next.visible===false)closeDeckMenu();$('mainWindowToggle').hidden=typeof api?.toggleMainWindow!=='function';$('mainWindowToggle').textContent=next.mainHidden?'메인 창 다시 보기':'메인 창 숨기기';$('mainWindowToggle').setAttribute('aria-pressed',String(!!next.mainHidden));const pinned=!!next.pinned;$('pin').setAttribute('aria-pressed',String(pinned));$('pin').textContent=pinPending?'…':pinned?'고정':'해제';$('pin').setAttribute('aria-busy',String(pinPending));$('pin').setAttribute('aria-label',pinned?'항상 위 고정 켜짐':'항상 위 고정 꺼짐');$('pin').title=api?.miniVersion===2?(pinned?'항상 위 고정 켜짐 · 눌러서 해제':'항상 위 고정 꺼짐 · 눌러서 고정'):'고정 전환은 Windows 1.7.4 설치 후 사용할 수 있습니다.';$('pin').disabled=api?.miniVersion!==2||pinPending;document.body.classList.toggle('expanded',!!next.expanded);document.body.classList.toggle('collapsed',!!next.collapsed);$('detail').hidden=!next.expanded;$('expand').textContent=next.expanded?'접기 ‹':'상세보기 ›';$('expand').setAttribute('aria-expanded',String(!!next.expanded));$('opacity').value=String(Math.round(next.opacity*100));$('collapse').textContent=next.collapsed?'+':'−';$('collapse').title=next.collapsed?'미니 창 펼치기':'한 줄로 접기';$('collapse').setAttribute('aria-label',$('collapse').title);}
