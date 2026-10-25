@@ -1,52 +1,54 @@
-/* Structural comparisons only: no live game state or automatic board edits. */
+/* Compare verified full source boards; statistical comparison records are not boards. */
 window.MattoPivot=(()=>{
  const units=d=>[...new Set(d.units.filter(n=>!(d.summons||[]).includes(n)))];
- const regular=n=>!['상징','유물','찬란','지원','전략가'].some(x=>n.includes(x));
- function strengthen(d){
-  const options=d.pcGuide?.options||d.levelUpOptions||[];
-  const actions=[(d.style||'').includes('Reroll')?'리롤 핵심 기물에 투자했다면 해당 기물을 유지하고 원문 3성 목표를 먼저 확인해요.':'현재 주력과 탱커의 2성·아이템 완성을 우선 확인해요.'];
-  if(options.length)actions.push('원문 후반 보강 후보: '+options.map(o=>o.unit+'('+o.level+'레벨)').join(' · '));
-  else actions.push('원문에는 추가 기물 후보가 없어요. 임의의 기물을 넣기보다 현재 공략의 핵심 업그레이드를 유지해요.');
-  actions.push('주력 아이템을 다른 기물로 옮길 때는 판매·제거기 필요 여부를 먼저 확인해요.');
-  return {mode:'strengthen',title:'현재 덱 보강',actions,note:'안전한 전환 후보가 부족할 때의 보강 체크예요. 원문에 없는 확정 배치를 만들지 않아요.'};
+ const main=d=>d.mainCarry||d.carries?.[0]?.[0];
+ const tier=d=>({S:0,A:1,B:2,C:3}[d.tier]??4);
+ function pool(data){
+  const known=new Map(data.recommendations.map(d=>[d.url,d])),seen=new Set(),out=[];
+  const candidates=[...(data.decks||[])].sort((a,b)=>(a.source==='academy'?0:1)-(b.source==='academy'?0:1)||tier(a)-tier(b)||(a.rank||99)-(b.rank||99));
+  for(const raw of candidates){
+   if(!['academy','lolchess'].includes(raw.source)||raw.patch!==data.patch||!raw.layoutVerified||raw.unresolved?.length||!raw.layout||!raw.equipment||!main(raw)||!raw.equipment[main(raw)]?.length)continue;
+   if(Object.keys(raw.layout).length!==raw.units.length||Object.keys(raw.layout).some(s=>!/^\d+$/.test(s)||+s>27))continue;
+   if(raw.capacity!==raw.level||![7,8,9].includes(raw.level))continue;
+   const names=raw.units.filter(n=>!(raw.summons||[]).includes(n));if(new Set(names).size!==names.length)continue;
+   const signature=[...names].sort().join('|');if(seen.has(signature))continue;seen.add(signature);
+   const saved=known.get(raw.url);out.push(saved?{...raw,...saved}:raw);
+  }
+  return out;
  }
+ function strengthen(d){const options=d.pcGuide?.options||d.levelUpOptions||[];return {mode:'strengthen',title:'현재 덱 보강',actions:[(d.style||'').includes('Reroll')?'핵심 리롤 기물 유지 · 원문 3성 목표 우선':'주력·탱커 2성과 아이템 완성 우선',options.length?'원문 보강: '+options.map(o=>o.unit+'('+o.level+'레벨)').join(' · '):'원문 추가 기물 없음 · 현재 핵심 업그레이드 유지'],note:'안전한 전환 후보가 부족해 현재 덱의 보강 방향을 표시해요.'};}
  function forDeck(source,data){
-  const own=units(source),candidates=[];
-  const carry=source.carries?.[0]?.[0];
-  const held=(source.equipment[carry]||[]).filter(regular);
-  if(held.length<2)return strengthen(source);
-  for(const target of data.recommendations){
-   if(source.url===target.url||target.level<source.level||target.level-source.level>1)continue;
-   // Avoid suggesting abandonment of a different reroll carry after investment.
-   if(((source.style||'').includes('Reroll')||(target.style||'').includes('Reroll'))&&target.carries?.[0]?.[0]!==carry)continue;
-   const needed=target.conditions||[],owned=source.conditions||[];
-   if(needed.some(n=>!owned.includes(n)))continue;
-   const other=units(target),shared=own.filter(n=>other.includes(n));
-   if(shared.length<3||shared.length/Math.max(own.length,other.length)<.45)continue;
-   let best=null;
-   for(const [name,items]of Object.entries(target.equipment)){
-    const remaining=[...items],matched=[];
-    for(const item of held){const index=remaining.indexOf(item);if(index>=0){matched.push(item);remaining.splice(index,1);}}
-    if(matched.length>=2&&(!best||matched.length>best.items.length))best={from:carry,to:name,items:matched};
+  const normal=new Set((window.TFT_ITEM_POLICY?.items||[]).filter(i=>i.category==='normal').map(i=>i.name));
+  const carry=main(source),held=(source.equipment[carry]||[]).filter(i=>normal.has(i)),own=units(source),candidates=[];
+  const emblems=d=>{const bag=new Map();for(const items of Object.values(d.equipment))for(const item of items)if(item.includes('상징'))bag.set(item,(bag.get(item)||0)+1);return bag;};
+  const owned=emblems(source);
+  for(const target of pool(data)){
+   const other=units(target);if(source.url===target.url||other.slice().sort().join('|')===own.slice().sort().join('|'))continue;
+   if([...emblems(target)].some(([n,k])=>(owned.get(n)||0)<k))continue;
+   let transfer=null;
+   for(const from of [carry])for(const [to]of target.carries||[]){
+    if(target.source==='lolchess'&&to!==from)continue;
+    const remaining=[...(target.equipment[to]||[])],items=[];
+    for(const item of source.equipment[from]||[]){if(!normal.has(item))continue;const i=remaining.indexOf(item);if(i>=0){items.push(item);remaining.splice(i,1);}}
+    if(items.length>=2&&(!transfer||items.length>transfer.items.length||(items.length===transfer.items.length&&from===carry)))transfer={from,to,items};
    }
-   if(!best)continue;
-   const score=shared.length*10+best.items.length*8-Math.abs(source.level-target.level)*4;
-   candidates.push({mode:'late',label:'후반 핵심 유지형',score,ref:target.url,title:target.title,level:target.level,shared,units:other,transfer:best,
-    equipment:target.equipment,note:'구성 유사도로 고른 사전 참고 경로예요. 현재 상점·체력·골드·별 등급은 반영하지 않아요. 핵심 아이템 이동에는 기존 기물 판매나 제거기가 필요할 수 있어요.'});
+   if(!transfer)continue;
+   const {to,items}=transfer;
+   const shared=own.filter(n=>other.includes(n)),ratio=shared.length/Math.max(own.length,other.length);
+   const reroll=(source.style||'').includes('Reroll')||(target.style||'').includes('Reroll');
+   const early=(source.pcGuide?.early||[]).map(u=>u.name).filter(n=>(target.pcGuide?.early||[]).some(u=>u.name===n));
+   let mode,label,kept=shared;
+   if(transfer.from===carry&&to===carry&&shared.length>=3&&ratio>=.45&&target.level>=source.level&&target.level-source.level<=1){mode='late';label='핵심 유지형';}
+   else if(!reroll&&shared.length>=2&&ratio>=.3&&target.level>=source.level&&target.level-source.level<=1){mode='items';label='아이템 활용형';}
+   else if(early.length>=2){mode='early';label='초반 방향 변경용';kept=early;}
+   else continue;
+   candidates.push({mode,label,ref:target.url,title:target.title,level:target.level,units:other,shared:kept,removed:own.filter(n=>!other.includes(n)),added:other.filter(n=>!own.includes(n)),transfer,source:target.referenceSource||target.source,url:target.url,score:kept.length*10+items.length*8-Math.abs(target.level-source.level)*4,note:mode==='early'?'3성·핵심 투자 전에만 검토하는 사전 경로':'상점·체력·골드·별 등급 미반영 · 아이템 이동 시 판매·제거기 확인'});
   }
-  candidates.sort((a,b)=>b.score-a.score||a.ref.localeCompare(b.ref));if(candidates.length)return candidates[0];
-  // Early direction changes compare source early boards, before committing to stars.
-  const early=(source.pcGuide?.early||[]).map(u=>u.name),earlyCandidates=[];
-  for(const target of data.recommendations){
-   if(target.url===source.url||(target.conditions||[]).length)continue;
-   const sharedEarly=early.filter(n=>(target.pcGuide?.early||[]).some(u=>u.name===n));
-   if(sharedEarly.length<2)continue;
-   const to=target.carries?.[0]?.[0],remaining=[...(target.equipment[to]||[])],items=[];
-   for(const item of held){const i=remaining.indexOf(item);if(i>=0){items.push(item);remaining.splice(i,1);}}
-   if(items.length<2)continue;
-   earlyCandidates.push({mode:'early',label:'초반 방향 변경용',ref:target.url,title:target.title,level:target.level,units:units(target),shared:sharedEarly,transfer:{from:carry,to,items},score:sharedEarly.length*10+items.length*8,note:'3성 리롤·핵심 기물 투자 전, 초반 공략 기물이 겹칠 때만 검토하는 경로예요. 완성덱 사이의 즉시 전환 권장은 아니에요. 아이템 이동에는 판매·제거기가 필요할 수 있어요.'});
-  }
-  earlyCandidates.sort((a,b)=>b.score-a.score||a.ref.localeCompare(b.ref));return earlyCandidates[0]||strengthen(source);
+  candidates.sort((a,b)=>b.score-a.score||a.ref.localeCompare(b.ref));
+  const branches=[];for(const mode of ['late','items','early']){const best=candidates.find(r=>r.mode===mode);if(best)branches.push(best);}
+  // Fill remaining slots with distinct configurations, never duplicate the same board.
+  for(const c of candidates)if(branches.length<3&&!branches.some(r=>r.ref===c.ref))branches.push(c);
+  const fallback=strengthen(source);return branches.length?{...branches[0],branches}: {...fallback,branches:[]};
  }
  return {forDeck};
 })();

@@ -45,16 +45,10 @@ function renderAugments(d){
  if(d.guide?.augmentNote){const box=section('원문 선택 기준');box.append(element('p',d.guide.augmentNote,'muted'));}
 }
 function renderPivot(d){
- $('content').append(element('h2','미리 보는 전환 비상구'));
- const route=d.pivot;
- if(!route){$('content').append(element('p','기물·아이템·운영 조건이 맞는 전환 후보가 없어요.'));return;}
- if(route.mode==='strengthen'){for(const action of route.actions)$('content').append(element('p',action));$('content').append(element('p',route.note,'muted'));return;}
- $('content').append(element('h3',route.label));
- $('content').append(element('h3','현재: '+d.title));roster($('content'),d.units);
- $('content').append(element('h3','후보: '+route.title+' · '+route.level+'레벨'));roster($('content'),route.units);
- $('content').append(element('p',(route.mode==='early'?'초반 공통 기물: ':'유지 후보: ')+route.shared.join(' · ')));
- $('content').append(element('p','아이템 연결: '+route.transfer.from+' → '+route.transfer.to+' · '+route.transfer.items.join(' / ')));
- $('content').append(element('p',route.note,'muted'));
+ $('content').append(element('h2','전환·보강 경로'));
+ const plan=d.pivot;if(!plan)return;
+ if(!plan.branches?.length){for(const action of plan.actions||[])$('content').append(element('p',action));return;}
+ for(const route of plan.branches){const box=element('details',undefined,'pivot-branch');box.append(element('summary',route.label+' · '+route.title));box.append(element('h3',route.level+'레벨 원문 구성'));roster(box,route.units);box.append(element('p',(route.mode==='early'?'초반 공통: ':'유지: ')+route.shared.join(' · ')),element('p','아이템 '+route.transfer.from+' → '+route.transfer.to+' · '+route.transfer.items.join(' / ')),element('p','추가: '+(route.added.join(' · ')||'없음')),element('p','교체: '+(route.removed.join(' · ')||'없음')));box.append(element('p',(route.source==='academy'?'TFT Academy':'LoLCHESS')+' · '+route.url,'muted'),element('p',route.note,'muted'));$('content').append(box);}
 }
 function renderDetail(){
  const d=deck();if(!d)return;$('content').replaceChildren();
