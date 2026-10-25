@@ -205,6 +205,8 @@ previous=json.loads(output.read_text()) if output.exists() else {}
 attach_trends(result,meta,stats,cm,previous)
 from pc_guides import attach_pc_guides
 attach_pc_guides(result,ags,cm,im,P)
+from deck_changes import attach_changes
+attach_changes(result,previous)
 # Prepare both payloads before replacing the published files.
 seed_path=output.parent.parent/'web'/'data.js'
 seed_text=None

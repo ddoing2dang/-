@@ -21408,5 +21408,34 @@
     "pickComparison": "UTC 기준 최근 완료된 두 날짜 비교",
     "winBaselineReady": true,
     "updatedAt": "2026-10-22T18:04:55.576000+00:00"
+  },
+  "deckChanges": {
+    "from": "2026-10-21T18:57:07.388440+00:00",
+    "to": "2026-10-22T18:05:37.645328+00:00",
+    "previousPatch": "18.5",
+    "patch": "18.5",
+    "byUrl": {
+      "https://tftacademy.com/tierlist/comps/set-18-elderwood-executioners-copy": {
+        "tier": {
+          "before": "A",
+          "after": "S"
+        }
+      },
+      "https://tftacademy.com/tierlist/comps/set-18-ap-95": {
+        "tier": {
+          "before": "B",
+          "after": "A"
+        }
+      },
+      "https://tftacademy.com/tierlist/comps/set-18-adaptor-reroll": {
+        "new": true
+      },
+      "https://tftacademy.com/tierlist/comps/set-18-azir-rammus": {
+        "tier": {
+          "before": "A",
+          "after": "B"
+        }
+      }
+    }
   }
 }

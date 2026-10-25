@@ -6,6 +6,7 @@ on:
       - 'scripts/refresh_verified.py'
       - 'scripts/deck_trends.py'
       - 'scripts/pc_guides.py'
+      - 'scripts/deck_changes.py'
   schedule:
     # Thursday 09:00 Asia/Seoul (00:00 UTC).
     - cron: '0 0 * * 4'
@@ -17,6 +18,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   refresh:
+    if: "!contains(github.event.head_commit.message, '[skip data refresh]')"
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
