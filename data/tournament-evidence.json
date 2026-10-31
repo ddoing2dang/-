@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "reviewedForPatch": "18.5c",
+  "verifiedAt": "2026-10-31T14:18:26.470475+00:00",
+  "event": "AMER 지역 결승",
+  "stage": "2주 차 1일 차",
+  "eventDate": "2026-10-30",
+  "dateBasis": "주최 측 경기일",
+  "eventPatch": null,
+  "source": "BarryBadden · Ziziziziie 대회 조합 집계",
+  "sourceUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVIOFH3KLm7PevIN5XlGwEPzd0jbMXhLF_fqU1EbbQqAJOE3TNCpqbm-y_e66N9wZr1Sn4BlVV_9XK/pubhtml?gid=312518385&single=true",
+  "sourceSha256": "a0ac0a512b4ab20a9a00c5c129d86692d2581aa0cf581fbc8ad69f2afdb6b98e",
+  "eventUrl": "https://teamfighttactics.leagueoflegends.com/ko-kr/news/esports/regional-finals-2026-everything-you-need-to-know/",
+  "totalPlayerGames": 192,
+  "records": [
+    {
+      "deckRef": "https://tftacademy.com/tierlist/comps/set-18-tempo-riftbeast",
+      "requiredCore": [
+        "덩굴정령"
+      ],
+      "reviewedUnits": [
+        "감시자",
+        "나르",
+        "덩굴정령",
+        "돌거북",
+        "어스름늑대",
+        "장로 드래곤",
+        "조약돌",
+        "타릭"
+      ],
+      "kind": "archetype-game-win",
+      "sourceComp": "Brambleback Riftbeast",
+      "games": 23,
+      "wins": 3,
+      "sourceWinPercent": 13.04
+    },
+    {
+      "deckRef": "https://tftacademy.com/tierlist/comps/set-18-spellweavers",
+      "requiredCore": [
+        "아리",
+        "자이라"
+      ],
+      "reviewedUnits": [
+        "나르",
+        "라칸",
+        "릴리아",
+        "세트",
+        "아리",
+        "요릭",
+        "자이라",
+        "타릭",
+        "피들스틱"
+      ],
+      "kind": "archetype-game-win",
+      "sourceComp": "Ahri Zyra Flex",
+      "games": 23,
+      "wins": 1,
+      "sourceWinPercent": 4.35
+    },
+    {
+      "deckRef": "https://tftacademy.com/tierlist/comps/set-18-sprykin-teemo-copy",
+      "requiredCore": [
+        "티모"
+      ],
+      "reviewedUnits": [
+        "감시자",
+        "돌껍질 나무",
+        "르블랑",
+        "모르가나",
+        "베이가",
+        "생명꽃",
+        "알리스타",
+        "코부코",
+        "티모",
+        "헤카림"
+      ],
+      "kind": "archetype-game-win",
+      "sourceComp": "Teemo Reroll",
+      "games": 4,
+      "wins": 3,
+      "sourceWinPercent": 75.0
+    }
+  ],
+  "note": "같은 조합 계열의 개별 경기 1위 기록. 선수·개별 경기·정확한 배치·대회 패치는 이 집계에서 확인되지 않아 주장하지 않음. 종합 우승 인증 아님."
+}
