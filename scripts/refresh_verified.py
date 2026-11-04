@@ -161,35 +161,57 @@ def matching(d,s):
 candidates=[]
 for original in all_decks:
  d=copy.deepcopy(original)
- if d['source']!='academy' or not d.get('sourcePublic') or d['title'] in excluded:continue
+ if d['source'] not in ['academy','lolchess'] or (d['source']=='academy' and not d.get('sourcePublic')) or d['title'] in excluded or re.search(r'나무정령.*베이가|엄호대.*카시오페아',d['title']):continue
+ reference_source=d['source']
+ if not d.get('mainCarry'):d['mainCarry']=d['carries'][0][0] if d['carries'] else None
+ if reference_source=='lolchess':
+  d['tier']='추천';d['sourceTips']=json.dumps({'layout':d['layout'],'equipment':d['equipment'],'stars':d['stars'],'augments':d['augments'],'patch':d['patch']},ensure_ascii=False);d['sourceAugmentTip']='';d['levelUpOptions']=[]
  if d['unresolved'] or d['level'] not in [7,8,9] or len(set(d['units']))!=len(d['units']) or not d['carries'] or not d['augmentEvidence']:continue
  d['sourceTitle']=d['title'];d['title']=translations.get(d['title'],d['title']);comparisons=[]
- for source in ['lolchess','opgg','qq','metatft']:
+ for source in ['academy','lolchess','opgg','qq','metatft']:
+  if source==reference_source:continue
   matches=[s for s in all_decks if s['source']==source and matching(d,s)]
   matches.sort(key=lambda s:(-len(set(d['units'])&set(s['units'])),s['rank']))
   if matches:
-   s=matches[0];comparisons.append({k:s.get(k) for k in ['source','title','tier','patch','url','sourceUpdatedAt','rank','statistics'] }|{'match':'동일 구성' if set(s['units'])==set(d['units']) else '유사 구성','freshness':'공략 기준과 같은 패치' if s['patch']==patch else '같은 기본 패치 · 핫픽스 반영 미확인' if source=='opgg' and s['patch']==re.sub(r'[a-z]+$','',patch) else '지역별 버전 표기 · 직접 패치 비교 불가' if source=='qq' else '다른 패치'})
- d['comparisons']=comparisons;d['sources']=['academy']+[s['source'] for s in comparisons];d['sourceCount']=len(d['sources']);d['referenceSource']='academy';d['referenceCheckedAt']=now;d['source']='curated';d['selectionVersion']=3;d['strictSourceData']=True
- d['score']={'S':100,'A':75,'B':50,'C':25}[d['tier']]+sum(5 if s['source']=='lolchess' else max(0,min(5,(4.5-s['statistics']['averagePlacement'])*10)) if s['source']=='metatft' and s.get('statistics',{}).get('averagePlacement') is not None else 0 for s in comparisons if s['patch']==d['patch'])
- d['evidence']=f"Academy {d['tier']} · {patch} · {len(comparisons)}개 출처 비교"
+   s=matches[0];comparisons.append({k:s.get(k) for k in ['source','title','tier','patch','url','sourceUpdatedAt','rank','statistics'] }|{'match':'동일 구성' if set(s['units'])==set(d['units']) else '유사 구성','freshness':'공략 기준과 같은 패치' if s['patch']==d['patch'] else '같은 기본 패치 · 핫픽스 반영 미확인' if source=='opgg' and s['patch']==re.sub(r'[a-z]+$','',patch) else '지역별 버전 표기 · 직접 패치 비교 불가' if source=='qq' else '다른 패치'})
+ d['comparisons']=comparisons;d['sources']=[reference_source]+[s['source'] for s in comparisons];d['sourceCount']=len(d['sources']);d['referenceSource']=reference_source;d['referenceCheckedAt']=now;d['source']='curated';d['selectionVersion']=4;d['strictSourceData']=True
+ # Scores are ranking heuristics, never averaged cross-patch performance statistics.
+ def patch_key(value):
+  m=re.fullmatch(r'(18)\.(\d+)([a-z]?)',str(value))
+  return (int(m[1]),int(m[2]),m[3]) if m else (0,0,'')
+ latest=max(patch_key(x['patch']) for x in all_decks if x['source'] in ['academy','lolchess','metatft'])
+ quality={'S':60,'A':50,'B':40,'C':25}.get(d['tier'],45)
+ freshness=20 if patch_key(d['patch'])==latest else 0
+ consensus=sum((1 if c['patch']==d['patch'] else .35) for c in comparisons if c['source']!='qq')*3
+ performance=sum(max(-5,min(10,(4.5-c['statistics']['averagePlacement'])*15)) for c in comparisons if c['source']=='metatft' and c['patch']==d['patch'] and c.get('statistics',{}).get('count',0)>=1000)
+ conditional=8 if any(x in d['title'] for x in ['[상징]','[유물]','[영브]','[어둠의 의식]','경쟁을넘어서']) or any('상징' in i for its in d['equipment'].values() for i in its) else 0
+ d['score']=round(quality+freshness+min(8,consensus)+performance-conditional,3)
+ d['selectionEvidence']={'quality':quality,'freshness':freshness,'consensus':round(min(8,consensus),3),'samePatchStatistics':performance,'conditionPenalty':conditional}
+ d['evidence']=f"{reference_source} {d['tier']} · {d['patch']} · {len(comparisons)}개 출처 비교"
  d['operationLevel']={'3-Cost Reroll':7,'4-Cost Fast 8':8,'Fast 9':9,'1-Cost Reroll':5,'2-Cost Reroll':6}.get(d.get('style'))
  d['conditions']=[n+' · '+i for n,its in d['equipment'].items() for i in its if '상징' in i]
- d['summary']=f"완성 배치: {d['level']}레벨 · 원문 배치 {len(d['units'])}칸\n아이템·배치·증강: TFT Academy 동일 공략 기준\n"+('소환물 '+', '.join(d['summons'])+'은 레벨 인원에서 제외' if d['summons'] else '장로 드래곤은 팀 슬롯 2개 사용' if '장로 드래곤' in d['units'] else '원문 유닛과 아이템 연결 유지')
+ d['summary']=f"완성 배치: {d['level']}레벨 · 원문 배치 {len(d['units'])}칸\n아이템·배치·증강: 동일 출처 공략 기준\n"+('소환물 '+', '.join(d['summons'])+'은 레벨 인원에서 제외' if d['summons'] else '장로 드래곤은 팀 슬롯 2개 사용' if '장로 드래곤' in d['units'] else '원문 유닛과 아이템 연결 유지')
  candidates.append(d)
 candidates.sort(key=lambda d:(-d['score'],d['rank']))
 selected=[]
-for d in candidates:
- if any(set(d['units'])==set(o['units']) for o in selected):continue
+remaining=list(candidates)
+while remaining and len(selected)<20:
+ def diversified_score(d):
+  real=set(d['units'])-set(d.get('summons',[]))
+  penalties=[20 if d.get('mainCarry')==o.get('mainCarry') and len(real&set(o['units']))/max(len(real),len(o['units']),1)>=.7 else 8 if len(real&set(o['units']))/max(len(real),len(o['units']),1)>=.8 else 0 for o in selected]
+  return d['score']-max(penalties,default=0)
+ d=max(remaining,key=lambda d:(diversified_score(d),d['score'],-d['rank'],d['url']))
+ d['selectionEvidence']['diversityPenalty']=round(d['score']-diversified_score(d),3)
  selected.append(d)
- if len(selected)==15:break
+ remaining=[o for o in remaining if set(o['units'])!=set(d['units'])]
 print('CANDIDATES',len(candidates),'SELECTED',len(selected))
 for i,d in enumerate(selected,1):d['rank']=i;print(i,d['title'],d['tier'],d['level'],d['sources'],len(d['augmentEvidence']))
 print('MISSING',missing)
 sourceReports=[{'id':k,'collected':sum(d['source']==k for d in all_decks),'target':20 if k in ['opgg','metatft'] else 30,'status':'verified' if k in ['lolchess','academy'] else 'comparison','patch':{'lolchess':lolchess_patch,'academy':patch,'metatft':meta_patch}[k] if k in ['lolchess','academy','metatft'] else read('opgg-data.json')['patch'] if k=='opgg' else read('qq-lineups.json')['lineup_list'][0]['simulator_edition'],'note':'S/A/B 미제공 · 1,000게임 이상 평균 등수 상위 20개' if k=='metatft' else 'S/A/B 상위 20개 · 기본 패치 표기, 핫픽스 반영 미확인' if k=='opgg' else '현지 티어순 상위 30개 · 지역별 버전 표기' if k=='qq' else '공개 S/A/B/C 티어순 상위 30개' if k=='academy' else '요약 제외 상위 30개'} for k in ['lolchess','opgg','qq','academy','metatft']]
 usedNames=set(n for d in selected for n in d['units']);usedItems=set(n for d in selected for v in d['equipment'].values() for n in v);usedAugs=set(n for d in selected for row in d['augments'] for n in row);usedAugIds=set(a['id'] for d in selected for a in d['augmentEvidence'])
 catalogs={'champions':[{'name':c['name'],'url':c['imageUrl'],'cost':c['cost'][0]} for c in champs if c['name'] in usedNames and not c['key'].startswith('Set17')],'items':[{'name':c['name'],'url':c['imageUrl']} for c in items if c['name'] in usedItems],'augments':[{'name':c['name'],'url':c['imageUrl'],'tier':c['tier']-1} for c in { (am[k]['name'],am[k]['tier']):am[k] for k in usedAugIds }.values()]}
-result={'schema':4,'patch':patch,'publishedAt':now,'checkedAt':now,'sources':{r['id']:{'status':r['status'],'matched':r['collected'],'lastVerifiedAt':now,'patch':r['patch'],'note':r['note']} for r in sourceReports},'decks':all_decks,'recommendations':selected,'catalogs':catalogs,'refreshReport':{'checkedAt':now,'status':'verified-with-source-differences','published':len(selected)==15,'recommendationCount':len(selected),'sourceReports':sourceReports,'selectionVersion':3},'methodology':'배치·아이템·증강은 동일한 최신 Academy 공략을 그대로 사용. 5개 출처 각 20~30개를 비교. 출처별 버전이 달라도 수집하며 실제 버전을 표시. Academy 티어 점수(S100/A75/B50/C25)에 같은 패치의 LoLCHESS 일치 +5, MetaTFT 평균 등수 보정 0~5만 합산. OP.GG는 핫픽스 반영 미확인, QQ는 지역 버전 차이로 티어 점수에 합산하지 않고 비교만 표시. 표시 티어는 Academy 원문 티어. MetaTFT는 공개 데이터에 S/A/B가 없어 통계만 비교.'}
-assert len(selected)==15, '검증 완료된 서로 다른 추천 15개 미달: 이전 데이터 유지'
+result={'schema':4,'patch':patch,'publishedAt':now,'checkedAt':now,'sources':{r['id']:{'status':r['status'],'matched':r['collected'],'lastVerifiedAt':now,'patch':r['patch'],'note':r['note']} for r in sourceReports},'decks':all_decks,'recommendations':selected,'catalogs':catalogs,'refreshReport':{'checkedAt':now,'status':'verified-with-source-differences','published':len(selected)==20,'recommendationCount':len(selected),'sourceReports':sourceReports,'selectionVersion':4},'methodology':'검증된 Academy·LoLCHESS 원문 공략을 후보로 20개 선정. 출처 티어(S60/A50/B40/C25, 티어 미제공45), 최신 확인 글로벌 패치 +20, 교차 확인 최대8(다른 패치0.35배·QQ비교만), 같은 패치 MetaTFT 1,000게임 이상 평균등수 보정 -5~10. 조건부 덱 -8, 같은 핵심 기물·유사 배치 -20 또는 유사 배치 -8로 다양성 확보. 동일 구성은 하나만 선정. 수치는 추천용 가중치이며 승률이 아님. 다른 패치 통계는 합산하지 않음. 배치·아이템·증강은 한 원문 그대로 유지. 티어 미제공 공략은 추천으로 표시.'}
+assert len(selected)==20, '검증 완료된 서로 다른 추천 20개 미달: 이전 데이터 유지'
 seen=set()
 for d in selected:
  signature=tuple(sorted(d['units']));assert signature not in seen, '중복 추천';seen.add(signature)
