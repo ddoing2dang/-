@@ -110,7 +110,7 @@ module.exports=function createMiniController(getMain){
  }
  function handle(channel,role,fn){ipcMain.handle(channel,(event,value)=>{if(!permitted(event,role))throw Error('허용되지 않은 창 요청입니다.');if(role==='mini'&&state().visible)recoveryAvailable=true;return fn(value);});}
  handle('matto:mini-publish','main',next=>{
-  if(!next||!Array.isArray(next.decks)||next.decks.length!==15||JSON.stringify(next).length>1500000||next.decks.some(d=>typeof d.ref!=='string'||typeof d.title!=='string'||!Array.isArray(d.units)||d.units.length>28))throw Error('미니 창 데이터 형식 오류');
+  if(!next||!Array.isArray(next.decks)||![15,20].includes(next.decks.length)||JSON.stringify(next).length>1500000||next.decks.some(d=>typeof d.ref!=='string'||typeof d.title!=='string'||!Array.isArray(d.units)||d.units.length>28))throw Error('미니 창 데이터 형식 오류');
   payload=next;
   if(next.selectedRef&&next.decks.some(d=>d.ref===next.selectedRef))selected=next.selectedRef;
   if(!next.decks.some(d=>d.ref===selected))selected=next.decks[0].ref;
