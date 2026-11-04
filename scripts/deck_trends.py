@@ -8,7 +8,7 @@ def stamp(value):
 def attach_trends(result, meta, stats, champions, previous):
     updated = dt.datetime.fromtimestamp(stats['updated'] / 1000, dt.timezone.utc)
     daily_updated = dt.datetime.fromtimestamp(meta['updated'] / 1000, dt.timezone.utc)
-    scope = {'source': 'metatft', 'patch': result['patch'], 'set': stats['tft_set'],
+    scope = {'source': 'metatft', 'patch': result.get('sources', {}).get('metatft', {}).get('patch', '미확인'), 'set': stats['tft_set'],
              'queue': stats['queue_id'], 'clusters': stats['cluster_id'],
              'endpoint': 'https://api-hc.metatft.com/tft-comps-api/comps_stats', 'filters': 'default'}
     if any(meta[k] != stats[k] for k in ['tft_set', 'queue_id', 'cluster_id']):
@@ -35,7 +35,7 @@ def attach_trends(result, meta, stats, champions, previous):
         key = str(key)
         current = snapshot['records'].get(key)
         info = {'source': 'metatft', 'url': 'https://www.metatft.com/comps', 'sourceId': key,
-                'updatedAt': updated.isoformat(), 'winStatus': 'baseline-needed', 'pickStatus': 'insufficient-data', 'badges': []}
+                'patch': scope['patch'], 'updatedAt': updated.isoformat(), 'winStatus': 'baseline-needed', 'pickStatus': 'insufficient-data', 'badges': []}
         if current:
             info['winRate'] = current['winRate']
             info['count'] = current['count']
