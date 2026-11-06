@@ -56,7 +56,7 @@ function renderDetail(){
  if(tab==='pivot')renderPivot(d);else if(tab==='levels')renderLevels(d);else if(tab==='items')renderItems(d);else if(tab==='augments')renderAugments(d);else{
   $('content').append(element('h2','총 요약 · 3줄'));const lines=d.levelTips?.summary||d.tips||[];const list=element('ol',undefined,'level-tip-lines');for(const line of lines)list.append(element('li',line));$('content').append(list);if(!lines.length)$('content').append(element('p','현재 공략의 요약이 준비되지 않았습니다.','muted'));
  }
- $('content').scrollTop=0;$('sourceNote').textContent='공략 기준: TFT Academy · '+payload.patch+' · '+(d.guide?.updatedAt?.slice(0,10)||payload.publishedAt.slice(0,10))+(tab==='pivot'?' · 전환 후보는 구성 유사도 기준 사전 참고':' · 레벨별 TIP은 원문 운영 요약');
+ $('content').scrollTop=0;$('sourceNote').textContent='공략 기준: '+(d.source==='lolchess'?'LoLCHESS':'TFT Academy')+' · '+(d.patch||payload.patch)+' · '+(d.guide?.updatedAt?.slice(0,10)||payload.publishedAt.slice(0,10))+(tab==='pivot'?' · 전환 후보는 구성 유사도 기준 사전 참고':(d.source==='lolchess'?' · 배치·아이템 기반 안내':' · 레벨별 TIP은 원문 운영 요약'));
 }
 function render(){
  const d=deck();if(!d)return;

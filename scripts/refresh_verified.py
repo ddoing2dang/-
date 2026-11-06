@@ -174,7 +174,7 @@ for original in all_decks:
   matches.sort(key=lambda s:(-len(set(d['units'])&set(s['units'])),s['rank']))
   if matches:
    s=matches[0];comparisons.append({k:s.get(k) for k in ['source','title','tier','patch','url','sourceUpdatedAt','rank','statistics'] }|{'match':'동일 구성' if set(s['units'])==set(d['units']) else '유사 구성','freshness':'공략 기준과 같은 패치' if s['patch']==d['patch'] else '같은 기본 패치 · 핫픽스 반영 미확인' if source=='opgg' and s['patch']==re.sub(r'[a-z]+$','',patch) else '지역별 버전 표기 · 직접 패치 비교 불가' if source=='qq' else '다른 패치'})
- d['comparisons']=comparisons;d['sources']=[reference_source]+[s['source'] for s in comparisons];d['sourceCount']=len(d['sources']);d['referenceSource']=reference_source;d['referenceCheckedAt']=now;d['source']='curated';d['selectionVersion']=4;d['strictSourceData']=True
+ d['comparisons']=comparisons;d['sources']=[reference_source]+[s['source'] for s in comparisons];d['sourceCount']=len(d['sources']);d['referenceSource']=reference_source;d['referenceCheckedAt']=now;d['source']='curated';d['selectionVersion']=5;d['strictSourceData']=True
  # Scores are ranking heuristics, never averaged cross-patch performance statistics.
  def patch_key(value):
   m=re.fullmatch(r'(18)\.(\d+)([a-z]?)',str(value))
@@ -193,6 +193,13 @@ for original in all_decks:
  d['summary']=f"완성 배치: {d['level']}레벨 · 원문 배치 {len(d['units'])}칸\n아이템·배치·증강: 동일 출처 공략 기준\n"+('소환물 '+', '.join(d['summons'])+'은 레벨 인원에서 제외' if d['summons'] else '장로 드래곤은 팀 슬롯 2개 사용' if '장로 드래곤' in d['units'] else '원문 유닛과 아이템 연결 유지')
  candidates.append(d)
 candidates.sort(key=lambda d:(-d['score'],d['rank']))
+# Prefer candidates with an unambiguous current-patch statistical match.
+from deck_trends import attach_trends
+candidate_stats={'sources':{'metatft':{'patch':meta_patch}},'recommendations':candidates}
+attach_trends(candidate_stats,meta,stats,cm,{})
+def has_current_stats(d):
+ t=d.get('trend',{})
+ return d['patch']==meta_patch and t.get('patch')==meta_patch and t.get('count',0)>=1000 and isinstance(t.get('winRate'),(int,float))
 selected=[]
 remaining=list(candidates)
 while remaining and len(selected)<20:
@@ -200,7 +207,7 @@ while remaining and len(selected)<20:
   real=set(d['units'])-set(d.get('summons',[]))
   penalties=[20 if d.get('mainCarry')==o.get('mainCarry') and len(real&set(o['units']))/max(len(real),len(o['units']),1)>=.7 else 8 if len(real&set(o['units']))/max(len(real),len(o['units']),1)>=.8 else 0 for o in selected]
   return d['score']-max(penalties,default=0)
- d=max(remaining,key=lambda d:(diversified_score(d),d['score'],-d['rank'],d['url']))
+ d=max(remaining,key=lambda d:(has_current_stats(d),diversified_score(d),d['score'],-d['rank'],d['url']))
  d['selectionEvidence']['diversityPenalty']=round(d['score']-diversified_score(d),3)
  selected.append(d)
  remaining=[o for o in remaining if set(o['units'])!=set(d['units'])]
@@ -210,7 +217,7 @@ print('MISSING',missing)
 sourceReports=[{'id':k,'collected':sum(d['source']==k for d in all_decks),'target':20 if k in ['opgg','metatft'] else 30,'status':'verified' if k in ['lolchess','academy'] else 'comparison','patch':{'lolchess':lolchess_patch,'academy':patch,'metatft':meta_patch}[k] if k in ['lolchess','academy','metatft'] else read('opgg-data.json')['patch'] if k=='opgg' else read('qq-lineups.json')['lineup_list'][0]['simulator_edition'],'note':'S/A/B 미제공 · 1,000게임 이상 평균 등수 상위 20개' if k=='metatft' else 'S/A/B 상위 20개 · 기본 패치 표기, 핫픽스 반영 미확인' if k=='opgg' else '현지 티어순 상위 30개 · 지역별 버전 표기' if k=='qq' else '공개 S/A/B/C 티어순 상위 30개' if k=='academy' else '요약 제외 상위 30개'} for k in ['lolchess','opgg','qq','academy','metatft']]
 usedNames=set(n for d in selected for n in d['units']);usedItems=set(n for d in selected for v in d['equipment'].values() for n in v);usedAugs=set(n for d in selected for row in d['augments'] for n in row);usedAugIds=set(a['id'] for d in selected for a in d['augmentEvidence'])
 catalogs={'champions':[{'name':c['name'],'url':c['imageUrl'],'cost':c['cost'][0]} for c in champs if c['name'] in usedNames and not c['key'].startswith('Set17')],'items':[{'name':c['name'],'url':c['imageUrl']} for c in items if c['name'] in usedItems],'augments':[{'name':c['name'],'url':c['imageUrl'],'tier':c['tier']-1} for c in { (am[k]['name'],am[k]['tier']):am[k] for k in usedAugIds }.values()]}
-result={'schema':4,'patch':patch,'publishedAt':now,'checkedAt':now,'sources':{r['id']:{'status':r['status'],'matched':r['collected'],'lastVerifiedAt':now,'patch':r['patch'],'note':r['note']} for r in sourceReports},'decks':all_decks,'recommendations':selected,'catalogs':catalogs,'refreshReport':{'checkedAt':now,'status':'verified-with-source-differences','published':len(selected)==20,'recommendationCount':len(selected),'sourceReports':sourceReports,'selectionVersion':4},'methodology':'검증된 Academy·LoLCHESS 원문 공략을 후보로 20개 선정. 출처 티어(S60/A50/B40/C25, 티어 미제공45), 최신 확인 글로벌 패치 +20, 교차 확인 최대8(다른 패치0.35배·QQ비교만), 같은 패치 MetaTFT 1,000게임 이상 평균등수 보정 -5~10. 조건부 덱 -8, 같은 핵심 기물·유사 배치 -20 또는 유사 배치 -8로 다양성 확보. 동일 구성은 하나만 선정. 수치는 추천용 가중치이며 승률이 아님. 다른 패치 통계는 합산하지 않음. 배치·아이템·증강은 한 원문 그대로 유지. 티어 미제공 공략은 추천으로 표시.'}
+result={'schema':4,'patch':patch,'publishedAt':now,'checkedAt':now,'sources':{r['id']:{'status':r['status'],'matched':r['collected'],'lastVerifiedAt':now,'patch':r['patch'],'note':r['note']} for r in sourceReports},'decks':all_decks,'recommendations':selected,'catalogs':catalogs,'refreshReport':{'checkedAt':now,'status':'verified-with-source-differences','published':len(selected)==20,'recommendationCount':len(selected),'sourceReports':sourceReports,'selectionVersion':5},'methodology':'검증된 Academy·LoLCHESS 원문 공략을 후보로 20개 선정. 같은 패치의 1,000게임 이상 통계가 명확하게 연결되는 덱을 우선 선정하고 나머지는 출처 평가로 보완. 출처 티어(S60/A50/B40/C25, 티어 미제공45), 최신 확인 글로벌 패치 +20, 교차 확인 최대8(다른 패치0.35배·QQ비교만), 같은 패치 MetaTFT 1,000게임 이상 평균등수 보정 -5~10. 조건부 덱 -8, 같은 핵심 기물·유사 배치 -20 또는 유사 배치 -8로 다양성 확보. 동일 구성은 하나만 선정. 수치는 추천용 가중치이며 승률이 아님. 다른 패치 통계는 합산하지 않음. 배치·아이템·증강은 한 원문 그대로 유지. 티어 미제공 공략은 추천으로 표시.'}
 assert len(selected)==20, '검증 완료된 서로 다른 추천 20개 미달: 이전 데이터 유지'
 seen=set()
 for d in selected:
