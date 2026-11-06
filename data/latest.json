@@ -4763,7 +4763,81 @@
           "checkedAt": "2026-11-06T10:35:57.561782+00:00"
         }
       },
-      "levelUpOptions": []
+      "levelUpOptions": [],
+      "tournamentEvidence": {
+        "id": "FCQG4IEInig",
+        "kind": "archetype-game-win",
+        "deckRef": "https://tftacademy.com/tierlist/comps/set-18-solara-yunara",
+        "reviewedUnits": [
+          "레오나",
+          "르블랑",
+          "세주아니",
+          "아지르",
+          "요릭",
+          "유나라",
+          "카르마",
+          "케일"
+        ],
+        "requiredCore": [
+          "카르마",
+          "유나라"
+        ],
+        "sourceComp": "햇빛 카르마·유나라 리롤",
+        "player": "Carpe Diem",
+        "event": "APAC 지역 결승",
+        "stage": "1주 차 · 경기 번호 미확인",
+        "eventDate": null,
+        "eventPatch": null,
+        "sourcePublishedAt": "2026-10-26",
+        "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+        "sourceUrl": "https://toongchadaily.com/v/donggeul-carpediem-apac-week1-solar-karma-reroll",
+        "videoUrl": "https://www.youtube.com/watch?v=FCQG4IEInig",
+        "eventUrl": "https://set18.apactft.com/regional-finals",
+        "games": 1,
+        "wins": 1,
+        "sourceWinPercent": 100,
+        "reviewedForPatch": "18.6",
+        "verifiedAt": "2026-11-06T10:57:43.081196+00:00",
+        "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님",
+        "records": [
+          {
+            "id": "FCQG4IEInig",
+            "kind": "archetype-game-win",
+            "deckRef": "https://tftacademy.com/tierlist/comps/set-18-solara-yunara",
+            "reviewedUnits": [
+              "레오나",
+              "르블랑",
+              "세주아니",
+              "아지르",
+              "요릭",
+              "유나라",
+              "카르마",
+              "케일"
+            ],
+            "requiredCore": [
+              "카르마",
+              "유나라"
+            ],
+            "sourceComp": "햇빛 카르마·유나라 리롤",
+            "player": "Carpe Diem",
+            "event": "APAC 지역 결승",
+            "stage": "1주 차 · 경기 번호 미확인",
+            "eventDate": null,
+            "eventPatch": null,
+            "sourcePublishedAt": "2026-10-26",
+            "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+            "sourceUrl": "https://toongchadaily.com/v/donggeul-carpediem-apac-week1-solar-karma-reroll",
+            "videoUrl": "https://www.youtube.com/watch?v=FCQG4IEInig",
+            "eventUrl": "https://set18.apactft.com/regional-finals",
+            "games": 1,
+            "wins": 1,
+            "sourceWinPercent": 100,
+            "reviewedForPatch": "18.6",
+            "verifiedAt": "2026-11-06T10:57:43.081196+00:00",
+            "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님"
+          }
+        ]
+      }
     },
     {
       "source": "academy",
@@ -5817,7 +5891,85 @@
           "level": 9,
           "source": "academy"
         }
-      ]
+      ],
+      "tournamentEvidence": {
+        "reviewedForPatch": "18.5c",
+        "verifiedAt": "2026-10-31T14:18:26.470475+00:00",
+        "event": "AMER 지역 결승",
+        "stage": "2주 차 1일 차",
+        "eventDate": "2026-10-30",
+        "dateBasis": "주최 측 경기일",
+        "eventPatch": null,
+        "source": "BarryBadden · Ziziziziie 대회 조합 집계",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVIOFH3KLm7PevIN5XlGwEPzd0jbMXhLF_fqU1EbbQqAJOE3TNCpqbm-y_e66N9wZr1Sn4BlVV_9XK/pubhtml?gid=312518385&single=true",
+        "sourceSha256": "a0ac0a512b4ab20a9a00c5c129d86692d2581aa0cf581fbc8ad69f2afdb6b98e",
+        "eventUrl": "https://teamfighttactics.leagueoflegends.com/ko-kr/news/esports/regional-finals-2026-everything-you-need-to-know/",
+        "totalPlayerGames": 192,
+        "deckRef": "https://tftacademy.com/tierlist/comps/set-18-spellweavers",
+        "requiredCore": [
+          "아리",
+          "자이라"
+        ],
+        "reviewedUnits": [
+          "나르",
+          "라칸",
+          "릴리아",
+          "세트",
+          "아리",
+          "요릭",
+          "자이라",
+          "타릭",
+          "피들스틱"
+        ],
+        "kind": "archetype-game-win",
+        "sourceComp": "Ahri Zyra Flex",
+        "games": 23,
+        "wins": 1,
+        "sourceWinPercent": 4.35,
+        "id": "aggregate-Ahri-Zyra-Flex",
+        "player": null,
+        "matchBasis": "동일 조합 계열 집계 · 선수별 기록 미공개",
+        "records": [
+          {
+            "reviewedForPatch": "18.5c",
+            "verifiedAt": "2026-10-31T14:18:26.470475+00:00",
+            "event": "AMER 지역 결승",
+            "stage": "2주 차 1일 차",
+            "eventDate": "2026-10-30",
+            "dateBasis": "주최 측 경기일",
+            "eventPatch": null,
+            "source": "BarryBadden · Ziziziziie 대회 조합 집계",
+            "sourceUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVIOFH3KLm7PevIN5XlGwEPzd0jbMXhLF_fqU1EbbQqAJOE3TNCpqbm-y_e66N9wZr1Sn4BlVV_9XK/pubhtml?gid=312518385&single=true",
+            "sourceSha256": "a0ac0a512b4ab20a9a00c5c129d86692d2581aa0cf581fbc8ad69f2afdb6b98e",
+            "eventUrl": "https://teamfighttactics.leagueoflegends.com/ko-kr/news/esports/regional-finals-2026-everything-you-need-to-know/",
+            "totalPlayerGames": 192,
+            "deckRef": "https://tftacademy.com/tierlist/comps/set-18-spellweavers",
+            "requiredCore": [
+              "아리",
+              "자이라"
+            ],
+            "reviewedUnits": [
+              "나르",
+              "라칸",
+              "릴리아",
+              "세트",
+              "아리",
+              "요릭",
+              "자이라",
+              "타릭",
+              "피들스틱"
+            ],
+            "kind": "archetype-game-win",
+            "sourceComp": "Ahri Zyra Flex",
+            "games": 23,
+            "wins": 1,
+            "sourceWinPercent": 4.35,
+            "id": "aggregate-Ahri-Zyra-Flex",
+            "player": null,
+            "matchBasis": "동일 조합 계열 집계 · 선수별 기록 미공개"
+          }
+        ]
+      }
     },
     {
       "source": "academy",
@@ -6013,7 +6165,117 @@
           "checkedAt": "2026-11-06T10:35:57.561782+00:00"
         }
       },
-      "levelUpOptions": []
+      "levelUpOptions": [],
+      "tournamentEvidence": {
+        "id": "G8lvWWcc_Ek",
+        "kind": "archetype-game-win",
+        "deckRef": "https://tftacademy.com/tierlist/comps/set-18-tempo-riftbeast",
+        "reviewedUnits": [
+          "감시자",
+          "나르",
+          "덩굴정령",
+          "돌거북",
+          "어스름늑대",
+          "장로 드래곤",
+          "조약돌",
+          "타릭"
+        ],
+        "requiredCore": [
+          "덩굴정령",
+          "장로 드래곤"
+        ],
+        "sourceComp": "협곡야수 덩굴정령·장로 드래곤",
+        "player": "Carpe Diem",
+        "event": "APAC 지역 결승",
+        "stage": "1주 차 1일 차 1경기",
+        "eventDate": null,
+        "eventPatch": null,
+        "sourcePublishedAt": "2026-10-25",
+        "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+        "sourceUrl": "https://toongchadaily.com/v/donggeul-carpediem-riftbeast-brambleback",
+        "videoUrl": "https://www.youtube.com/watch?v=G8lvWWcc_Ek",
+        "eventUrl": "https://set18.apactft.com/regional-finals",
+        "games": 1,
+        "wins": 1,
+        "sourceWinPercent": 100,
+        "reviewedForPatch": "18.6",
+        "verifiedAt": "2026-11-06T10:57:43.081189+00:00",
+        "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님",
+        "records": [
+          {
+            "id": "G8lvWWcc_Ek",
+            "kind": "archetype-game-win",
+            "deckRef": "https://tftacademy.com/tierlist/comps/set-18-tempo-riftbeast",
+            "reviewedUnits": [
+              "감시자",
+              "나르",
+              "덩굴정령",
+              "돌거북",
+              "어스름늑대",
+              "장로 드래곤",
+              "조약돌",
+              "타릭"
+            ],
+            "requiredCore": [
+              "덩굴정령",
+              "장로 드래곤"
+            ],
+            "sourceComp": "협곡야수 덩굴정령·장로 드래곤",
+            "player": "Carpe Diem",
+            "event": "APAC 지역 결승",
+            "stage": "1주 차 1일 차 1경기",
+            "eventDate": null,
+            "eventPatch": null,
+            "sourcePublishedAt": "2026-10-25",
+            "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+            "sourceUrl": "https://toongchadaily.com/v/donggeul-carpediem-riftbeast-brambleback",
+            "videoUrl": "https://www.youtube.com/watch?v=G8lvWWcc_Ek",
+            "eventUrl": "https://set18.apactft.com/regional-finals",
+            "games": 1,
+            "wins": 1,
+            "sourceWinPercent": 100,
+            "reviewedForPatch": "18.6",
+            "verifiedAt": "2026-11-06T10:57:43.081189+00:00",
+            "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님"
+          },
+          {
+            "reviewedForPatch": "18.5c",
+            "verifiedAt": "2026-10-31T14:18:26.470475+00:00",
+            "event": "AMER 지역 결승",
+            "stage": "2주 차 1일 차",
+            "eventDate": "2026-10-30",
+            "dateBasis": "주최 측 경기일",
+            "eventPatch": null,
+            "source": "BarryBadden · Ziziziziie 대회 조합 집계",
+            "sourceUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVIOFH3KLm7PevIN5XlGwEPzd0jbMXhLF_fqU1EbbQqAJOE3TNCpqbm-y_e66N9wZr1Sn4BlVV_9XK/pubhtml?gid=312518385&single=true",
+            "sourceSha256": "a0ac0a512b4ab20a9a00c5c129d86692d2581aa0cf581fbc8ad69f2afdb6b98e",
+            "eventUrl": "https://teamfighttactics.leagueoflegends.com/ko-kr/news/esports/regional-finals-2026-everything-you-need-to-know/",
+            "totalPlayerGames": 192,
+            "deckRef": "https://tftacademy.com/tierlist/comps/set-18-tempo-riftbeast",
+            "requiredCore": [
+              "덩굴정령"
+            ],
+            "reviewedUnits": [
+              "감시자",
+              "나르",
+              "덩굴정령",
+              "돌거북",
+              "어스름늑대",
+              "장로 드래곤",
+              "조약돌",
+              "타릭"
+            ],
+            "kind": "archetype-game-win",
+            "sourceComp": "Brambleback Riftbeast",
+            "games": 23,
+            "wins": 3,
+            "sourceWinPercent": 13.04,
+            "id": "aggregate-Brambleback-Riftbeast",
+            "player": null,
+            "matchBasis": "동일 조합 계열 집계 · 선수별 기록 미공개"
+          }
+        ]
+      }
     },
     {
       "source": "academy",
@@ -6424,7 +6686,85 @@
           "checkedAt": "2026-11-06T10:35:57.561782+00:00"
         }
       },
-      "levelUpOptions": []
+      "levelUpOptions": [],
+      "tournamentEvidence": {
+        "reviewedForPatch": "18.5c",
+        "verifiedAt": "2026-10-31T14:18:26.470475+00:00",
+        "event": "AMER 지역 결승",
+        "stage": "2주 차 1일 차",
+        "eventDate": "2026-10-30",
+        "dateBasis": "주최 측 경기일",
+        "eventPatch": null,
+        "source": "BarryBadden · Ziziziziie 대회 조합 집계",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVIOFH3KLm7PevIN5XlGwEPzd0jbMXhLF_fqU1EbbQqAJOE3TNCpqbm-y_e66N9wZr1Sn4BlVV_9XK/pubhtml?gid=312518385&single=true",
+        "sourceSha256": "a0ac0a512b4ab20a9a00c5c129d86692d2581aa0cf581fbc8ad69f2afdb6b98e",
+        "eventUrl": "https://teamfighttactics.leagueoflegends.com/ko-kr/news/esports/regional-finals-2026-everything-you-need-to-know/",
+        "totalPlayerGames": 192,
+        "deckRef": "https://tftacademy.com/tierlist/comps/set-18-sprykin-teemo-copy",
+        "requiredCore": [
+          "티모"
+        ],
+        "reviewedUnits": [
+          "감시자",
+          "돌껍질 나무",
+          "르블랑",
+          "모르가나",
+          "베이가",
+          "생명꽃",
+          "알리스타",
+          "코부코",
+          "티모",
+          "헤카림"
+        ],
+        "kind": "archetype-game-win",
+        "sourceComp": "Teemo Reroll",
+        "games": 4,
+        "wins": 3,
+        "sourceWinPercent": 75.0,
+        "id": "aggregate-Teemo-Reroll",
+        "player": null,
+        "matchBasis": "동일 조합 계열 집계 · 선수별 기록 미공개",
+        "records": [
+          {
+            "reviewedForPatch": "18.5c",
+            "verifiedAt": "2026-10-31T14:18:26.470475+00:00",
+            "event": "AMER 지역 결승",
+            "stage": "2주 차 1일 차",
+            "eventDate": "2026-10-30",
+            "dateBasis": "주최 측 경기일",
+            "eventPatch": null,
+            "source": "BarryBadden · Ziziziziie 대회 조합 집계",
+            "sourceUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVIOFH3KLm7PevIN5XlGwEPzd0jbMXhLF_fqU1EbbQqAJOE3TNCpqbm-y_e66N9wZr1Sn4BlVV_9XK/pubhtml?gid=312518385&single=true",
+            "sourceSha256": "a0ac0a512b4ab20a9a00c5c129d86692d2581aa0cf581fbc8ad69f2afdb6b98e",
+            "eventUrl": "https://teamfighttactics.leagueoflegends.com/ko-kr/news/esports/regional-finals-2026-everything-you-need-to-know/",
+            "totalPlayerGames": 192,
+            "deckRef": "https://tftacademy.com/tierlist/comps/set-18-sprykin-teemo-copy",
+            "requiredCore": [
+              "티모"
+            ],
+            "reviewedUnits": [
+              "감시자",
+              "돌껍질 나무",
+              "르블랑",
+              "모르가나",
+              "베이가",
+              "생명꽃",
+              "알리스타",
+              "코부코",
+              "티모",
+              "헤카림"
+            ],
+            "kind": "archetype-game-win",
+            "sourceComp": "Teemo Reroll",
+            "games": 4,
+            "wins": 3,
+            "sourceWinPercent": 75.0,
+            "id": "aggregate-Teemo-Reroll",
+            "player": null,
+            "matchBasis": "동일 조합 계열 집계 · 선수별 기록 미공개"
+          }
+        ]
+      }
     },
     {
       "source": "academy",
@@ -6642,7 +6982,81 @@
           "level": 9,
           "source": "academy"
         }
-      ]
+      ],
+      "tournamentEvidence": {
+        "id": "i8A_0xmma7s",
+        "kind": "archetype-game-win",
+        "deckRef": "https://tftacademy.com/tierlist/comps/set-18-dragon-princess",
+        "reviewedUnits": [
+          "감시자",
+          "드레이븐",
+          "마오카이",
+          "아무무",
+          "아이번",
+          "장로 드래곤",
+          "케넨",
+          "타릭"
+        ],
+        "requiredCore": [
+          "드레이븐",
+          "장로 드래곤"
+        ],
+        "sourceComp": "드레이븐·장로 드래곤",
+        "player": "seoill (서일)",
+        "event": "APAC 지역 결승",
+        "stage": "결승 1경기",
+        "eventDate": "2026-11-01",
+        "eventPatch": "18.5c",
+        "sourcePublishedAt": "2026-11-03",
+        "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+        "sourceUrl": "https://toongchadaily.com/v/donggeul-seoil-late-coven-grand-final-game1",
+        "videoUrl": "https://www.youtube.com/watch?v=i8A_0xmma7s",
+        "eventUrl": "https://set18.apactft.com/regional-finals",
+        "games": 1,
+        "wins": 1,
+        "sourceWinPercent": 100,
+        "reviewedForPatch": "18.6",
+        "verifiedAt": "2026-11-06T10:57:43.081168+00:00",
+        "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님",
+        "records": [
+          {
+            "id": "i8A_0xmma7s",
+            "kind": "archetype-game-win",
+            "deckRef": "https://tftacademy.com/tierlist/comps/set-18-dragon-princess",
+            "reviewedUnits": [
+              "감시자",
+              "드레이븐",
+              "마오카이",
+              "아무무",
+              "아이번",
+              "장로 드래곤",
+              "케넨",
+              "타릭"
+            ],
+            "requiredCore": [
+              "드레이븐",
+              "장로 드래곤"
+            ],
+            "sourceComp": "드레이븐·장로 드래곤",
+            "player": "seoill (서일)",
+            "event": "APAC 지역 결승",
+            "stage": "결승 1경기",
+            "eventDate": "2026-11-01",
+            "eventPatch": "18.5c",
+            "sourcePublishedAt": "2026-11-03",
+            "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+            "sourceUrl": "https://toongchadaily.com/v/donggeul-seoil-late-coven-grand-final-game1",
+            "videoUrl": "https://www.youtube.com/watch?v=i8A_0xmma7s",
+            "eventUrl": "https://set18.apactft.com/regional-finals",
+            "games": 1,
+            "wins": 1,
+            "sourceWinPercent": 100,
+            "reviewedForPatch": "18.6",
+            "verifiedAt": "2026-11-06T10:57:43.081168+00:00",
+            "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님"
+          }
+        ]
+      }
     },
     {
       "source": "academy",
@@ -13135,6 +13549,84 @@
             ]
           }
         ]
+      },
+      "tournamentEvidence": {
+        "reviewedForPatch": "18.5c",
+        "verifiedAt": "2026-10-31T14:18:26.470475+00:00",
+        "event": "AMER 지역 결승",
+        "stage": "2주 차 1일 차",
+        "eventDate": "2026-10-30",
+        "dateBasis": "주최 측 경기일",
+        "eventPatch": null,
+        "source": "BarryBadden · Ziziziziie 대회 조합 집계",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVIOFH3KLm7PevIN5XlGwEPzd0jbMXhLF_fqU1EbbQqAJOE3TNCpqbm-y_e66N9wZr1Sn4BlVV_9XK/pubhtml?gid=312518385&single=true",
+        "sourceSha256": "a0ac0a512b4ab20a9a00c5c129d86692d2581aa0cf581fbc8ad69f2afdb6b98e",
+        "eventUrl": "https://teamfighttactics.leagueoflegends.com/ko-kr/news/esports/regional-finals-2026-everything-you-need-to-know/",
+        "totalPlayerGames": 192,
+        "deckRef": "https://tftacademy.com/tierlist/comps/set-18-sprykin-teemo-copy",
+        "requiredCore": [
+          "티모"
+        ],
+        "reviewedUnits": [
+          "감시자",
+          "돌껍질 나무",
+          "르블랑",
+          "모르가나",
+          "베이가",
+          "생명꽃",
+          "알리스타",
+          "코부코",
+          "티모",
+          "헤카림"
+        ],
+        "kind": "archetype-game-win",
+        "sourceComp": "Teemo Reroll",
+        "games": 4,
+        "wins": 3,
+        "sourceWinPercent": 75.0,
+        "id": "aggregate-Teemo-Reroll",
+        "player": null,
+        "matchBasis": "동일 조합 계열 집계 · 선수별 기록 미공개",
+        "records": [
+          {
+            "reviewedForPatch": "18.5c",
+            "verifiedAt": "2026-10-31T14:18:26.470475+00:00",
+            "event": "AMER 지역 결승",
+            "stage": "2주 차 1일 차",
+            "eventDate": "2026-10-30",
+            "dateBasis": "주최 측 경기일",
+            "eventPatch": null,
+            "source": "BarryBadden · Ziziziziie 대회 조합 집계",
+            "sourceUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVIOFH3KLm7PevIN5XlGwEPzd0jbMXhLF_fqU1EbbQqAJOE3TNCpqbm-y_e66N9wZr1Sn4BlVV_9XK/pubhtml?gid=312518385&single=true",
+            "sourceSha256": "a0ac0a512b4ab20a9a00c5c129d86692d2581aa0cf581fbc8ad69f2afdb6b98e",
+            "eventUrl": "https://teamfighttactics.leagueoflegends.com/ko-kr/news/esports/regional-finals-2026-everything-you-need-to-know/",
+            "totalPlayerGames": 192,
+            "deckRef": "https://tftacademy.com/tierlist/comps/set-18-sprykin-teemo-copy",
+            "requiredCore": [
+              "티모"
+            ],
+            "reviewedUnits": [
+              "감시자",
+              "돌껍질 나무",
+              "르블랑",
+              "모르가나",
+              "베이가",
+              "생명꽃",
+              "알리스타",
+              "코부코",
+              "티모",
+              "헤카림"
+            ],
+            "kind": "archetype-game-win",
+            "sourceComp": "Teemo Reroll",
+            "games": 4,
+            "wins": 3,
+            "sourceWinPercent": 75.0,
+            "id": "aggregate-Teemo-Reroll",
+            "player": null,
+            "matchBasis": "동일 조합 계열 집계 · 선수별 기록 미공개"
+          }
+        ]
       }
     },
     {
@@ -13561,6 +14053,116 @@
                 "url": "https://cdn.lolchess.gg/upload/images/items/VanguardEmblem_1785291006-DA_18_EmblemVanguard.jpg"
               }
             ]
+          }
+        ]
+      },
+      "tournamentEvidence": {
+        "id": "G8lvWWcc_Ek",
+        "kind": "archetype-game-win",
+        "deckRef": "https://tftacademy.com/tierlist/comps/set-18-tempo-riftbeast",
+        "reviewedUnits": [
+          "감시자",
+          "나르",
+          "덩굴정령",
+          "돌거북",
+          "어스름늑대",
+          "장로 드래곤",
+          "조약돌",
+          "타릭"
+        ],
+        "requiredCore": [
+          "덩굴정령",
+          "장로 드래곤"
+        ],
+        "sourceComp": "협곡야수 덩굴정령·장로 드래곤",
+        "player": "Carpe Diem",
+        "event": "APAC 지역 결승",
+        "stage": "1주 차 1일 차 1경기",
+        "eventDate": null,
+        "eventPatch": null,
+        "sourcePublishedAt": "2026-10-25",
+        "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+        "sourceUrl": "https://toongchadaily.com/v/donggeul-carpediem-riftbeast-brambleback",
+        "videoUrl": "https://www.youtube.com/watch?v=G8lvWWcc_Ek",
+        "eventUrl": "https://set18.apactft.com/regional-finals",
+        "games": 1,
+        "wins": 1,
+        "sourceWinPercent": 100,
+        "reviewedForPatch": "18.6",
+        "verifiedAt": "2026-11-06T10:57:43.081189+00:00",
+        "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님",
+        "records": [
+          {
+            "id": "G8lvWWcc_Ek",
+            "kind": "archetype-game-win",
+            "deckRef": "https://tftacademy.com/tierlist/comps/set-18-tempo-riftbeast",
+            "reviewedUnits": [
+              "감시자",
+              "나르",
+              "덩굴정령",
+              "돌거북",
+              "어스름늑대",
+              "장로 드래곤",
+              "조약돌",
+              "타릭"
+            ],
+            "requiredCore": [
+              "덩굴정령",
+              "장로 드래곤"
+            ],
+            "sourceComp": "협곡야수 덩굴정령·장로 드래곤",
+            "player": "Carpe Diem",
+            "event": "APAC 지역 결승",
+            "stage": "1주 차 1일 차 1경기",
+            "eventDate": null,
+            "eventPatch": null,
+            "sourcePublishedAt": "2026-10-25",
+            "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+            "sourceUrl": "https://toongchadaily.com/v/donggeul-carpediem-riftbeast-brambleback",
+            "videoUrl": "https://www.youtube.com/watch?v=G8lvWWcc_Ek",
+            "eventUrl": "https://set18.apactft.com/regional-finals",
+            "games": 1,
+            "wins": 1,
+            "sourceWinPercent": 100,
+            "reviewedForPatch": "18.6",
+            "verifiedAt": "2026-11-06T10:57:43.081189+00:00",
+            "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님"
+          },
+          {
+            "reviewedForPatch": "18.5c",
+            "verifiedAt": "2026-10-31T14:18:26.470475+00:00",
+            "event": "AMER 지역 결승",
+            "stage": "2주 차 1일 차",
+            "eventDate": "2026-10-30",
+            "dateBasis": "주최 측 경기일",
+            "eventPatch": null,
+            "source": "BarryBadden · Ziziziziie 대회 조합 집계",
+            "sourceUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTVIOFH3KLm7PevIN5XlGwEPzd0jbMXhLF_fqU1EbbQqAJOE3TNCpqbm-y_e66N9wZr1Sn4BlVV_9XK/pubhtml?gid=312518385&single=true",
+            "sourceSha256": "a0ac0a512b4ab20a9a00c5c129d86692d2581aa0cf581fbc8ad69f2afdb6b98e",
+            "eventUrl": "https://teamfighttactics.leagueoflegends.com/ko-kr/news/esports/regional-finals-2026-everything-you-need-to-know/",
+            "totalPlayerGames": 192,
+            "deckRef": "https://tftacademy.com/tierlist/comps/set-18-tempo-riftbeast",
+            "requiredCore": [
+              "덩굴정령"
+            ],
+            "reviewedUnits": [
+              "감시자",
+              "나르",
+              "덩굴정령",
+              "돌거북",
+              "어스름늑대",
+              "장로 드래곤",
+              "조약돌",
+              "타릭"
+            ],
+            "kind": "archetype-game-win",
+            "sourceComp": "Brambleback Riftbeast",
+            "games": 23,
+            "wins": 3,
+            "sourceWinPercent": 13.04,
+            "id": "aggregate-Brambleback-Riftbeast",
+            "player": null,
+            "matchBasis": "동일 조합 계열 집계 · 선수별 기록 미공개"
           }
         ]
       }
@@ -15834,6 +16436,80 @@
             ]
           }
         ]
+      },
+      "tournamentEvidence": {
+        "id": "FCQG4IEInig",
+        "kind": "archetype-game-win",
+        "deckRef": "https://tftacademy.com/tierlist/comps/set-18-solara-yunara",
+        "reviewedUnits": [
+          "레오나",
+          "르블랑",
+          "세주아니",
+          "아지르",
+          "요릭",
+          "유나라",
+          "카르마",
+          "케일"
+        ],
+        "requiredCore": [
+          "카르마",
+          "유나라"
+        ],
+        "sourceComp": "햇빛 카르마·유나라 리롤",
+        "player": "Carpe Diem",
+        "event": "APAC 지역 결승",
+        "stage": "1주 차 · 경기 번호 미확인",
+        "eventDate": null,
+        "eventPatch": null,
+        "sourcePublishedAt": "2026-10-26",
+        "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+        "sourceUrl": "https://toongchadaily.com/v/donggeul-carpediem-apac-week1-solar-karma-reroll",
+        "videoUrl": "https://www.youtube.com/watch?v=FCQG4IEInig",
+        "eventUrl": "https://set18.apactft.com/regional-finals",
+        "games": 1,
+        "wins": 1,
+        "sourceWinPercent": 100,
+        "reviewedForPatch": "18.6",
+        "verifiedAt": "2026-11-06T10:57:43.081196+00:00",
+        "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님",
+        "records": [
+          {
+            "id": "FCQG4IEInig",
+            "kind": "archetype-game-win",
+            "deckRef": "https://tftacademy.com/tierlist/comps/set-18-solara-yunara",
+            "reviewedUnits": [
+              "레오나",
+              "르블랑",
+              "세주아니",
+              "아지르",
+              "요릭",
+              "유나라",
+              "카르마",
+              "케일"
+            ],
+            "requiredCore": [
+              "카르마",
+              "유나라"
+            ],
+            "sourceComp": "햇빛 카르마·유나라 리롤",
+            "player": "Carpe Diem",
+            "event": "APAC 지역 결승",
+            "stage": "1주 차 · 경기 번호 미확인",
+            "eventDate": null,
+            "eventPatch": null,
+            "sourcePublishedAt": "2026-10-26",
+            "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+            "sourceUrl": "https://toongchadaily.com/v/donggeul-carpediem-apac-week1-solar-karma-reroll",
+            "videoUrl": "https://www.youtube.com/watch?v=FCQG4IEInig",
+            "eventUrl": "https://set18.apactft.com/regional-finals",
+            "games": 1,
+            "wins": 1,
+            "sourceWinPercent": 100,
+            "reviewedForPatch": "18.6",
+            "verifiedAt": "2026-11-06T10:57:43.081196+00:00",
+            "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님"
+          }
+        ]
       }
     },
     {
@@ -16264,6 +16940,80 @@
                 "url": "https://cdn.lolchess.gg/upload/images/items/OrnnItemTheCollector_1644815905.png"
               }
             ]
+          }
+        ]
+      },
+      "tournamentEvidence": {
+        "id": "i8A_0xmma7s",
+        "kind": "archetype-game-win",
+        "deckRef": "https://tftacademy.com/tierlist/comps/set-18-dragon-princess",
+        "reviewedUnits": [
+          "감시자",
+          "드레이븐",
+          "마오카이",
+          "아무무",
+          "아이번",
+          "장로 드래곤",
+          "케넨",
+          "타릭"
+        ],
+        "requiredCore": [
+          "드레이븐",
+          "장로 드래곤"
+        ],
+        "sourceComp": "드레이븐·장로 드래곤",
+        "player": "seoill (서일)",
+        "event": "APAC 지역 결승",
+        "stage": "결승 1경기",
+        "eventDate": "2026-11-01",
+        "eventPatch": "18.5c",
+        "sourcePublishedAt": "2026-11-03",
+        "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+        "sourceUrl": "https://toongchadaily.com/v/donggeul-seoil-late-coven-grand-final-game1",
+        "videoUrl": "https://www.youtube.com/watch?v=i8A_0xmma7s",
+        "eventUrl": "https://set18.apactft.com/regional-finals",
+        "games": 1,
+        "wins": 1,
+        "sourceWinPercent": 100,
+        "reviewedForPatch": "18.6",
+        "verifiedAt": "2026-11-06T10:57:43.081168+00:00",
+        "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님",
+        "records": [
+          {
+            "id": "i8A_0xmma7s",
+            "kind": "archetype-game-win",
+            "deckRef": "https://tftacademy.com/tierlist/comps/set-18-dragon-princess",
+            "reviewedUnits": [
+              "감시자",
+              "드레이븐",
+              "마오카이",
+              "아무무",
+              "아이번",
+              "장로 드래곤",
+              "케넨",
+              "타릭"
+            ],
+            "requiredCore": [
+              "드레이븐",
+              "장로 드래곤"
+            ],
+            "sourceComp": "드레이븐·장로 드래곤",
+            "player": "seoill (서일)",
+            "event": "APAC 지역 결승",
+            "stage": "결승 1경기",
+            "eventDate": "2026-11-01",
+            "eventPatch": "18.5c",
+            "sourcePublishedAt": "2026-11-03",
+            "source": "DongGeul 경기 영상 · Toongcha Daily 경기 해설 기록",
+            "sourceUrl": "https://toongchadaily.com/v/donggeul-seoil-late-coven-grand-final-game1",
+            "videoUrl": "https://www.youtube.com/watch?v=i8A_0xmma7s",
+            "eventUrl": "https://set18.apactft.com/regional-finals",
+            "games": 1,
+            "wins": 1,
+            "sourceWinPercent": 100,
+            "reviewedForPatch": "18.6",
+            "verifiedAt": "2026-11-06T10:57:43.081168+00:00",
+            "matchBasis": "현재 공략과 같은 덱 계열 · 선수의 정확한 최종 배치 재현은 아님"
           }
         ]
       }

@@ -5,7 +5,7 @@ window.MattoPivot=(()=>{
  const tier=d=>({S:0,A:1,B:2,C:3}[d.tier]??4);
  function pool(data){
   const known=new Map(data.recommendations.map(d=>[d.url,d])),seen=new Set(),out=[];
-  const candidates=[...(data.decks||[])].sort((a,b)=>(a.source==='academy'?0:1)-(b.source==='academy'?0:1)||tier(a)-tier(b)||(a.rank||99)-(b.rank||99));
+  const candidates=[...(data.decks||[])].sort((a,b)=>Number(!a.tournamentEvidence)-Number(!b.tournamentEvidence)||(a.source==='academy'?0:1)-(b.source==='academy'?0:1)||tier(a)-tier(b)||(a.rank||99)-(b.rank||99));
   for(const raw of candidates){
    if(!['academy','lolchess'].includes(raw.source)||raw.patch!==data.patch||!raw.layoutVerified||raw.unresolved?.length||!raw.layout||!raw.equipment||!main(raw)||!raw.equipment[main(raw)]?.length)continue;
    if(Object.keys(raw.layout).length!==raw.units.length||Object.keys(raw.layout).some(s=>!/^\d+$/.test(s)||+s>27))continue;
@@ -38,10 +38,11 @@ window.MattoPivot=(()=>{
    if(Math.abs(source.level-target.level)>1)warnings.push('완성 레벨 차이가 커요');
    const score=shared.length*10+items.length*9+(sameCarry?15:0)-required.length*25-Math.abs(target.level-source.level)*4-(reroll&&!sameCarry?12:0);
    const label=sameCarry?'핵심 기물 유지':items.length>=2?'아이템 활용 후보':'새 방향 후보';
-   candidates.push({mode:'recommend',label,primary:to,ref:target.url,title:target.title,level:target.level,units:other,shared,removed,added,transfer:{from:carry,to,items},source:target.referenceSource||target.source,url:target.url,score,required,warnings,note:'구성·아이템 유사도 순 추천이며 즉시 전환 권장이 아니에요. '+(warnings.length?warnings.join(' · '):'상점·체력·골드·별 등급은 반영하지 않아요.')});
+   candidates.push({mode:'recommend',label,primary:to,tournamentEvidence:target.tournamentEvidence||null,tournamentExtra:!!target.tournamentEvidence&&!data.recommendations.some(d=>d.url===target.url),ref:target.url,title:target.title,level:target.level,units:other,shared,removed,added,transfer:{from:carry,to,items},source:target.referenceSource||target.source,url:target.url,score,required,warnings,note:'구성·아이템 유사도 순 추천이며 즉시 전환 권장이 아니에요. '+(warnings.length?warnings.join(' · '):'상점·체력·골드·별 등급은 반영하지 않아요.')});
   }
   candidates.sort((a,b)=>a.required.length-b.required.length||b.score-a.score||a.ref.localeCompare(b.ref));
   const distinct=[];for(const r of candidates){if(distinct.some(x=>x.primary===r.primary))continue;distinct.push(r);if(distinct.length===3)break;}
+  const extra=candidates.find(r=>r.tournamentExtra&&!r.required.length&&(r.shared.length>=3||r.transfer.items.length>=2));if(extra&&!distinct.some(r=>r.ref===extra.ref)){const same=distinct.findIndex(r=>r.primary===extra.primary);if(same>=0)distinct[same]=extra;else if(distinct.length===3)distinct[2]=extra;else distinct.push(extra);}
   const branches=distinct.map((r,i)=>({...r,label:(i+1)+'순위 · '+r.label}));
   return branches.length?{...branches[0],branches}:{...strengthen(source),branches:[]};
  }
