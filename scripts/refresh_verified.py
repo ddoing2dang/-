@@ -1,4 +1,4 @@
-import json,re,pathlib,urllib.request,concurrent.futures,hashlib
+import json,re,pathlib,urllib.request,concurrent.futures,hashlib,urllib.parse
 
 def balanced(s,start):
  stack=[];quote=None;escape=False
@@ -18,6 +18,20 @@ def literal(s):
  s=re.sub(r'"(?:\\.|[^"\\])*"|\b([A-Za-z_$][\w$]*)(?=\s*:)',lambda m:json.dumps(m[1]) if m[1] else m[0],s)
  return json.loads(s)
 def nextdata(s):return json.loads(re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',s,re.S).group(1))
+def academy_data(s):
+ p=s.index('data: [',s.index('node_ids:'))
+ data=literal(balanced(s,s.index('[',p)))
+ if len(data)>2 and data[2] and 'guides' in data[2].get('data',{}):return data
+ fetched=re.search(r'<script\b(?=[^>]*\bdata-sveltekit-fetched\b)(?=[^>]*\bdata-url="/api/tierlist/comps[?]set=18")[^>]*>(.*?)</script>',s,re.S)
+ if not fetched:raise ValueError('TFT Academy Set 18 guide payload missing')
+ response=json.loads(fetched[1]);body=json.loads(response['body'])
+ if response['status']!=200 or not body.get('guides'):raise ValueError('TFT Academy Set 18 guide payload invalid')
+ data[2]={'data':body}
+ return data
+
+META_STATS_URL='https://api-hc.metatft.com/tft-comps-api/comps_stats'
+def meta_stats_url(meta,patch):
+ return META_STATS_URL+'?'+urllib.parse.urlencode({'patch':patch['patch'],'b_patch':patch.get('b_patch_version') or '', 'queue':meta['queue_id'],'cluster_id':meta['cluster_id']})
 def collect(P):
  audit=[]
  def get(name,url):
@@ -27,10 +41,12 @@ def collect(P):
    raw=response.read();s=raw.decode('utf-8');(P/name).write_text(s)
    audit.append({'file':name,'url':url,'sha256':hashlib.sha256(raw).hexdigest()})
    return s
- urls=[('tft-lolchess.txt','https://lolchess.gg/meta'),('tft-augments.txt','https://lolchess.gg/augments/set18'),('tft-academy.txt','https://tftacademy.com/tierlist/comps'),('tft-opgg.txt','https://op.gg/ko/tft/tier-list'),('tft-qq-mode.txt','https://lol.qq.com/tft/js/tft-mode-registry.js'),('tft-meta.txt','https://api-hc.metatft.com/tft-comps-api/comps_data'),('meta-stats.json','https://api-hc.metatft.com/tft-comps-api/comps_stats'),('meta-patch.json','https://api-hc.metatft.com/tft-stat-api/patch')]
+ urls=[('tft-lolchess.txt','https://lolchess.gg/meta'),('tft-augments.txt','https://lolchess.gg/augments/set18'),('tft-academy.txt','https://tftacademy.com/tierlist/comps'),('tft-opgg.txt','https://op.gg/ko/tft/tier-list'),('tft-qq-mode.txt','https://lol.qq.com/tft/js/tft-mode-registry.js'),('tft-meta.txt','https://api-hc.metatft.com/tft-comps-api/comps_data'),('meta-patch.json','https://api-hc.metatft.com/tft-stat-api/patch')]
  with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:list(ex.map(lambda v:get(*v),urls))
+ meta=json.loads((P/'tft-meta.txt').read_text());patch=json.loads((P/'meta-patch.json').read_text())
+ get('meta-stats.json',meta_stats_url(meta,patch))
  for key in ['lolchess','augments']:(P/('lolchess-data.json' if key=='lolchess' else 'augment-data.json')).write_text(json.dumps(nextdata((P/('tft-'+key+'.txt')).read_text()),ensure_ascii=False))
- s=(P/'tft-academy.txt').read_text();p=s.index('data: [',s.index('node_ids:'));data=literal(balanced(s,s.index('[',p)));(P/'academy-data.json').write_text(json.dumps(data,ensure_ascii=False))
+ (P/'academy-data.json').write_text(json.dumps(academy_data((P/'tft-academy.txt').read_text()),ensure_ascii=False))
  chunks=[]
  for x in re.findall(r'self\.__next_f\.push\((.*?)\)</script>',(P/'tft-opgg.txt').read_text()):
   try:
@@ -141,7 +157,7 @@ qq_pool=sorted(read('qq-lineups.json')['lineup_list'],key=lambda g:['SS','S','A'
 for rank,g in enumerate(qq_pool,1):
  dt=json.loads(g['detail'],strict=False);ids=[s['hero_id'] for s in dt.get('hero_location_l9',[])];units=[cm[k]['name'] for k in ids if k in cm]
  all_decks.append(dict(source='qq',title=dt['line_name'],sourceTitle=dt['line_name'],units=units,tier=g['quality'],patch=g['simulator_edition'],rank=rank,url='https://lol.qq.com/tft/#/index',checkedAt=now,sourceUpdatedAt=g['rel_time'],comparisonOnly=True,sourceId=g['id']))
-meta=read('tft-meta.txt');stats=read('meta-stats.json');statmap={s['cluster']:s for s in stats['results']};clusters=meta['results']['data']['cluster_details']
+meta=read('tft-meta.txt');stats=read('meta-stats.json');stats_url=meta_stats_url(meta,metaPatch);assert any(a['file']=='meta-stats.json' and a['url']==stats_url and a['sha256']==hashlib.sha256((P/'meta-stats.json').read_bytes()).hexdigest() for a in read('fetch-audit.json')), 'MetaTFT 패치 지정 통계 확인 실패';statmap={s['cluster']:s for s in stats['results']};clusters=meta['results']['data']['cluster_details']
 for rank,(key,g) in enumerate(clusters.items(),1):
  ids=[s.strip() for s in g['units_string'].split(',')];units=[cm[k]['name'] for k in ids if k in cm];s=statmap.get(key,{});places=s.get('places',[])[:8];count=sum(places);avg=sum((i+1)*v for i,v in enumerate(places))/count if count else None
  all_decks.append(dict(source='metatft',title=g['name_string'],sourceTitle=g['name_string'],units=units,tier=None,patch=meta_patch,rank=rank,url='https://www.metatft.com/comps',checkedAt=now,sourceUpdatedAt=datetime.datetime.fromtimestamp(meta['updated']/1000,datetime.timezone.utc).isoformat(),comparisonOnly=True,sourceId=key,statistics={'count':count,'averagePlacement':avg},tierUnavailable=True))
@@ -153,7 +169,7 @@ assert all(20<=sum(d['source']==source for d in all_decks)<=30 for source in ['l
 # Retain source boards intact; do not combine item sets or move units between sources.
 translations={"Lunarwood Kha'zix":'달빛 다이애나 카직스','Azir Rammus':'람머스 아지르','Ahri Morgana':'기원자 모르가나 아리','Aphelios Nidalee':'니달리 아펠리오스','Draven AD 9':'고밸류 드레이븐','Riftbeast Reroll':'협곡야수 리롤','Eclipse Kayle':'일식 케일','Invoker Morgana':'기원자 모르가나','Malphite AP Flex':'말파이트 AP 조합','6 Juggernaut Flex':'6전쟁기계 AP 조합','Dragon 9':'장로 드래곤 고밸류','Yi Rengar':'마스터 이 렝가','Caitlyn Hunters':'사냥꾼 케이틀린','Ashe Juggernauts':'전쟁기계 애쉬','Solar Melee':'햇빛 근접 리롤','Warwick Reroll':'검은 가시 워윅','Aphelios Vanguards':'선봉대 아펠리오스','Aphelios Rapidfire':'5속사포 아펠리오스','Spirit Blossom':'개화 고밸류','6 Juggernaut AD':'6전쟁기계 AD 조합'}
 translations.update({'Tee-moo':'나무정령 티모','Ezreal Ahri':'나무정령 이즈리얼 아리','Primal Sivir':'원시 시비르','Tempo Riftbeast':'협곡야수 템포','Adaptor Reroll':'마스터 이 코그모 리롤','Ahri Zyra':'주문술사 아리 자이라','Teemowood':'나무정령 티모','Draven Ezreal 9':'드레이븐 이즈리얼 고밸류','Draven Dragon 9':'드레이븐 장로 드래곤','AP Fast 9':'9레벨 AP 고밸류','Zyra Juggernaut':'전쟁기계 자이라','Elderwood Executioners':'나무정령 처형자','Primal Jungle':'원시 밀림','10 Riftbeast':'10협곡야수','Primal Flex':'원시 유연 조합','Woodblossom':'나무정령 개화','Azir Reroll':'아지르 리롤','Blackthorn Malphite':'검은 가시 말파이트','Spellweaver Ahri':'주문술사 아리','Aphelios Flex':'아펠리오스 유연 조합','Aphelios Elderwood':'나무정령 아펠리오스'})
-translations.update({'Solar Blossom':'햇빛 개화 카르마','Warwick Ravager':'약탈자 워윅'})
+translations.update({'Mamawood':'나무정령 어미 부리','Solar Blossom':'햇빛 개화 카르마','Warwick Ravager':'약탈자 워윅'})
 excluded={'Elderwood Veigar','Defender Cassio'}
 def matching(d,s):
  a=set(d['units'])-set(d.get('summons',[]));b=set(s['units']);overlap=len(a&b)/max(len(a),len(b),1)
@@ -195,7 +211,7 @@ for original in all_decks:
 candidates.sort(key=lambda d:(-d['score'],d['rank']))
 # Prefer candidates with an unambiguous current-patch statistical match.
 from deck_trends import attach_trends
-candidate_stats={'sources':{'metatft':{'patch':meta_patch}},'recommendations':candidates}
+candidate_stats={'sources':{'metatft':{'patch':meta_patch,'statsEndpoint':stats_url,'patchStart':metaPatch['start']}},'recommendations':candidates}
 attach_trends(candidate_stats,meta,stats,cm,{})
 def has_current_stats(d):
  t=d.get('trend',{})
@@ -210,7 +226,7 @@ while remaining and len(selected)<20:
  d=max(remaining,key=lambda d:(has_current_stats(d),diversified_score(d),d['score'],-d['rank'],d['url']))
  d['selectionEvidence']['diversityPenalty']=round(d['score']-diversified_score(d),3)
  selected.append(d)
- remaining=[o for o in remaining if set(o['units'])!=set(d['units'])]
+ remaining=[o for o in remaining if set(o['units'])!=set(d['units']) and not(has_current_stats(d) and has_current_stats(o) and o['trend']['sourceId']==d['trend']['sourceId'])]
 print('CANDIDATES',len(candidates),'SELECTED',len(selected))
 for i,d in enumerate(selected,1):d['rank']=i;print(i,d['title'],d['tier'],d['level'],d['sources'],len(d['augmentEvidence']))
 print('MISSING',missing)
@@ -229,6 +245,7 @@ for d in selected:
  assert all(n in {c['name'] for c in catalogs['champions']} for n in d['units']), '유닛 목록 오류'
  assert all(n in {c['name'] for c in catalogs['items']} for row in d['equipment'].values() for n in row), '아이템 목록 오류'
  assert all(any(a['name']==n and a['tier']==t for a in catalogs['augments']) for t,row in enumerate(d['augments']) for n in row), '증강 등급 오류'
+result['sources']['metatft'].update(statsEndpoint=stats_url,patchStart=metaPatch['start'])
 if (P/'fetch-audit.json').exists():result['fetchAudit']=read('fetch-audit.json')
 from deck_trends import attach_trends
 output=pathlib.Path(args.output)

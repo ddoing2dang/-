@@ -18,4 +18,5 @@ def attach_tournament_evidence(result):
             matches.append(r)
         if matches:
             matches.sort(key=lambda r:(bool(r.get('player')),r.get('eventDate') or r.get('sourcePublishedAt') or ''),reverse=True)
-            deck['tournamentEvidence']={**matches[0],'records':matches}
+            public=[{k:v for k,v in r.items() if k not in {'player','matchBasis'}} for r in matches]
+            deck['tournamentEvidence']={**public[0],'records':public}

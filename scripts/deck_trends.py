@@ -8,9 +8,11 @@ def stamp(value):
 def attach_trends(result, meta, stats, champions, previous):
     updated = dt.datetime.fromtimestamp(stats['updated'] / 1000, dt.timezone.utc)
     daily_updated = dt.datetime.fromtimestamp(meta['updated'] / 1000, dt.timezone.utc)
+    source = result['sources']['metatft']
+    patch_start = stamp(source['patchStart'])
     scope = {'source': 'metatft', 'patch': result.get('sources', {}).get('metatft', {}).get('patch', '미확인'), 'set': stats['tft_set'],
              'queue': stats['queue_id'], 'clusters': stats['cluster_id'],
-             'endpoint': 'https://api-hc.metatft.com/tft-comps-api/comps_stats', 'filters': 'default'}
+             'endpoint': source['statsEndpoint'], 'filters': 'explicit-patch'}
     if any(meta[k] != stats[k] for k in ['tft_set', 'queue_id', 'cluster_id']):
         raise ValueError('MetaTFT statistics scope mismatch')
     rows = {str(s['cluster']): s for s in stats['results'] if s['cluster']}
@@ -49,7 +51,9 @@ def attach_trends(result, meta, stats, champions, previous):
                     'relativePercent': round(relative * 100, 1), 'from': baseline['updatedAt'], 'to': updated.isoformat(),
                     'previousRate': old['winRate'], 'currentRate': current['winRate'],
                     'previousCount': old['count'], 'currentCount': current['count']})
-        days = sorted([d for d in comp.get('trends', []) if stamp(d['day']).date() < daily_updated.date()], key=lambda d: d['day'])
+        days = sorted([d for d in comp.get('trends', []) if patch_start <= stamp(d['day']) and stamp(d['day']).date() < daily_updated.date()], key=lambda d: d['day'])
+        if days and days[-1]['count']>=1000 and 0<=days[-1]['pick']<=1:
+            info['pickRate']=days[-1]['pick']
         if len(days) >= 2:
             a, b = days[-2:]
             if (stamp(b['day']) - stamp(a['day']) == dt.timedelta(days=1)
