@@ -62,7 +62,7 @@ function render(){
  const d=deck();if(!d)return;
  if(lastRef!==d.ref){chosenLevel=String(d.level);lastRef=d.ref;}
  $('deckSelect').textContent=d.title+' ▾';$('deckSelect').title=d.title;
- $('deckMenu').replaceChildren();for(const x of payload.decks){const b=element('button',x.title);b.type='button';b.dataset.ref=x.ref;b.setAttribute('aria-pressed',String(x.ref===d.ref));b.onclick=()=>request(async()=>{closeDeckMenu();await api.selectDeck(x.ref);});$('deckMenu').append(b);}
+ $('deckMenu').replaceChildren();for(const x of payload.decks){const label=Number.isInteger(x.rank)?`${x.rank}. ${x.title}`:x.title;const b=element('button',label);b.type='button';b.dataset.ref=x.ref;b.setAttribute('aria-pressed',String(x.ref===d.ref));b.onclick=()=>request(async()=>{closeDeckMenu();await api.selectDeck(x.ref);});$('deckMenu').append(b);}
  $('levelBadge').textContent=d.level+'레벨';$('roster').replaceChildren();for(const n of d.units)$('roster').append(picture(record('champions',n)));
  const priority=d.guide?.priority||[];const fallback=d.carries?.[0]?.slice(1)||[];
  $('priorityLabel').textContent=priority.length?'우선 아이템':'핵심 아이템';$('priorityIcons').replaceChildren();for(const r of (priority.length?priority:fallback.map(n=>record('items',n))).slice(0,3)){const p=picture(r);$('priorityIcons').append(...p.childNodes);}

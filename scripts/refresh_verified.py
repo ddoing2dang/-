@@ -210,12 +210,12 @@ for original in all_decks:
  candidates.append(d)
 candidates.sort(key=lambda d:(-d['score'],d['rank']))
 # Prefer candidates with an unambiguous current-patch statistical match.
-from deck_trends import attach_trends
+from deck_trends import MINIMUM_GAMES, attach_trends, rank_recommendations
 candidate_stats={'sources':{'metatft':{'patch':meta_patch,'statsEndpoint':stats_url,'patchStart':metaPatch['start']}},'recommendations':candidates}
 attach_trends(candidate_stats,meta,stats,cm,{})
 def has_current_stats(d):
  t=d.get('trend',{})
- return d['patch']==meta_patch and t.get('patch')==meta_patch and t.get('count',0)>=1000 and isinstance(t.get('winRate'),(int,float))
+ return d['patch']==meta_patch and t.get('patch')==meta_patch and t.get('count',0)>=MINIMUM_GAMES and bool(t.get('placements'))
 selected=[]
 remaining=list(candidates)
 while remaining and len(selected)<20:
@@ -233,7 +233,7 @@ print('MISSING',missing)
 sourceReports=[{'id':k,'collected':sum(d['source']==k for d in all_decks),'target':20 if k in ['opgg','metatft'] else 30,'status':'verified' if k in ['lolchess','academy'] else 'comparison','patch':{'lolchess':lolchess_patch,'academy':patch,'metatft':meta_patch}[k] if k in ['lolchess','academy','metatft'] else read('opgg-data.json')['patch'] if k=='opgg' else read('qq-lineups.json')['lineup_list'][0]['simulator_edition'],'note':'S/A/B 미제공 · 1,000게임 이상 평균 등수 상위 20개' if k=='metatft' else 'S/A/B 상위 20개 · 기본 패치 표기, 핫픽스 반영 미확인' if k=='opgg' else '현지 티어순 상위 30개 · 지역별 버전 표기' if k=='qq' else '공개 S/A/B/C 티어순 상위 30개' if k=='academy' else '요약 제외 상위 30개'} for k in ['lolchess','opgg','qq','academy','metatft']]
 usedNames=set(n for d in selected for n in d['units']);usedItems=set(n for d in selected for v in d['equipment'].values() for n in v);usedAugs=set(n for d in selected for row in d['augments'] for n in row);usedAugIds=set(a['id'] for d in selected for a in d['augmentEvidence'])
 catalogs={'champions':[{'name':c['name'],'url':c['imageUrl'],'cost':c['cost'][0]} for c in champs if c['name'] in usedNames and not c['key'].startswith('Set17')],'items':[{'name':c['name'],'url':c['imageUrl']} for c in items if c['name'] in usedItems],'augments':[{'name':c['name'],'url':c['imageUrl'],'tier':c['tier']-1} for c in { (am[k]['name'],am[k]['tier']):am[k] for k in usedAugIds }.values()]}
-result={'schema':4,'patch':patch,'publishedAt':now,'checkedAt':now,'sources':{r['id']:{'status':r['status'],'matched':r['collected'],'lastVerifiedAt':now,'patch':r['patch'],'note':r['note']} for r in sourceReports},'decks':all_decks,'recommendations':selected,'catalogs':catalogs,'refreshReport':{'checkedAt':now,'status':'verified-with-source-differences','published':len(selected)==20,'recommendationCount':len(selected),'sourceReports':sourceReports,'selectionVersion':5},'methodology':'검증된 Academy·LoLCHESS 원문 공략을 후보로 20개 선정. 같은 패치의 1,000게임 이상 통계가 명확하게 연결되는 덱을 우선 선정하고 나머지는 출처 평가로 보완. 출처 티어(S60/A50/B40/C25, 티어 미제공45), 최신 확인 글로벌 패치 +20, 교차 확인 최대8(다른 패치0.35배·QQ비교만), 같은 패치 MetaTFT 1,000게임 이상 평균등수 보정 -5~10. 조건부 덱 -8, 같은 핵심 기물·유사 배치 -20 또는 유사 배치 -8로 다양성 확보. 동일 구성은 하나만 선정. 수치는 추천용 가중치이며 승률이 아님. 다른 패치 통계는 합산하지 않음. 배치·아이템·증강은 한 원문 그대로 유지. 티어 미제공 공략은 추천으로 표시.'}
+result={'schema':4,'patch':patch,'publishedAt':now,'checkedAt':now,'sources':{r['id']:{'status':r['status'],'matched':r['collected'],'lastVerifiedAt':now,'patch':r['patch'],'note':r['note']} for r in sourceReports},'decks':all_decks,'recommendations':selected,'catalogs':catalogs,'refreshReport':{'checkedAt':now,'status':'verified-with-source-differences','published':len(selected)==20,'recommendationCount':len(selected),'sourceReports':sourceReports,'selectionVersion':5},'methodology':'검증된 Academy·LoLCHESS 원문 공략을 후보로 20개 선정. 같은 패치의 1,000게임 이상 통계가 명확하게 연결되는 덱을 우선 선정하고 나머지는 출처 평가로 보완. 출처 티어(S60/A50/B40/C25, 티어 미제공45), 최신 확인 글로벌 패치 +20, 교차 확인 최대8(다른 패치0.35배·QQ비교만), 같은 패치 MetaTFT 1,000게임 이상 평균등수 보정 -5~10. 조건부 덱 -8, 같은 핵심 기물·유사 배치 -20 또는 유사 배치 -8로 다양성 확보. 동일 구성은 하나만 선정. 수치는 추천용 가중치이며 승률이 아님. 다른 패치 통계는 합산하지 않음. 선정된 20개의 표시 순위는 동일 집계의 순방률 75% + 1위율 25%로 계산하고, 동점이면 평균 등수가 낮은 덱을 우선함. 해당 통계 미확인 또는 1,000게임 미만은 뒤에 표시. 배치·아이템·증강은 한 원문 그대로 유지. 티어 미제공 공략은 추천으로 표시.'}
 assert len(selected)==20, '검증 완료된 서로 다른 추천 20개 미달: 이전 데이터 유지'
 seen=set()
 for d in selected:
@@ -247,10 +247,10 @@ for d in selected:
  assert all(any(a['name']==n and a['tier']==t for a in catalogs['augments']) for t,row in enumerate(d['augments']) for n in row), '증강 등급 오류'
 result['sources']['metatft'].update(statsEndpoint=stats_url,patchStart=metaPatch['start'])
 if (P/'fetch-audit.json').exists():result['fetchAudit']=read('fetch-audit.json')
-from deck_trends import attach_trends
 output=pathlib.Path(args.output)
 previous=json.loads(output.read_text()) if output.exists() else {}
 attach_trends(result,meta,stats,cm,previous)
+rank_recommendations(result)
 from pc_guides import attach_pc_guides
 attach_pc_guides(result,ags,cm,im,P)
 from deck_changes import attach_changes

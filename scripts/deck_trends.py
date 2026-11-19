@@ -1,9 +1,51 @@
-"""Attach evidence-backed trends without treating average placement as win rate."""
+"""Attach verified placement counts and rank recommendations from one MetaTFT snapshot."""
 import datetime as dt
-import math
+from fractions import Fraction
+
+MINIMUM_GAMES = 1000
 
 def stamp(value):
     return dt.datetime.fromisoformat(value.replace('Z', '+00:00'))
+
+def placement_counts(row):
+    # MetaTFT appends the total after its eight placement counts.
+    raw = row.get('places', [])
+    places = raw[:8]
+    if len(raw) not in (8, 9) or any(type(n) is not int or n < 0 for n in places):
+        return None
+    total = sum(places)
+    if not total or (len(raw) == 9 and raw[8] != total) or row.get('count', total) != total:
+        return None
+    return places
+
+
+def rank_recommendations(result):
+    snapshot = result['statisticsHistory'][-1]
+    scope = snapshot['scope']
+    updated = snapshot['updatedAt']
+
+    def sort_key(deck):
+        trend = deck['trend']
+        places = trend.get('placements')
+        if (deck['patch'] != scope['patch'] or trend.get('patch') != scope['patch']
+                or trend.get('source') != scope['source']
+                or trend.get('updatedAt') != updated or not places or trend['count'] < MINIMUM_GAMES):
+            return (1, 0, 0)
+        total = trend['count']
+        top4 = sum(places[:4])
+        score = Fraction(3 * top4 + places[0], 4 * total)
+        average = Fraction(sum(rank * count for rank, count in enumerate(places, 1)), total)
+        trend.update(top4Rate=top4 / total, averagePlacement=float(average), recommendationScore=float(score))
+        return (0, -score, average)
+
+    result['recommendations'].sort(key=sort_key)
+    for rank, deck in enumerate(result['recommendations'], 1):
+        deck['rank'] = rank
+    result['recommendationRanking'] = {
+        'version': 1, 'scope': scope, 'updatedAt': updated, 'minimumGames': MINIMUM_GAMES,
+        'top4Weight': .75, 'winWeight': .25, 'tieBreak': 'averagePlacement',
+    }
+
 
 def attach_trends(result, meta, stats, champions, previous):
     updated = dt.datetime.fromtimestamp(stats['updated'] / 1000, dt.timezone.utc)
@@ -18,14 +60,14 @@ def attach_trends(result, meta, stats, champions, previous):
     rows = {str(s['cluster']): s for s in stats['results'] if s['cluster']}
     clusters = meta['results']['data']['cluster_details']
     snapshot = {'scope': scope, 'updatedAt': updated.isoformat(), 'records': {}}
+    placements_by_cluster = {}
     for key, comp in clusters.items():
-        places = rows.get(str(key), {}).get('places', [])[:8]
-        if len(places) != 8 or any(not isinstance(n, (int, float)) or not math.isfinite(n) or n < 0 for n in places):
+        places = placement_counts(rows.get(str(key), {}))
+        if places is None:
             continue
         count = sum(places)
-        if not count:
-            continue
         units = sorted(s.strip() for s in comp['units_string'].split(','))
+        placements_by_cluster[str(key)] = places
         snapshot['records'][str(key)] = {'units': units, 'count': count, 'wins': places[0], 'winRate': places[0] / count}
     history = [h for h in previous.get('statisticsHistory', []) if h.get('scope') == scope
                and dt.timedelta(0) < updated - stamp(h['updatedAt']) <= dt.timedelta(days=14)]
@@ -41,6 +83,7 @@ def attach_trends(result, meta, stats, champions, previous):
         if current:
             info['winRate'] = current['winRate']
             info['count'] = current['count']
+            info['placements'] = placements_by_cluster[key]
         old = baseline['records'].get(key) if baseline else None
         if current and old and old['units'] == current['units'] and min(old['count'], current['count']) >= 1000:
             change = current['winRate'] - old['winRate']
